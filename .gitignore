@@ -41,4 +41,7 @@ obj/
 /node_modules
 /wwwroot/node_modules
 
+# Dont track the files in .vs
+.vs
+
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,angular
