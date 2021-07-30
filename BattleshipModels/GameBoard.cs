@@ -7,9 +7,26 @@ using System.Threading.Tasks;
 namespace BattleshipModels
 {
     /// <summary>
+    /// Keeps track of where the ships are at
+    /// </summary>
+    public class Position
+    {
+        public int XCoordinate { get; set; }    // The X coordinate
+        public int YCoordinate { get; set; }    // The Y coordinate
+        public int ZCoordinate { get; set; }    // The Z coordinate
+
+        public Position(int p_x, int p_y, int p_z)
+        {
+            XCoordinate = p_x;
+            YCoordinate = p_y;
+            ZCoordinate = p_z;
+        }
+    }
+
+    /// <summary>
     /// Contains all of the information needed to play the game Battleship
     /// </summary>
-    class GameBoard
+    public class GameBoard
     {
         // User 1
         public User User1 { get; set; }
@@ -18,6 +35,7 @@ namespace BattleshipModels
 
         // User 2
         public User User2 { get; set; }
+
         // The Navy of User 2
         public Navy User2Navy { get; set; }
 
@@ -39,11 +57,11 @@ namespace BattleshipModels
         public User IsWinner()
         {
             User winner = null;
-            if (User1Navy.NavyDestroyed())
+            if (User1Navy.DestroyedNavy)
             {
                 winner = User2;
             }
-            else if (User2Navy.NavyDestroyed())
+            else if (User2Navy.DestroyedNavy)
             {
                 winner = User1;
             }
