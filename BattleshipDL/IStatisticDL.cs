@@ -10,7 +10,7 @@ namespace BattleshipDL
     /// <summary>
     /// Handles data logic for Statistic objects
     /// </summary>
-    public interface IStatisticsDL
+    public interface IStatisticDL
     {
         /// <summary>
         /// Gets a statistic based on its id
