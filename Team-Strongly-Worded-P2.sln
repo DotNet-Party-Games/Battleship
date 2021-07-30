@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleshipBL", "BattleshipBL\BattleshipBL.csproj", "{35766ED6-AC66-44CA-8C6F-9E37F95CFE45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleshipBL", "BattleshipBL\BattleshipBL.csproj", "{35766ED6-AC66-44CA-8C6F-9E37F95CFE45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleshipDL", "BattleshipDL\BattleshipDL.csproj", "{3141D7B1-EF41-48B9-9E1D-DC674A22F9AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleshipDL", "BattleshipDL\BattleshipDL.csproj", "{3141D7B1-EF41-48B9-9E1D-DC674A22F9AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleshipModels", "BattleshipModels\BattleshipModels.csproj", "{3BAF9319-5B41-447C-A3E1-8BE0E7162106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleshipModels", "BattleshipModels\BattleshipModels.csproj", "{3BAF9319-5B41-447C-A3E1-8BE0E7162106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleshipWebAPI", "BattleShipWebAPI\BattleshipWebAPI.csproj", "{BD33E8C2-DA96-4E16-9983-5D915E12FBCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleshipWebAPI", "BattleShipWebAPI\BattleshipWebAPI.csproj", "{BD33E8C2-DA96-4E16-9983-5D915E12FBCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleshipTest", "BattleshipTest\BattleshipTest.csproj", "{EC8A7115-C839-4954-8D77-E59ABC76A23C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{35766ED6-AC66-44CA-8C6F-9E37F95CFE45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,5 +71,23 @@ Global
 		{BD33E8C2-DA96-4E16-9983-5D915E12FBCD}.Release|x64.Build.0 = Release|Any CPU
 		{BD33E8C2-DA96-4E16-9983-5D915E12FBCD}.Release|x86.ActiveCfg = Release|Any CPU
 		{BD33E8C2-DA96-4E16-9983-5D915E12FBCD}.Release|x86.Build.0 = Release|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Debug|x64.Build.0 = Debug|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Release|x64.Build.0 = Release|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC8A7115-C839-4954-8D77-E59ABC76A23C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {529FB34C-8699-4C83-B3A1-12B8740A4812}
 	EndGlobalSection
 EndGlobal
