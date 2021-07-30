@@ -17,24 +17,24 @@ namespace BattleshipDL
             _context = p_context;
         }
 
-        public async Task<Score> AddScore(Score p_score)
+        public async Task<Score> AddScoreAsync(Score p_score)
         {
             _context.Scores.Add(p_score);
             await _context.SaveChangesAsync();
             return p_score;
         }
 
-        public async Task<List<Score>> GetAllScores()
+        public async Task<List<Score>> GetAllScoresAsync()
         {
             return await _context.Scores.Select(score => score).ToListAsync();
         }
 
-        public async Task<Score> GetScore(int p_sId)
+        public async Task<Score> GetScoreAsync(int p_sId)
         {
             return await _context.Scores.FindAsync(p_sId);
         }
 
-        public async Task<Score> UpdateScore(Score p_score)
+        public async Task<Score> UpdateScoreAsync(Score p_score)
         {
             _context.Scores.Update(p_score);
             await _context.SaveChangesAsync();
