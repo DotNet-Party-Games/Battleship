@@ -28,16 +28,10 @@ namespace BattleshipModels
     /// </summary>
     public class GameBoard
     {
-        // User 1
-        public User User1 { get; set; }
-        // The Navy of User 1
-        public Navy User1Navy { get; set; }
-
-        // User 2
-        public User User2 { get; set; }
-
-        // The Navy of User 2
-        public Navy User2Navy { get; set; }
+        public User User1 { get; set; }         // User 1        
+        public Navy User1Navy { get; set; }     // The Navy of User 1        
+        public User User2 { get; set; }         // User 2        
+        public Navy User2Navy { get; set; }     // The Navy of User 2
 
         /// <summary>
         /// Constructs the Gameboard
@@ -47,6 +41,30 @@ namespace BattleshipModels
         {
             User1Navy = new Navy(p_boardSize);
             User2Navy = new Navy(p_boardSize);
+        }
+
+        /// <summary>
+        /// User 1 attacks a space on User 2's board
+        /// </summary>
+        /// <param name="p_position">The position of the attack</param>
+        /// <returns>The result of the attack</returns>
+        public Guess User1Attacks(Position p_position)
+        {
+            Guess result = User2Navy.IncomingAttack(p_position);
+            User1Navy.OutgoingAttack(p_position, result);
+            return result;
+        }
+
+        /// <summary>
+        /// User 2 attacks a space on User 1's board
+        /// </summary>
+        /// <param name="p_position">The position of the attack</param>
+        /// <returns>The result of the attack</returns>
+        public Guess User2Attacks(Position p_position)
+        {
+            Guess result = User1Navy.IncomingAttack(p_position);
+            User2Navy.OutgoingAttack(p_position, result);
+            return result;
         }
 
         /// <summary>

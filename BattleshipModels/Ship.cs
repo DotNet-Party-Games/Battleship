@@ -49,6 +49,24 @@ namespace BattleshipModels
         }
 
         /// <summary>
+        /// Checks to see if an attack hit a ship.
+        /// </summary>
+        /// <param name="p_position">The position of the attack</param>
+        /// <returns>True if the ship was hit</returns>
+        public bool HitShip(Position p_position)
+        {
+            for (int i = 0; i < Positions.Count; i++)
+            {
+                if (Positions[i].XCoordinate == p_position.XCoordinate && Positions[i].YCoordinate == p_position.YCoordinate)
+                {
+                    ShipCondition[i] = ShipSegment.Damaged;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// A method to determine if the ship has been sunk
         /// </summary>
         /// <returns>True if all values in ShipCondition are damaged</returns>

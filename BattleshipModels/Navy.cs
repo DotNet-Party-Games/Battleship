@@ -8,11 +8,12 @@ namespace BattleshipModels
 {
     public enum Guess
     {
-        Unknown,    // Unknown is first so it is the default value
-        Hit,        // A ship has been hit
-        Miss,       // A miss
-        Ship,       // A ship segment that has not been hit
-        Water       // A space that is not a ship and has not been guessed
+        Unknown,        // Unknown is first so it is the default value
+        Hit,            // A ship has been hit
+        Miss,           // A miss
+        Ship,           // A ship segment that has not been hit
+        DestroyedShip,  // A ship segment that is a part of a ship that has been destroyed
+        Water           // A space that is not a ship and has not been guessed
     }
 
     /// <summary>
@@ -80,15 +81,67 @@ namespace BattleshipModels
             }
         }
 
+        /// <summary>
+        /// Determines whether an attack at a position was a Hit or a Miss
+        /// </summary>
+        /// <param name="position">The position of the attack</param>
+        /// <returns>The Guess value of the square that was attacked</returns>
         public Guess IncomingAttack(Position position)
         {
-            Guess returnValue;
             Guess attacked = Ocean[position.XCoordinate, position.YCoordinate];
+            Guess returnValue = attacked;
             if (attacked == Guess.Water)
             {
-
+                returnValue = Guess.Miss;
             }
-            return Guess.Miss;
+            else if (attacked == Guess.Ship)
+            {
+                if (ShipWasHit(position))
+                {
+                    returnValue = Guess.DestroyedShip;
+                }
+                returnValue = Guess.Hit;
+            }
+            Ocean[position.XCoordinate, position.YCoordinate] = returnValue;
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Updates the Enemy board to reflect an attack
+        /// </summary>
+        /// <param name="p_position">The position of the attack</param>
+        /// <param name="p_attack">The result of the attack</param>
+        public void OutgoingAttack(Position p_position, Guess p_attack)
+        {
+            EnemyOcean[p_position.XCoordinate, p_position.YCoordinate] = p_attack;
+        }
+
+        /// <summary>
+        /// Damages a ship that was hit at Position and checks to see if the ship was destroyed.
+        /// Also changes the Guess values of the ship on the Ocean to Guess.DestroyedShip
+        /// </summary>
+        /// <param name="position">The position of the hit ship segment</param>
+        /// <returns>True if the ship was destroyed</returns>
+        public bool ShipWasHit(Position position)
+        {
+            bool shipStatus = false;
+            foreach (Ship ship in Ships)
+            {
+                if (ship.HitShip(position))
+                {
+                    shipStatus = ship.ShipDestroyed();
+                    if (shipStatus)
+                    {
+                        foreach (Position pos in ship.Positions)
+                        {
+                            Ocean[pos.XCoordinate, pos.YCoordinate] = Guess.DestroyedShip;
+                        }
+                        NavyDestroyed();
+                    }
+                    return shipStatus;
+                }
+            }
+            return shipStatus;
         }
 
         /// <summary>
