@@ -40,11 +40,12 @@ namespace BattleshipModels
         {
             Size = p_size;
             Destroyed = false;
-            ShipCondition = new List<ShipSegment>(Size);
-            Positions = new List<Position>(Size);
+            ShipCondition = new List<ShipSegment>();
+            Positions = new List<Position>();
             for (int i = 0; i < Size; i++)
             {
-                ShipCondition[i] = ShipSegment.UnDamaged;
+                ShipCondition.Add(ShipSegment.UnDamaged);
+                Positions.Add(new Position(0, 0, 0));
             }
         }
 
