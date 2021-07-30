@@ -43,7 +43,7 @@ namespace BattleshipBL
         /// <param name="p_plainText">The user's password</param>
         /// <param name="p_salt">The password's salt. Can be left empty if generating a new password hash</param>
         /// <returns>Returns a computed hash value in string form</returns>
-        Task<String> ComputeCredentialsHashAsync(string p_plainText, byte[] p_salt = null);
+        String ComputeCredentialsHash(string p_plainText, byte[] p_salt = null);
 
         /// <summary>
         /// Checks if a password matches a user's
@@ -51,6 +51,6 @@ namespace BattleshipBL
         /// <param name="p_user">The user whose password should be checked</param>
         /// <param name="p_password">The password to check against</param>
         /// <returns>Returns True if the password matches, false if it does not</returns>
-        Task<bool> VerifyUserCredentialsAsync(User p_user, string p_password);
+        bool VerifyUserCredentials(User p_user, string p_password);
     }
 }
