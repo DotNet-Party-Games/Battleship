@@ -13,19 +13,24 @@ namespace BattleshipModels
         UnDamaged
     }
 
+    // Values for the Ship's orientation
+    public enum Orientation
+    {
+        Vertical,
+        Horizontal
+    }
+
     /// <summary>
     /// Keeps track of all the data of a single ship
     /// </summary>
-    class Ship
+    public class Ship
     {
-        // The Size of the ship
-        public int Size { get; set; }
-
-        // Keeps track of where the ship has been hit
-        public List<ShipSegment> ShipCondition { get; set; }
-        
-        // Is True when all values in ShipCondition == ShipSegment.Damaged
-        public bool Destroyed { get; set; }
+        public int Size { get; set; }                           // The Size of the ship
+        public List<ShipSegment> ShipCondition { get; set; }    // Keeps track of where the ship has been hit
+        public bool Destroyed { get; set; }                     // Is True when all values in ShipCondition == ShipSegment.Damaged
+        public Orientation Orientation { get; set; }            // The orientation of the ship
+        public Position PositionHead { get; set; }              // The position of the first segment of the ship
+        public List<Position> Positions { get; set; }           // A list that cooresponds a ship segment to a position
 
         /// <summary>
         /// Creates a new Ship that has p_size number of segments
@@ -36,10 +41,29 @@ namespace BattleshipModels
             Size = p_size;
             Destroyed = false;
             ShipCondition = new List<ShipSegment>(Size);
+            Positions = new List<Position>(Size);
             for (int i = 0; i < Size; i++)
             {
                 ShipCondition[i] = ShipSegment.UnDamaged;
             }
+        }
+
+        /// <summary>
+        /// Checks to see if an attack hit a ship.
+        /// </summary>
+        /// <param name="p_position">The position of the attack</param>
+        /// <returns>True if the ship was hit</returns>
+        public bool HitShip(Position p_position)
+        {
+            for (int i = 0; i < Positions.Count; i++)
+            {
+                if (Positions[i].XCoordinate == p_position.XCoordinate && Positions[i].YCoordinate == p_position.YCoordinate)
+                {
+                    ShipCondition[i] = ShipSegment.Damaged;
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -67,6 +91,24 @@ namespace BattleshipModels
         public void DestroySegment(int p_segmentNumber)
         {
             ShipCondition[p_segmentNumber] = ShipSegment.Damaged;
+        }
+
+        public void DeployShip()
+        {
+            if (Orientation == Orientation.Vertical)
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    Positions[i] = new Position(PositionHead.XCoordinate, PositionHead.YCoordinate + i, PositionHead.ZCoordinate);
+                }
+            }
+            else if (Orientation == Orientation.Horizontal)
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    Positions[i] = new Position(PositionHead.XCoordinate + i, PositionHead.YCoordinate, PositionHead.ZCoordinate);
+                }
+            }
         }
     }
 }
