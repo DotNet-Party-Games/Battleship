@@ -17,26 +17,26 @@ namespace BattleshipDL
         /// </summary>
         /// <param name="p_sId">The ScoreId of the desired score</param>
         /// <returns>Returns the score with matching ScoreId</returns>
-        Task<Score> GetScore(int p_sId);
+        Task<Score> GetScoreAsync(int p_sId);
 
         /// <summary>
         /// Adds a score to the database
         /// </summary>
         /// <param name="p_score">The score object to be added</param>
         /// <returns>Returns the score object passed in as a parameter</returns>
-        Task<Score> AddScore(Score p_score);
+        Task<Score> AddScoreAsync(Score p_score);
 
         /// <summary>
         /// Gets all scores from the database
         /// </summary>
         /// <returns>Returns the scores as a List</returns>
-        Task<List<Score>> GetAllScores();
+        Task<List<Score>> GetAllScoresAsync();
 
         /// <summary>
         /// Updates a score in the database
         /// </summary>
         /// <param name="p_score">The score to be updated, including changes</param>
         /// <returns>Returns the score object passed in as a parameter</returns>
-        Task<Score> UpdateScore(Score p_score);
+        Task<Score> UpdateScoreAsync(Score p_score);
     }
 }
