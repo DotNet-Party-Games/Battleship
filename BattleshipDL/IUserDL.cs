@@ -6,7 +6,7 @@ using BattleshipModels;
 namespace BattleshipDL
 {
     /// <summary>
-    /// Handles communication with the database for User objects
+    /// Handles Data Logic for User objects
     /// </summary>
     public interface IUserDL
     {
