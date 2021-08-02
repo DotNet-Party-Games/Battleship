@@ -43,6 +43,13 @@ namespace BattleshipModels
                 new Ship(2)
             };
             Ocean = new Guess[OceanSize, OceanSize];
+            for (int y = 0; y < OceanSize; y++)
+            {
+                for (int x = 0; x < OceanSize; x++)
+                {
+                    Ocean[x, y] = Guess.Water;
+                }
+            }
             EnemyOcean = new Guess[OceanSize, OceanSize];
             DestroyedNavy = false;
         }
@@ -100,7 +107,10 @@ namespace BattleshipModels
                 {
                     returnValue = Guess.DestroyedShip;
                 }
-                returnValue = Guess.Hit;
+                else
+                {
+                    returnValue = Guess.Hit;
+                }
             }
             Ocean[position.XCoordinate, position.YCoordinate] = returnValue;
             return returnValue;
@@ -171,7 +181,11 @@ namespace BattleshipModels
         public bool CanShipFit(Position p_startingPosition, Orientation p_orientation, int p_shipSize)
         {
             bool fit = false;
-            if (p_orientation == Orientation.Horizontal && p_startingPosition.XCoordinate < OceanSize - p_shipSize)
+            if (p_startingPosition.XCoordinate >= OceanSize || p_startingPosition.YCoordinate >= OceanSize)
+            {
+                fit = false;
+            }
+            else if (p_orientation == Orientation.Horizontal && p_startingPosition.XCoordinate < OceanSize - p_shipSize)
             {
                 fit = true;
             }
