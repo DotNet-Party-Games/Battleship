@@ -1,0 +1,42 @@
+﻿using BattleshipModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BattleshipBL
+{
+    /// <summary>
+    /// Handles business logic for Statistic objects
+    /// </summary>
+    public interface IStatisticBL
+    {
+        /// <summary>
+        /// Gets a statistic based on its id
+        /// </summary>
+        /// <param name="p_sId">The StatId of the statistic to get</param>
+        /// <returns>Returns the statistic with a matching StatId</returns>
+        Task<Statistic> GetStatisticAsync(int p_sId);
+
+        /// <summary>
+        /// Adds a new statistic
+        /// </summary>
+        /// <param name="p_stat">The statistic object to be added</param>
+        /// <returns>Returns the statistic object passed in as a parameter</returns>
+        Task<Statistic> AddStatisticAsync(Statistic p_stat);
+
+        /// <summary>
+        /// Returns all statistics
+        /// </summary>
+        /// <returns>Returns the statistics in List form</returns>
+        Task<List<Statistic>> GetAllStatisticsAsync();
+
+        /// <summary>
+        /// Updates a statistic
+        /// </summary>
+        /// <param name="p_stat">The statistic to be updated, including changes</param>
+        /// <returns>Returns the statistic object passed in as a parameter</returns>
+        Task<Statistic> UpdateStatisticAsync(Statistic p_stat);
+    }
+}
