@@ -13,7 +13,7 @@ namespace BattleshipBL
     {
         private IUserDL _repo;
 
-        UserBL(IUserDL p_repo)
+        public UserBL(IUserDL p_repo)
         {
             _repo = p_repo;
         }
