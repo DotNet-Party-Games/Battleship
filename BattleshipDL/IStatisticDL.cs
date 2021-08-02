@@ -35,7 +35,7 @@ namespace BattleshipDL
         /// <summary>
         /// Updates a statistic in the database
         /// </summary>
-        /// <param name="p_stat">The statistic to be updates, including changes</param>
+        /// <param name="p_stat">The statistic to be updated, including changes</param>
         /// <returns>Returns the statistic object passed in as a parameter</returns>
         Task<Statistic> UpdateStatisticAsync(Statistic p_stat);
     }
