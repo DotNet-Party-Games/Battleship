@@ -11,18 +11,6 @@ namespace BattleshipTest
     public class BattleshipShipModelTest
     {
         [Fact]
-        public void IsWinnerTest()
-        {
-            GameBoard game = new GameBoard(10);
-            User user1 = new User("test", "test", "test", false);
-            User user2 = new User("test", "test", "test", false);
-            game.User1 = user1;
-            game.User2 = user2;
-            game.User2Navy.DestroyedNavy = true;
-            Assert.True(game.IsWinner() == user1);
-        }
-
-        [Fact]
         public void TestCreateShip()
         {
             int shipSize = 5;
