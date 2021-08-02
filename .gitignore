@@ -44,4 +44,7 @@ obj/
 # Dont track the files in .vs
 .vs
 
+# Add appsettings to gitignore so DB connection information isnt open to public view
+BattleshipWebAPI/appsettings.json
+
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,angular
