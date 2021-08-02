@@ -19,4 +19,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BattleshipBL\BattleshipBL.csproj" />
+    <ProjectReference Include="..\BattleshipModels\BattleshipModels.csproj" />
+    <ProjectReference Include="..\BattleshipDL\BattleshipDL.csproj" />
+  </ItemGroup>
+
 </Project>
