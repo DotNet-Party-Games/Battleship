@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BattleshipDL
+namespace BattleshipBL
 {
     /// <summary>
-    /// Handles data logic for Statistic objects
+    /// Handles business logic for Statistic objects
     /// </summary>
-    public interface IStatisticDL
+    public interface IStatisticBL
     {
         /// <summary>
         /// Gets a statistic based on its id
@@ -20,20 +20,20 @@ namespace BattleshipDL
         Task<Statistic> GetStatisticAsync(int p_sId);
 
         /// <summary>
-        /// Adds a new statistic to the database
+        /// Adds a new statistic
         /// </summary>
         /// <param name="p_stat">The statistic object to be added</param>
         /// <returns>Returns the statistic object passed in as a parameter</returns>
         Task<Statistic> AddStatisticAsync(Statistic p_stat);
 
         /// <summary>
-        /// Returns all statistics in the database
+        /// Returns all statistics
         /// </summary>
         /// <returns>Returns the statistics in List form</returns>
         Task<List<Statistic>> GetAllStatisticsAsync();
 
         /// <summary>
-        /// Updates a statistic in the database
+        /// Updates a statistic
         /// </summary>
         /// <param name="p_stat">The statistic to be updated, including changes</param>
         /// <returns>Returns the statistic object passed in as a parameter</returns>
