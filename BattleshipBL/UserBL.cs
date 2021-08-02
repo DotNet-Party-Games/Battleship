@@ -18,9 +18,11 @@ namespace BattleshipBL
             _repo = p_repo;
         }
 
-        public Task<User> AddUserAsync(User p_user)
+        public async Task<User> AddUserAsync(User p_user)
         {
-            throw new NotImplementedException();
+            p_user.Password = ComputeCredentialsHash(p_user.Password);
+            return await _repo.AddUserAsync(p_user);
+            
         }
 
         public string ComputeCredentialsHash(string p_plainText, byte[] p_salt = null)
@@ -93,9 +95,28 @@ namespace BattleshipBL
             return await _repo.UpdateUserAsync(p_user);
         }
 
-        public bool VerifyUserCredentials(User p_user, string p_password)
+        public bool VerifyUserCredentials(string p_hash, string p_password)
         {
-            throw new NotImplementedException();
+            byte[] hashWithSalt = Convert.FromBase64String(p_hash);
+            
+            //If the input hash is less than 64 bytes it's automatically invalid
+            if(hashWithSalt.Length < 64)
+            {
+                return false;
+            }
+
+            //Copy salt value into new byte array
+            byte[] salt = new byte[hashWithSalt.Length - 64];
+
+            for(int i = 0; i < salt.Length; i++)
+            {
+                salt[i] = hashWithSalt[64 + i];
+            }
+
+            //Compute the hash value of p_password and compare it to the password hash
+            string evalHashString = ComputeCredentialsHash(p_password, salt);
+
+            return (p_hash == evalHashString);
         }
     }
 }

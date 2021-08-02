@@ -48,9 +48,9 @@ namespace BattleshipBL
         /// <summary>
         /// Checks if a password matches a user's
         /// </summary>
-        /// <param name="p_user">The user whose password should be checked</param>
+        /// <param name="p_hash">The hash value against which the password should be checked</param>
         /// <param name="p_password">The password to check against</param>
         /// <returns>Returns True if the password matches, false if it does not</returns>
-        bool VerifyUserCredentials(User p_user, string p_password);
+        bool VerifyUserCredentials(string p_hash, string p_password);
     }
 }
