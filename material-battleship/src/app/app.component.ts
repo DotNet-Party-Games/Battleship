@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-//import { AuthService } from './auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,21 +11,17 @@ export class AppComponent implements OnInit{
   title = 'Battleship';
   isAuthenticated: boolean = false;
 
-  // constructor(public authService: AuthService) {
-  //   this.authService.isAuthenticated.subscribe(
-  //     (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
-  //   );
-  // }
+  constructor(public authService: AuthService) {
+    this.authService.isAuthenticated.subscribe(
+      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
+    );
+  }
   
-  // async ngOnInit() {
-  //   this.isAuthenticated = await this.authService.checkAuthenticated();
-  // }
+  async ngOnInit() {
+    this.isAuthenticated = await this.authService.checkAuthenticated();
+  }
 
-  // logout() {
-  //   this.authService.logout('/');
-  // }
-
-  ngOnInit() {}
-
-  logout() {}
+  logout() {
+    this.authService.logout('/');
+  }
 }
