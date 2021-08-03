@@ -97,6 +97,29 @@ namespace BattleshipTest
             }
         }
 
+        [Fact]
+        public async void UpdateUserShouldUpdateUser()
+        {
+            using (var context = new BattleshipDbContext(_options))
+            {
+                //Arrange
+                IUserDL repo = new UserDL(context);
+                User use = new User();
+                User sameUse = new User();
+
+                //Act
+                use = await repo.GetUserAsync(1);
+                use.Email = "newJacob@jacob.jacob";
+                use.Stats.Ties++;
+                sameUse = use;
+                await repo.UpdateUserAsync(use);
+                use = await repo.GetUserAsync(1);
+
+                //Assert
+                Assert.Equal(sameUse, use);
+            }
+        }
+
         private void Seed()
         {
             using (var context = new BattleshipDbContext(_options))
