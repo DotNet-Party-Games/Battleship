@@ -53,6 +53,24 @@ namespace BattleshipTest
 
                 //Assert
                 Assert.NotEmpty(use.Scores);
+                Assert.Equal(2, use.Scores.Count);
+            }
+        }
+        
+        [Fact]
+        public async void GetUserShouldIncludeStatsInfo()
+        {
+            using(var context = new BattleshipDbContext(_options))
+            {
+                //Arrange
+                IUserDL repo = new UserDL(context);
+                User use = new User();
+
+                //Act
+                use = await repo.GetUserAsync(1);
+
+                //Assert
+                Assert.Equal(1, use.Stats.Wins);
             }
         }
 
