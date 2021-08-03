@@ -23,14 +23,14 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
-import { LoginComponent } from './login/login.component';
+//import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GameComponent,
-    LoginComponent
+    //LoginComponent
   ],
   imports: [
       BrowserModule,

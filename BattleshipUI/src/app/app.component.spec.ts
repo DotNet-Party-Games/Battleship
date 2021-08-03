@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'material-battleship'`, () => {
+  it(`should have as title 'BattleshipUI'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('material-battleship');
+    expect(app.title).toEqual('BattleshipUI');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('material-battleship app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('BattleshipUI app is running!');
   });
 });
