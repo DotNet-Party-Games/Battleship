@@ -74,6 +74,29 @@ namespace BattleshipTest
             }
         }
 
+        [Fact]
+        public async void GetAllUsersShouldGetAllUsers()
+        {
+            using(var context = new BattleshipDbContext(_options))
+            {
+                //Arrange
+                IUserDL repo = new UserDL(context);
+                User use1 = new User();
+                User use2 = new User();
+                List<User> useList = new List<User>();
+
+                //Act
+                use1 = await repo.GetUserAsync(1);
+                use2 = await repo.GetUserAsync(2);
+                useList = await repo.GetAllUsersAsync();
+
+                //Assert
+                Assert.Contains(use1, useList);
+                Assert.Contains(use2, useList);
+                Assert.Equal(2, useList.Count);
+            }
+        }
+
         private void Seed()
         {
             using (var context = new BattleshipDbContext(_options))
