@@ -12,8 +12,8 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(' '),
-    password: new FormControl(' ')
+    username: new FormControl(''),
+    password: new FormControl('')
   });
   public loginInvalid: boolean = true;
   private formSubmitAttempt: boolean = false;
