@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace BattleshipModels
     public class Statistic
     {
         // The Unique value for this stat
+        [Key]
         public int StatId { get; set; }
 
         // The UserId of the User whose statistics are being tracked
