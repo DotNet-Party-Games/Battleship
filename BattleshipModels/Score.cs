@@ -27,6 +27,12 @@ namespace BattleshipModels
         // Marked virtual so the database does not create a column for it
         public virtual User Scorer { get; set; }
 
+        public Score()
+        {
+            ScoreValue = 0;
+            GameTime = DateTime.UtcNow;
+        }
+
         /// <summary>
         /// Creates a new Score Class and sets GameTime to UtcNow
         /// </summary>

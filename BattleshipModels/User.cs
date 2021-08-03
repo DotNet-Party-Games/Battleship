@@ -32,6 +32,17 @@ namespace BattleshipModels
         // Game Statistics for the user
         public Statistic Stats { get; set; }
 
+        public User()
+        {
+            UserName = "";
+            Password = "";
+            Email = "";
+            RegisterDate = DateTime.UtcNow;
+            IsAdmin = false;
+            Scores = new List<Score>();
+            Stats = new Statistic();
+        }
+
         /// <summary>
         /// Creates a new user
         /// </summary>
