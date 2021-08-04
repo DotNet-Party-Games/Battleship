@@ -58,7 +58,7 @@ namespace BattleshipModels
         {
             for (int i = 0; i < Positions.Count; i++)
             {
-                if (Positions[i].XCoordinate == p_position.XCoordinate && Positions[i].YCoordinate == p_position.YCoordinate)
+                if (Positions[i] == p_position)
                 {
                     ShipCondition[i] = ShipSegment.Damaged;
                     return true;
