@@ -21,6 +21,45 @@ namespace BattleshipModels
             YCoordinate = p_y;
             ZCoordinate = p_z;
         }
+
+        /// <summary>
+        /// Determines whether the X,Y,Z values of two positions are equal
+        /// </summary>
+        /// <param name="lhs">The Position on the left hand side of the == operator</param>
+        /// <param name="rhs">The Position on the right hand side of the == operator</param>
+        /// <returns>True if the XYZ coordinates of both positions are equal</returns>
+        public static bool operator ==(Position lhs, Position rhs)
+        {
+            if (lhs.XCoordinate == rhs.XCoordinate && lhs.YCoordinate == rhs.YCoordinate && lhs.ZCoordinate == rhs.ZCoordinate)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// The opposite of the == operator
+        /// </summary>
+        /// <param name="lhs">The Position on the left hand side of the == operator</param>
+        /// <param name="rhs">The Position on the right hand side of the == operator</param>
+        /// <returns>False if the XYZ coordinates of both positions are equal</returns>
+        public static bool operator !=(Position lhs, Position rhs) => !(lhs == rhs);
+
+        public override bool Equals(object obj)
+        {
+            return obj is Position position &&
+                   XCoordinate == position.XCoordinate &&
+                   YCoordinate == position.YCoordinate &&
+                   ZCoordinate == position.ZCoordinate;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(XCoordinate, YCoordinate, ZCoordinate);
+        }
     }
 
     /// <summary>
