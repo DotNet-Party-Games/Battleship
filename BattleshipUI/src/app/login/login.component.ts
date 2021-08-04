@@ -12,7 +12,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(''),
+    email: new FormControl(''),
     password: new FormControl('')
   });
   public loginInvalid: boolean;
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/game';
 
     this.form = this.fb.group({
-      username: ['', Validators.email],
+      email: ['', Validators.email],
       password: ['', Validators.required]
     });
 
@@ -47,11 +47,11 @@ export class LoginComponent implements OnInit {
     this.formSubmitAttempt = false;
     if (this.form.valid) {
       try {
-        let username = this.form.get('username')?.value;
+        let email = this.form.get('email')?.value;
         let password = this.form.get('password')?.value;
         // const username = 'test';
         // const password = 'password';
-        await this.authService.login(username, password);
+        await this.authService.login(email, password);
       } catch (err) {
         this.loginInvalid = true;
       }
