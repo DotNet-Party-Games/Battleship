@@ -42,8 +42,10 @@ namespace BattleshipTest
             Assert.False(TheNavy.CanShipFit(new Position(0, OceanSize, 0), Orientation.Horizontal, 5));
             Assert.False(TheNavy.CanShipFit(new Position(OceanSize - 2, 0, 0), Orientation.Horizontal, 5));
             Assert.False(TheNavy.CanShipFit(new Position(0, OceanSize - 2, 0), Orientation.Vertical, 5));
+            Assert.False(TheNavy.CanShipFit(new Position(4, 0, 2), Orientation.Horizontal, 5));
             Assert.True(TheNavy.CanShipFit(new Position(4, 0, 0), Orientation.Horizontal, 5));
             Assert.True(TheNavy.CanShipFit(new Position(0, 4, 0), Orientation.Vertical, 5));
+            Assert.True(TheNavy.CanShipFit(new Position(0, 4, 1), Orientation.Vertical, 5));
         }
 
         [Fact]

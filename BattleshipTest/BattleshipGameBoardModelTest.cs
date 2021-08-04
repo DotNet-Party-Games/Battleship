@@ -8,6 +8,29 @@ using BattleshipModels;
 
 namespace BattleshipTest
 {
+    public class BattleshipPositionModelTest
+    {
+        [Fact]
+        public void PostionOperatorsTest()
+        {
+            Position p1 = new Position(0, 1, 2);
+            Position p2 = new Position(2, 1, 0);
+            Position p3 = new Position(0, 1, 2);
+            Assert.True(p1 == p3);
+            Assert.True(p1 != p2);
+        }
+        
+        [Fact]
+        public void PositionEqualsTest()
+        {
+            Position p1 = new Position(0, 1, 2);
+            Position p2 = new Position(0, 1, 2);
+            Assert.True(p1.Equals(p2));
+            Assert.False(p1.Equals(null));
+            Assert.False(p1.Equals(new Position(0,0,0)));
+        }
+    }
+
     public class BattleshipGameBoardModelTest
     {
         public GameBoard TheGame { get; set; }
