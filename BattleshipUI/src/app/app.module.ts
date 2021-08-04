@@ -24,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { LoginComponent } from './login/login.component';
     HomeComponent,
     GameComponent,
     LoginComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
       BrowserModule,
