@@ -48,6 +48,13 @@ namespace BattleshipModels
         /// <returns>False if the XYZ coordinates of both positions are equal</returns>
         public static bool operator !=(Position lhs, Position rhs) => !(lhs == rhs);
 
+
+        /// <summary>
+        /// Determines whether an object is equal to the current Position.
+        /// Just use == though
+        /// </summary>
+        /// <param name="obj">The object to be evaluated</param>
+        /// <returns>True if the object is equal to the current object</returns>
         public override bool Equals(object obj)
         {
             return obj is Position position &&
