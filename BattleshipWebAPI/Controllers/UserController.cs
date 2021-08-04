@@ -50,8 +50,8 @@ namespace BattleshipWebAPI.Controllers
         }
 
         //GET api/<UserController>/5
-        [HttpGet("validate/{p_uId}")]
-        public async Task<IActionResult> ValidateUserCredentials([FromBody] string p_pass, int p_uId)
+        [HttpGet("validate/{p_uId}/{p_pass}")]
+        public async Task<IActionResult> ValidateUserCredentials(int p_uId, string p_pass)
         {
             User use = await _userBL.GetUserAsync(p_uId);
             bool isValid = _userBL.VerifyUserCredentials(use.Password, p_pass);
