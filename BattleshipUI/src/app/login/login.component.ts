@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl('')
   });
-  public loginInvalid: boolean = true;
+  public loginInvalid: boolean;
   private formSubmitAttempt: boolean = false;
 
   private returnUrl: string = "";
@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService
   ) {
+    this.loginInvalid = false;
   }
 
   async ngOnInit() {
