@@ -1,0 +1,27 @@
+<table class="table table-striped">
+    <thead>
+        <th>Username</th>
+        <th>Email</th>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let user of users">
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="container">
+    <form [formGroup] = "userGroup">
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" formControlName = "username">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="text" class="form-control" formControlName = "email">
+        </div>
+        
+        <button class="btn btn-primary" (click) = "addUser(userGroup)">Add User</button>
+      </form>
+</div>

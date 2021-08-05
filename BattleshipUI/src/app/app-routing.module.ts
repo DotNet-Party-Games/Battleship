@@ -7,6 +7,7 @@ import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './auth-guard.service';
 import { RegisterComponent } from "./register/register.component";
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+  },
+  {
+    path: 'user',
+    component: UserComponent
   }
 ];
 

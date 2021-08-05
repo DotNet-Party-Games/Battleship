@@ -25,6 +25,9 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { UserComponent } from './user/user.component';
+
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import { RegisterComponent } from './register/register.component';
     GameComponent,
     LoginComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UserComponent
   ],
   imports: [
       BrowserModule,
@@ -53,7 +57,8 @@ import { RegisterComponent } from './register/register.component';
       MatSlideToggleModule,
       MatSelectModule,
       //MatOptionModule,
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
