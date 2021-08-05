@@ -79,9 +79,37 @@ namespace BattleshipModels
         }
 
         /// <summary>
-        /// Finalizes the players board and deploys the ships
+        /// Checks to see if any ships are overlapping 
         /// </summary>
-        public void DeployShips()
+        /// <returns>True if no ships are overlapping</returns>
+        public bool CanBeDeployed()
+        {
+            for (int i = 0; i < Ships.Count; i++)
+            {
+                foreach (Position position in Ships[i].Positions)
+                {
+                    for (int x = i + 1; x < Ships.Count; x++)
+                    {
+                        foreach (Position other in Ships[x].Positions)
+                        {
+                            if (position == other)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Finalizes the players board and deploys the ships.
+        /// Checks to make sure no ships are overlapping and returns false if ships
+        /// are overlapping.
+        /// </summary>
+        /// <returns>True if the ships were managed to be deployed</returns>
+        public bool DeployShips()
         {
             foreach (Ship ship in Ships)
             {
@@ -90,6 +118,21 @@ namespace BattleshipModels
                 {
                     Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = Guess.Ship;
                 }
+            }
+            if (CanBeDeployed())
+            {
+                foreach (Ship ship in Ships)
+                {
+                    foreach (Position position in ship.Positions)
+                    {
+                        Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = Guess.Ship;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
