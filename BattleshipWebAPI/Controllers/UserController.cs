@@ -32,7 +32,7 @@ namespace BattleshipWebAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddUser([FromBody] User p_use)
         {
-            return Created("api/User/add", await _userBL.AddUserAsync(p_use));
+            return Created("api/[controller]/add", await _userBL.AddUserAsync(p_use));
         }
 
         //GET api/<UserController>
@@ -49,7 +49,7 @@ namespace BattleshipWebAPI.Controllers
             return Ok(await _userBL.UpdateUserAsync(p_use));
         }
 
-        //GET api/<UserController>/5
+        //GET api/<UserController>/5/e
         [HttpGet("validate/{p_uId}/{p_pass}")]
         public async Task<IActionResult> ValidateUserCredentials(int p_uId, string p_pass)
         {
