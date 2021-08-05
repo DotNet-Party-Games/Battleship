@@ -61,9 +61,28 @@ namespace BattleshipTest
         }
 
         [Fact]
+        public void CanBeDeployedTest()
+        {
+            foreach (Ship ship in TheNavy.Ships)
+            {
+                ship.DeployShip();
+            }
+            Assert.True(TheNavy.CanBeDeployed());
+            TheNavy.Ships[0].Orientation = Orientation.Vertical;
+            foreach (Ship ship in TheNavy.Ships)
+            {
+                ship.DeployShip();
+            }
+            Assert.False(TheNavy.CanBeDeployed());
+        }
+
+        [Fact]
         public void DeployShipsTest()
         {
-            TheNavy.DeployShips();
+            TheNavy.Ships[0].Orientation = Orientation.Vertical;
+            Assert.False(TheNavy.DeployShips());
+            TheNavy.Ships[0].Orientation = Orientation.Horizontal;
+            Assert.True(TheNavy.DeployShips());
             foreach (Ship ship in TheNavy.Ships)
             {
                 foreach (Position position in ship.Positions)
