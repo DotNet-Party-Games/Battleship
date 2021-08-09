@@ -8,7 +8,9 @@ import { IUser } from './user/user';
 })
 export class UserapiService {
 
-  private url = "https://localhost:44317/api/"
+  // private url = "https://localhost:44317/api/"
+  private url = "https://localhost:5001/api/"
+  //private url = "https://battleship-tsw.azurewebsites.net/api/"
 
   constructor(private http: HttpClient) { }
 
