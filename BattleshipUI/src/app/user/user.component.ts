@@ -13,7 +13,7 @@ export class UserComponent implements OnInit {
   users: IUser[];
 
   userGroup = new FormGroup({
-    username: new FormControl(),
+    userName: new FormControl(),
     email: new FormControl(),
     password: new FormControl()
   });
@@ -41,7 +41,7 @@ export class UserComponent implements OnInit {
   {
     let tempUser: IUser = 
     {
-      username: userGroup.get("username")?.value,
+      userName: userGroup.get("userName")?.value,
       email: userGroup.get("email")?.value,
       password: userGroup.get("password")?.value,
       registerDate: new Date()
