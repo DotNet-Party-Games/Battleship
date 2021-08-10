@@ -1,7 +1,9 @@
 export interface IUser
 {
+    userId: number,
     userName: string,
     email: string,
     password: string,
-    registerDate: Date
+    registerDate: Date,
+    isAdmin: boolean
 }
