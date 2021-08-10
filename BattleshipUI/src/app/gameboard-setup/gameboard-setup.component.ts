@@ -12,6 +12,7 @@ export class GameboardSetupComponent implements OnInit {
   height: number[];
   selected: number[] = new Array(2);
   test: string[][] = new Array(10);
+  ship: string;
 
   constructor() { 
     this.height = new Array(10);
@@ -25,6 +26,7 @@ export class GameboardSetupComponent implements OnInit {
     }
     this.selected[0] = 0;
     this.selected[1] = 0;
+    this.ship = "";
   }
 
   ngOnInit(): void {
@@ -33,7 +35,23 @@ export class GameboardSetupComponent implements OnInit {
   select(i:number, j:number){
     this.selected[0] = i;
     this.selected[1] = j;
-    this.test[i][j] = "patrolboat1";
-    this.test[i+1][j] = "patrolboat2";
+    switch (this.ship) {
+      case "patrolboat":
+        this.test[i][j] = "patrolboat1";
+        this.test[i+1][j] = "patrolboat2";
+        break;
+      case "submarine":
+        this.test[i][j] = "submarine1";
+        this.test[i+1][j] = "submarine2";
+        this.test[i+2][j] = "submarine3";
+        break;    
+      default:
+        break;
+    }
+    
+  }
+
+  selectShip(s:string){
+    this.ship = s;
   }
 }

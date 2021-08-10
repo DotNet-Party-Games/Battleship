@@ -13,3 +13,13 @@ td.patrolboat1{
 td.patrolboat2{
     background-image: url("../../assets/PatrolBoat2.png");
 }
+
+td.submarine1{
+    background-image: url("../../assets/Submarine1.png");
+}
+td.submarine2{
+    background-image: url("../../assets/Submarine2.png");
+}
+td.submarine3{
+    background-image: url("../../assets/Submarine3.png");
+}
