@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './auth-guard.service';
 import { RegisterComponent } from "./register/register.component";
 import { GameBoardComponent } from './game-board/game-board.component';
+import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'gameboard',
     component: GameBoardComponent,
+  },
+  {
+    path: 'gameboardsetup',
+    component: GameboardSetupComponent
   }
 ];
 

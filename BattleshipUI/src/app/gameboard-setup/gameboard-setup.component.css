@@ -1,0 +1,15 @@
+td {
+    width: 64px;
+    height: 64px;
+}
+
+td.water{
+    background-image: url("../../assets/WaterTile.png");
+}
+
+td.patrolboat1{
+    background-image: url("../../assets/PatrolBoat1.png");
+}
+td.patrolboat2{
+    background-image: url("../../assets/PatrolBoat2.png");
+}

@@ -26,6 +26,7 @@ import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { GameBoardComponent } from './game-board/game-board.component';
+import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { GameBoardComponent } from './game-board/game-board.component';
     LoginComponent,
     LoginComponent,
     RegisterComponent,
-    GameBoardComponent
+    GameBoardComponent,
+    GameboardSetupComponent
   ],
   imports: [
       BrowserModule,
