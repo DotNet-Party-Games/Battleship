@@ -9,11 +9,12 @@ import { OktaAuth, IDToken, AccessToken } from '@okta/okta-auth-js';
 export class AuthService {
   private authClient = new OktaAuth({
     issuer: 'https://dev-25052420.okta.com/oauth2/default',
-    clientId: '0oa1ecrlraxrBRpXG5d7',
+    clientId: '0oa1fts33vCWxR2ms5d7',
     pkce: true
   });
   
   public isAuthenticated = new BehaviorSubject<boolean>(false);
+  
   constructor(private router: Router) {
   }
 
