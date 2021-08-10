@@ -20,7 +20,6 @@ export class UserComponent implements OnInit {
 
   constructor(private UserApi:UserapiService) { 
     this.users = new Array<IUser>();
-    // this.getAllUser();
   }
 
   ngOnInit(): void 
@@ -33,25 +32,6 @@ export class UserComponent implements OnInit {
     this.UserApi.getAllUser().subscribe(
       (response) => {
         this.users = response;
-      }
-    )
-  }
-
-  addUser(userGroup: FormGroup)
-  {
-    let tempUser: IUser = 
-    {
-      userName: userGroup.get("userName")?.value,
-      email: userGroup.get("email")?.value,
-      password: userGroup.get("password")?.value,
-      registerDate: new Date()
-    }
-
-    this.UserApi.addUser(tempUser).subscribe(
-      (response) => {
-        //console.log(response["name"]);
-
-        this.getAllUser();
       }
     )
   }

@@ -12,22 +12,4 @@
         </tr>
     </tbody>
 </table>
-<h3 *ngIf="!users.length">You currently cannot see any users!</h3>
-<!-- this is just here to quickly test adding user -->
-<div class="container">
-    <form [formGroup] = "userGroup">
-        <div class="mb-3">
-          <label class="form-label">Username</label>
-          <input type="text" class="form-control" formControlName = "userName">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="text" class="form-control" formControlName = "email">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">password</label>
-          <input type="password" class="form-control" formControlName = "password">
-        </div>
-        <button class="btn btn-primary" (click) = "addUser(userGroup)">Add User</button>
-      </form>
-</div>
+<h3 *ngIf="!users.length">There currently aren't any users!</h3>
