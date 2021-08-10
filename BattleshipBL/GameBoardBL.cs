@@ -7,42 +7,69 @@ using BattleshipModels;
 
 namespace BattleshipBL
 {
-    class GameBoardBL : IGameBoardBL
+    public class GameRooms : IGameRooms
     {
-        private GameBoard _gameBoard;
-        public GameBoardBL()
+        public Dictionary<int, IGameBoardBL> GameBoards { get; set ; }
+
+        public GameRooms()
         {
-            _gameBoard = new GameBoard(10);
+            GameBoards = new Dictionary<int, IGameBoardBL>();
+        }
+
+        public IGameBoardBL GetGameRoom(int roomId)
+        {
+            IGameBoardBL gameRoom;
+            try
+            {
+                gameRoom = GameBoards[roomId];
+            }
+            catch (KeyNotFoundException)
+            {
+                gameRoom = new GameBoardBL(new GameBoard(10));
+                GameBoards.Add(roomId, gameRoom);
+            }
+            return gameRoom;
+        }
+    }
+
+    public class GameBoardBL : IGameBoardBL
+    {
+        public GameBoard GameBoard { get; set; }
+
+        public GameBoardBL(GameBoard gameBoard)
+        {
+            GameBoard = gameBoard;
         }
         public void SetUp(int User1Id, int User2Id)
         {
             // ToDo: Implement the users being the actual users
-            _gameBoard.User1 = new User() { UserId = User1Id };
-            _gameBoard.User2 = new User() { UserId = User2Id };
+            // Or just change the Users to be userIds
+            GameBoard.User1 = new User() { UserId = User1Id };
+            GameBoard.User2 = new User() { UserId = User2Id };
         }
         public bool Attack(int UserId, int x, int y, int z)
         {
             Position position = new Position(x, y, z);
-            if (_gameBoard.User1.UserId == UserId)
+            if (GameBoard.User1.UserId == UserId)
             {
-                _gameBoard.User1Attacks(position);
+                GameBoard.User1Attacks(position);
             }
             else
             {
-                _gameBoard.User2Attacks(position);
+                GameBoard.User2Attacks(position);
             }
-            return _gameBoard.IsWinner() != null;
+            return GameBoard.IsWinner() != null;
         }
 
         public void DeployShips(int UserId)
         {
-            if (_gameBoard.User1.UserId == UserId)
+            if (GameBoard.User1.UserId == UserId)
             {
-                _gameBoard.User1Navy.DeployShips();
+                GameBoard.User1Navy.DeployShips();
             }
             else
             {
-                _gameBoard.User2Navy.DeployShips();
+                GameBoard.User2Navy.DeployShips();
             }
         }
 
@@ -54,13 +81,13 @@ namespace BattleshipBL
             {
                 orientation = Orientation.Horizontal;
             }
-            if (_gameBoard.User1.UserId == UserId)
+            if (GameBoard.User1.UserId == UserId)
             {
-                _gameBoard.User1Navy.PlaceShip(_gameBoard.User1Navy.Ships[shipId], position, orientation);
+                GameBoard.User1Navy.PlaceShip(GameBoard.User1Navy.Ships[shipId], position, orientation);
             }
             else
             {
-                _gameBoard.User2Navy.PlaceShip(_gameBoard.User2Navy.Ships[shipId], position, orientation);
+                GameBoard.User2Navy.PlaceShip(GameBoard.User2Navy.Ships[shipId], position, orientation);
             }
         }
     }
