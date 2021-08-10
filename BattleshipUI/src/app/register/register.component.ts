@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserapiService } from '../userapi.service';
+import { IUser } from '../user/user';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(),
+    userName: new FormControl(),
     email: new FormControl(),
     password: new FormControl()
   });
@@ -23,7 +25,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private UserApi:UserapiService
   ) {
     this.registerInvalid = false;
     this.returnUrl = "";
@@ -34,7 +37,7 @@ export class RegisterComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/login';
 
     this.form = this.fb.group({
-      username: ['', Validators.required],
+      userName: ['', Validators.required],
       email: ['', Validators.email],
       password: ['', Validators.required]
     });
@@ -46,11 +49,19 @@ export class RegisterComponent implements OnInit {
     this.formSubmitAttempt = false;
     if (this.form.valid) {
       try {
-        let username = this.form.get('username')?.value;
-        let password = this.form.get('password')?.value;
-        let email = this.form.get('email')?.value;
         
-        console.log("Registration submitted!")
+        let tempUser: IUser = 
+        {
+          userName: this.form.get("userName")?.value,
+          email: this.form.get("email")?.value,
+          password: this.form.get("password")?.value,
+          registerDate: new Date(),
+          userId: 0,
+          isAdmin: false
+        }
+
+        this.UserApi.addUser(tempUser).subscribe((response) => { });
+        console.log("Registration submitted!");
       } catch (err) {
         this.registerInvalid = true;
         console.log("something went wrong with registration!");
