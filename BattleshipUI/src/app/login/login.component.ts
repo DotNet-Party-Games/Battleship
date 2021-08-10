@@ -49,8 +49,7 @@ export class LoginComponent implements OnInit {
       try {
         let email = this.form.get('email')?.value;
         let password = this.form.get('password')?.value;
-        // const username = 'test';
-        // const password = 'password';
+        
         await this.authService.login(email, password);
       } catch (err) {
         this.loginInvalid = true;
