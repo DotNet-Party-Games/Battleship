@@ -23,8 +23,8 @@ namespace BattleshipModels
     {
         public int OceanSize { get; set; }          // The size of the board
         public List<Ship> Ships { get; set; }       // The list of Ships in the navy
-        public Guess[,,] Ocean { get; set; }        // Guess array of every value in the player's ocean
-        public Guess[,,] EnemyOcean { get; set; }   // Guess array of every value in the player's enemy's ocean
+        public Guess[][][] Ocean { get; set; }        // Guess array of every value in the player's ocean
+        public Guess[][][] EnemyOcean { get; set; }   // Guess array of every value in the player's enemy's ocean
         public bool DestroyedNavy { get; set; }     // True if all ships in the navy are destroyed
         public int Levels { get; set; }             // Number of Z-levels on the board
 
@@ -44,18 +44,34 @@ namespace BattleshipModels
                 new Ship(3),
                 new Ship(2)
             };
-            Ocean = new Guess[OceanSize, OceanSize, Levels];
+            Ocean = new Guess[OceanSize][][];
+            for (int i = 0; i < OceanSize; i++)
+            {
+                Ocean[i] = new Guess[OceanSize][];
+                for (int z = 0; z < OceanSize; z++)
+                {
+                    Ocean[i][z] = new Guess[Levels];
+                }
+            }
             for (int y = 0; y < OceanSize; y++)
             {
                 for (int x = 0; x < OceanSize; x++)
                 {
                     for (int z = 0; z < Levels; z++)
                     {
-                        Ocean[x, y, z] = Guess.Water;
+                        Ocean[x][y][z] = Guess.Water;
                     }
                 }
             }
-            EnemyOcean = new Guess[OceanSize, OceanSize, Levels];
+            EnemyOcean = new Guess[OceanSize][][];
+            for (int i = 0; i < OceanSize; i++)
+            {
+                EnemyOcean[i] = new Guess[OceanSize][];
+                for (int z = 0; z < OceanSize; z++)
+                {
+                    EnemyOcean[i][z] = new Guess[Levels];
+                }
+            }
             DestroyedNavy = false;
         }
 
@@ -114,10 +130,6 @@ namespace BattleshipModels
             foreach (Ship ship in Ships)
             {
                 ship.DeployShip();
-                foreach (Position position in ship.Positions)
-                {
-                    Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = Guess.Ship;
-                }
             }
             if (CanBeDeployed())
             {
@@ -125,7 +137,7 @@ namespace BattleshipModels
                 {
                     foreach (Position position in ship.Positions)
                     {
-                        Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = Guess.Ship;
+                        Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate] = Guess.Ship;
                     }
                 }
                 return true;
@@ -143,7 +155,7 @@ namespace BattleshipModels
         /// <returns>The Guess value of the square that was attacked</returns>
         public Guess IncomingAttack(Position position)
         {
-            Guess attacked = Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate];
+            Guess attacked = Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate];
             Guess returnValue = attacked;
             if (attacked == Guess.Water)
             {
@@ -160,7 +172,7 @@ namespace BattleshipModels
                     returnValue = Guess.Hit;
                 }
             }
-            Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = returnValue;
+            Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate] = returnValue;
             return returnValue;
         }
 
@@ -171,7 +183,7 @@ namespace BattleshipModels
         /// <param name="p_attack">The result of the attack</param>
         public void OutgoingAttack(Position p_position, Guess p_attack)
         {
-            EnemyOcean[p_position.XCoordinate, p_position.YCoordinate, p_position.ZCoordinate] = p_attack;
+            EnemyOcean[p_position.XCoordinate][p_position.YCoordinate][p_position.ZCoordinate] = p_attack;
         }
 
         /// <summary>
@@ -192,7 +204,7 @@ namespace BattleshipModels
                     {
                         foreach (Position pos in ship.Positions)
                         {
-                            Ocean[pos.XCoordinate, pos.YCoordinate, pos.ZCoordinate] = Guess.DestroyedShip;
+                            Ocean[pos.XCoordinate][pos.YCoordinate][pos.ZCoordinate] = Guess.DestroyedShip;
                         }
                         NavyDestroyed();
                     }
