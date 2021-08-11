@@ -6,10 +6,9 @@
     </thead>
     <tbody>
         <tr *ngFor = "let user of users">
-            <td>{{user.userName}}</td>
+            <td>{{user.username}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.registerDate}}</td>
         </tr>
     </tbody>
 </table>
-<h3 *ngIf="!users.length">There currently aren't any users!</h3>
+<h3 *ngIf="!users.length">You currently cannot view any users!</h3>

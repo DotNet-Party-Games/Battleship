@@ -19,15 +19,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
-//import { MatOptionModule } from '@angular/material';
 
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AuthModule } from '@auth0/auth0-angular';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,6 @@ import { HttpClientModule } from '@angular/common/http';
     GameComponent,
     LoginComponent,
     LoginComponent,
-    RegisterComponent,
     UserComponent
   ],
   imports: [
@@ -56,11 +57,20 @@ import { HttpClientModule } from '@angular/common/http';
       MatDividerModule,
       MatSlideToggleModule,
       MatSelectModule,
-      //MatOptionModule,
       MatProgressSpinnerModule,
-      HttpClientModule
+      HttpClientModule,
+      AuthModule.forRoot({
+        domain: environment.domain,
+        clientId: environment.clientId
+      })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

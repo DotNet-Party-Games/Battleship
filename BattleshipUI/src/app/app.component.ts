@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-root',
@@ -7,21 +7,11 @@ import { AuthService } from './auth.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent{
   title = 'Battleship';
   isAuthenticated: boolean = false;
 
-  constructor(public authService: AuthService) {
-    this.authService.isAuthenticated.subscribe(
-      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
-    );
-  }
+  constructor(public auth: AuthService) { }
   
-  async ngOnInit() {
-    this.isAuthenticated = await this.authService.checkAuthenticated();
-  }
-
-  logout() {
-    this.authService.logout('/');
-  }
+  
 }

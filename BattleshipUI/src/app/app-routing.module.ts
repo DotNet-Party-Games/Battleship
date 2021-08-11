@@ -5,8 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 
 import { LoginComponent } from './login/login.component';
-import { AuthGuardService } from './auth-guard.service';
-import { RegisterComponent } from "./register/register.component";
+import { AuthGuard } from '@auth0/auth0-angular';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
@@ -15,17 +14,9 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
     path: 'game',
     component: GameComponent,
-    //canActivate: [ AuthGuardService ]  // disabled for now to show routing to game component
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
+    canActivate: [ AuthGuard ]  // disabled for now to show routing to game component
   },
   {
     path: 'user',
