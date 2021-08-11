@@ -8,6 +8,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -46,6 +48,7 @@ import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.compo
       FormsModule,
       ReactiveFormsModule,
       BrowserAnimationsModule,
+      HttpClientModule,
       MatToolbarModule,
       MatInputModule,
       MatCardModule,
