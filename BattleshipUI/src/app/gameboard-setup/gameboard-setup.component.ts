@@ -1,3 +1,4 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { Ship } from '../services/ship';
 
@@ -139,7 +140,7 @@ export class GameboardSetupComponent implements OnInit {
 
   checkForSpace(size:number){
     for(let i = 0; i < size; i++){
-      if(this.test[this.selected[0]+i][this.selected[1]] != "water"){
+      if(this.test[this.selected[0]+i][this.selected[1]] != "water" && !this.test[this.selected[0]+i][this.selected[1]].includes(this.selectedShip)){
         return false;
       }
     }
