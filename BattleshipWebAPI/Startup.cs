@@ -73,6 +73,13 @@ namespace BattleshipWebAPI
 
             app.UseRouting();
 
+            app.UseCors(builder =>
+                // builder.WithOrigins("http://127.0.0.1:4200")
+                builder.WithOrigins("http://localhost:4200")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials());
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
