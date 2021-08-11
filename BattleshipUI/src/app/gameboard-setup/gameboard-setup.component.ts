@@ -16,6 +16,7 @@ export class GameboardSetupComponent implements OnInit {
   selectedShip: string;
   isVertical: boolean = true;
   ships: Ship[] = new Array(5);
+  roomNum: number;
 
   constructor() { 
     this.height = new Array(10);
@@ -34,6 +35,8 @@ export class GameboardSetupComponent implements OnInit {
     for(let i =0; i < 5; i++){
       this.ships[i] = new Ship;
     }
+
+    this.roomNum = 0;
 
   }
 
@@ -56,22 +59,20 @@ export class GameboardSetupComponent implements OnInit {
         case "patrolboat":
           if(this.selected[0]+1 < 10 && this.checkForSpace(2)){
             if(this.ships[4].placed == true){
-              this.test[this.ships[4].y][this.ships[4].x] = "water";
-              this.test[this.ships[4].y+1][this.ships[4].x] = "water";
+              this.clearShip(this.ships[4],2);
             }
             this.test[this.selected[0]][this.selected[1]] = "patrolboat1";
             this.test[this.selected[0]+1][this.selected[1]] = "patrolboat2";
             this.ships[4].y = this.selected[0];
             this.ships[4].x = this.selected[1];
             this.ships[4].placed = true;
+            this.ships[4].horizontal = false;
           }
           break;
         case "submarine":
           if(this.selected[0]+2 < 10 && this.checkForSpace(3)){
             if(this.ships[3].placed == true){
-              this.test[this.ships[3].y][this.ships[3].x] = "water";
-              this.test[this.ships[3].y+1][this.ships[3].x] = "water";
-              this.test[this.ships[3].y+2][this.ships[3].x] = "water";
+              this.clearShip(this.ships[3],3);
             }
             this.test[this.selected[0]][this.selected[1]] = "submarine1";
             this.test[this.selected[0]+1][this.selected[1]] = "submarine2";
@@ -79,14 +80,13 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[3].y = this.selected[0];
             this.ships[3].x = this.selected[1];
             this.ships[3].placed = true;
+            this.ships[3].horizontal = false;
           }
           break;
         case "destroyer":
           if(this.selected[0]+2 < 10 && this.checkForSpace(3)){
             if(this.ships[2].placed == true){
-              this.test[this.ships[2].y][this.ships[2].x] = "water";
-              this.test[this.ships[2].y+1][this.ships[2].x] = "water";
-              this.test[this.ships[2].y+2][this.ships[2].x] = "water";
+              this.clearShip(this.ships[2],3);
             }
             this.test[this.selected[0]][this.selected[1]] = "destroyer1";
             this.test[this.selected[0]+1][this.selected[1]] = "destroyer2";
@@ -94,15 +94,13 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[2].y = this.selected[0];
             this.ships[2].x = this.selected[1];
             this.ships[2].placed = true;
+            this.ships[2].horizontal = false;
           }
           break;
         case "battleship":
           if(this.selected[0]+3 < 10 && this.checkForSpace(4)){
             if(this.ships[1].placed == true){
-              this.test[this.ships[1].y][this.ships[1].x] = "water";
-              this.test[this.ships[1].y+1][this.ships[1].x] = "water";
-              this.test[this.ships[1].y+2][this.ships[1].x] = "water";
-              this.test[this.ships[1].y+3][this.ships[1].x] = "water";
+              this.clearShip(this.ships[1],4);
             }
             this.test[this.selected[0]][this.selected[1]] = "battleship1";
             this.test[this.selected[0]+1][this.selected[1]] = "battleship2";
@@ -111,16 +109,13 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[1].y = this.selected[0];
             this.ships[1].x = this.selected[1];
             this.ships[1].placed = true;
+            this.ships[1].horizontal = false;
           }
           break;
         case "aircraftcarrier":
           if(this.selected[0]+4 < 10 && this.checkForSpace(5)){
             if(this.ships[0].placed == true){
-              this.test[this.ships[0].y][this.ships[0].x] = "water";
-              this.test[this.ships[0].y+1][this.ships[0].x] = "water";
-              this.test[this.ships[0].y+2][this.ships[0].x] = "water";
-              this.test[this.ships[0].y+3][this.ships[0].x] = "water";
-              this.test[this.ships[0].y+4][this.ships[0].x] = "water";
+              this.clearShip(this.ships[0],5);
             }
             this.test[this.selected[0]][this.selected[1]] = "aircraftcarrier1";
             this.test[this.selected[0]+1][this.selected[1]] = "aircraftcarrier2";
@@ -130,6 +125,85 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[0].y = this.selected[0];
             this.ships[0].x = this.selected[1];
             this.ships[0].placed = true;
+            this.ships[0].horizontal = false;
+          }
+          break;
+        default:
+          break;
+      }   
+    }
+    else{
+      switch (this.selectedShip) {
+        case "patrolboat":
+          if(this.selected[1]+1 < 10 && this.checkForSpace(2)){
+            if(this.ships[4].placed == true){
+              this.clearShip(this.ships[4],2);
+            }
+            this.test[this.selected[0]][this.selected[1]] = "patrolboatr1";
+            this.test[this.selected[0]][this.selected[1]+1] = "patrolboatr2";
+            this.ships[4].y = this.selected[0];
+            this.ships[4].x = this.selected[1];
+            this.ships[4].placed = true;
+            this.ships[4].horizontal = true;
+          }
+          break;
+        case "submarine":
+          if(this.selected[1]+2 < 10 && this.checkForSpace(3)){
+            if(this.ships[3].placed == true){
+              this.clearShip(this.ships[3],3);
+            }
+            this.test[this.selected[0]][this.selected[1]] = "submariner1";
+            this.test[this.selected[0]][this.selected[1]+1] = "submariner2";
+            this.test[this.selected[0]][this.selected[1]+2] = "submariner3";
+            this.ships[3].y = this.selected[0];
+            this.ships[3].x = this.selected[1];
+            this.ships[3].placed = true;
+            this.ships[3].horizontal = true;
+          }
+          break;
+        case "destroyer":
+          if(this.selected[1]+2 < 10 && this.checkForSpace(3)){
+            if(this.ships[2].placed == true){
+              this.clearShip(this.ships[2],3);
+            }
+            this.test[this.selected[0]][this.selected[1]] = "destroyerr1";
+            this.test[this.selected[0]][this.selected[1]+1] = "destroyerr2";
+            this.test[this.selected[0]][this.selected[1]+2] = "destroyerr3";
+            this.ships[2].y = this.selected[0];
+            this.ships[2].x = this.selected[1];
+            this.ships[2].placed = true;
+            this.ships[2].horizontal = true;
+          }
+          break;
+        case "battleship":
+          if(this.selected[1]+3 < 10 && this.checkForSpace(4)){
+            if(this.ships[1].placed == true){
+              this.clearShip(this.ships[1],4);
+            }
+            this.test[this.selected[0]][this.selected[1]] = "battleshipr1";
+            this.test[this.selected[0]][this.selected[1]+1] = "battleshipr2";
+            this.test[this.selected[0]][this.selected[1]+2] = "battleshipr3";
+            this.test[this.selected[0]][this.selected[1]+3] = "battleshipr4";
+            this.ships[1].y = this.selected[0];
+            this.ships[1].x = this.selected[1];
+            this.ships[1].placed = true;
+            this.ships[1].horizontal = true;
+          }
+          break;
+        case "aircraftcarrier":
+          if(this.selected[1]+4 < 10 && this.checkForSpace(5)){
+            if(this.ships[0].placed == true){
+              this.clearShip(this.ships[0],5);
+            }
+            this.test[this.selected[0]][this.selected[1]] = "aircraftcarrierr1";
+            this.test[this.selected[0]][this.selected[1]+1] = "aircraftcarrierr2";
+            this.test[this.selected[0]][this.selected[1]+2] = "aircraftcarrierr3";
+            this.test[this.selected[0]][this.selected[1]+3] = "aircraftcarrierr4";
+            this.test[this.selected[0]][this.selected[1]+4] = "aircraftcarrierr5";
+            this.ships[0].y = this.selected[0];
+            this.ships[0].x = this.selected[1];
+            this.ships[0].placed = true;
+            this.ships[0].horizontal = true;
           }
           break;
         default:
@@ -140,10 +214,33 @@ export class GameboardSetupComponent implements OnInit {
 
   checkForSpace(size:number){
     for(let i = 0; i < size; i++){
-      if(this.test[this.selected[0]+i][this.selected[1]] != "water" && !this.test[this.selected[0]+i][this.selected[1]].includes(this.selectedShip)){
-        return false;
+      if(this.isVertical == true){
+        if(this.test[this.selected[0]+i][this.selected[1]] != "water" && !this.test[this.selected[0]+i][this.selected[1]].includes(this.selectedShip)){
+          return false;
+        }
+      }
+      else{
+        if(this.test[this.selected[0]][this.selected[1]+i] != "water" && !this.test[this.selected[0]][this.selected[1]+i].includes(this.selectedShip)){
+          return false;
+        }
       }
     }
     return true;
   }
+
+  toggleVertical(){
+    this.isVertical = !this.isVertical;
+  }
+
+  clearShip(s:Ship,size:number){
+    for(let i=0; i<size; i++){
+      if(s.horizontal == false){
+        this.test[s.y+i][s.x] = "water";
+      }
+      else{
+        this.test[s.y][s.x+i] = "water";
+      }
+    }
+  }
+
 }
