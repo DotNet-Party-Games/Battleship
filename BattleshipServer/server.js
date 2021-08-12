@@ -39,6 +39,12 @@ io.on('connection', socket => {
         socket.emit('room', room);
     });
 
+    // logic for when a socket sends a message in chat
+    socket.on('message', msg => {
+        //console.log(msg);
+        socket.broadcast.emit('message-broadcast', msg);
+    });
+
     // broadcast call rooms and sockets that have connected
     io.emit('rooms', Object.keys(rooms));
 
