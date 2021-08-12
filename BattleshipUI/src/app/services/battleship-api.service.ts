@@ -69,45 +69,4 @@ export class BattleshipAPIService {
     let param = new HttpParams().set('roomNumber', roomNumber).set('userId', userId);
     return this.http.put<IGameAPI>(this.url + "GameBoard/DeployShips", deployshipsbody, {params: param});
   }
-
-  /*TestSetup(roomId: number): Observable<IGameAPI> {
-    let setupBody = new HttpParams({
-      fromObject: {
-        'roomNumber' : roomId,
-        'user1Id': 1,
-        'user2Id' : 2
-      }
-    });
-    this.http.put(this.url + "GameBoard/SetUp/", setupBody);
-    for (let i = 0; i < 5; i++) {
-      let ship1body = new HttpParams({
-        fromObject: {
-          'roomNumber': roomId,
-          'userId': 1,
-          'shipId': i,
-          'x': 0,
-          'y': i,
-          'z': 0,
-          'horizontal': true
-        }
-      });
-      this.http.put(this.url + "GameBoard/PlaceShip/", ship1body);
-      ship1body.set('userId', 2);
-      this.http.put(this.url + "GameBoard/PlaceShip/", ship1body);
-    }
-    return this.GetGameBoard(roomId);
-  }
-
-  TestDeploy(roomId: number): Observable<IGameAPI> {
-    let deployBody = new HttpParams({
-      fromObject: {
-        'roomNumber': roomId,
-        'userId': 1
-      }
-    })
-    this.http.put(this.url + "GameBoard/DeployShips/", deployBody);
-    deployBody.set('userId', 2);
-    return this.http.put<IGameAPI>(this.url + "GameBoard/DeployShips/", deployBody);
-  }*/
-
 }

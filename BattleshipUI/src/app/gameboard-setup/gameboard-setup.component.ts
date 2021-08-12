@@ -256,19 +256,19 @@ export class GameboardSetupComponent implements OnInit {
       this.submitPlaceShip(i, this.ships[i]);
     }
     this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
-      response => {console.log(response["user1Id"])}
+      response => {console.log(response["user1"])}
     );
   }
 
   submitPlaceShip(shipId:number, pship:Ship){
     this.BApi.PlaceShip(this.roomNum, this.userId, shipId, pship.x, pship.y, 0, pship.horizontal).subscribe(
-      response => {console.log(response.user1Id)}
+      response => {console.log(response.user1)}
     );
   }
 
   tempSetUp(){
     this.BApi.SetUp(1,2,3).subscribe(
-      response => {console.log(response["user1Id"])}
+      response => {console.log(response["user1"])}
     );
   }
 
