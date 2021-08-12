@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 
 import { ChatService } from '../services/chat.service';
 
@@ -15,37 +16,16 @@ export class ChatComponent implements OnInit {
   socket: Socket;
   message: string;
   data:string;
+  messages:Observable<string[]>;
 
   constructor(private chatService: ChatService) { }
 
   ngOnInit() {
-    this.displayOtherChat();
-  }
-
-  displayOtherChat() {
-    this.data = this.chatService.receiveMessage();
-    console.log(`${this.data} was received in the client`);
-      if (this.data) {
-        const element = document.createElement('li');
-        element.innerHTML = this.data;
-        element.style.background = 'coral';
-        element.style.padding =  '15px 30px';
-        element.style.margin = '10px';
-        document.getElementById('message-list').appendChild(element);
-      }   
+    this.messages = this.chatService.messages;
   }
 
   SendMessage() {
     this.chatService.sendMessage(this.message);
-    this.displayOtherChat();
-    const element = document.createElement('li');
-    element.innerHTML = this.message;
-    element.style.background = 'white';
-    element.style.padding =  '15px 30px';
-    element.style.margin = '10px';
-    element.style.textAlign = 'right';
-    let message = document.getElementById('message-list');
-    message.appendChild(element);
     this.message = '';
   }
 }

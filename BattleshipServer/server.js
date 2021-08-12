@@ -7,6 +7,8 @@ const io = require('socket.io')(http);
 
 // create a collection of rooms
 const rooms = {};
+// collection of messages
+const messages = [];
 
 // logic for when a socket connects to the server
 // server event listener
@@ -41,8 +43,11 @@ io.on('connection', socket => {
 
     // logic for when a socket sends a message in chat
     socket.on('message', msg => {
-        //console.log(msg);
-        socket.broadcast.emit('message-broadcast', msg);
+        messages[msg] = msg;
+        //console.log(`Message on the server is ${messages[msg.id]}`);
+        console.log(messages);
+        io.emit('get message', Object.keys(messages));
+        socket.emit('see message', msg);
     });
 
     // broadcast call rooms and sockets that have connected

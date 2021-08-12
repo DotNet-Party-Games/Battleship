@@ -1,6 +1,10 @@
 <div class="chat-messages">
     <div class="chat-messages-show-container">
-        <ul class="chat-messages-show-list" id="message-list"></ul>
+        <ul class="chat-messages-show-list" id="message-list" *ngFor="let chat of messages | async">
+            <li >
+                {{chat}}
+            </li>
+        </ul>
     </div>
     <div class="chat-messages-create-container"> 
         <input class="chat-messages-create-input" type="text" [(ngModel)]="message">

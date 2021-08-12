@@ -35,3 +35,10 @@
     margin: auto 40px;
     width: 100px;
 }
+
+li {
+    background: white;
+    padding: 15px 30px;
+    margin:10px;
+    text-align: right;
+}
