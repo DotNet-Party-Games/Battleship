@@ -78,6 +78,8 @@ namespace BattleshipModels
         public Navy User1Navy { get; set; }     // The Navy of User 1        
         public User User2 { get; set; }         // User 2        
         public Navy User2Navy { get; set; }     // The Navy of User 2
+        public bool CurrentTurn { get; set; }   // If user 1 has the current turn
+        public int WinnerId { get; set; }       // The Id of the winner
 
         /// <summary>
         /// Constructs the Gameboard
@@ -87,6 +89,8 @@ namespace BattleshipModels
         {
             User1Navy = new Navy(p_boardSize);
             User2Navy = new Navy(p_boardSize);
+            CurrentTurn = true;
+            WinnerId = -1;
         }
 
         /// <summary>
@@ -98,6 +102,7 @@ namespace BattleshipModels
         {
             Guess result = User2Navy.IncomingAttack(p_position);
             User1Navy.OutgoingAttack(p_position, result);
+            CurrentTurn = false;
             return result;
         }
 
@@ -110,6 +115,7 @@ namespace BattleshipModels
         {
             Guess result = User1Navy.IncomingAttack(p_position);
             User2Navy.OutgoingAttack(p_position, result);
+            CurrentTurn = true;
             return result;
         }
 
@@ -124,10 +130,12 @@ namespace BattleshipModels
             if (User1Navy.DestroyedNavy)
             {
                 winner = User2;
+                WinnerId = winner.UserId;
             }
             else if (User2Navy.DestroyedNavy)
             {
                 winner = User1;
+                WinnerId = winner.UserId;
             }
             return winner;
         }

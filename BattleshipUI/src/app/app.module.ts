@@ -22,12 +22,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
-//import { MatOptionModule } from '@angular/material';
+import { MatSortModule } from '@angular/material/sort';
 
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { UserComponent } from './user/user.component';
+
+import { HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AuthModule } from '@auth0/auth0-angular';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { ProfileComponent } from './profile/profile.component';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 import { RoomListComponent } from './room-list/room-list.component';
@@ -44,7 +51,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
     GameComponent,
     LoginComponent,
     LoginComponent,
-    RegisterComponent,
+    UserComponent,
+    ProfileComponent
     GameBoardComponent,
     GameboardSetupComponent,
     RoomListComponent,
@@ -71,9 +79,21 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
       MatSelectModule,
       //MatOptionModule,
       MatProgressSpinnerModule,
-      SocketIoModule.forRoot(config)
+      SocketIoModule.forRoot(config),
+      HttpClientModule,
+      AuthModule.forRoot({
+        domain: environment.domain,
+        clientId: environment.clientId
+      }),
+      MatSortModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
