@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IUser } from './user';
 import { UserapiService } from '../userapi.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-user',
@@ -11,20 +12,25 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class UserComponent implements OnInit {
 
   users: IUser[];
+  displayedColumns: string[] = ['username', 'email', 'registerDate', 'edit', 'delete'];
+  dataSource: MatTableDataSource<IUser>;
 
-  userGroup = new FormGroup({
-    userName: new FormControl(),
-    email: new FormControl(),
-    password: new FormControl()
-  });
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private UserApi:UserapiService) { 
     this.users = new Array<IUser>();
+    this.sort = new MatSort();
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void 
   {
     this.getAllUser();
+    this.dataSource = new MatTableDataSource(Array.from(this.users));
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
   getAllUser()
@@ -35,4 +41,10 @@ export class UserComponent implements OnInit {
       }
     )
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
 }
