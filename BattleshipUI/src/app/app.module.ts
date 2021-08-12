@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule } from '@angular/common/http';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
@@ -29,6 +30,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
+import { RoomListComponent } from './room-list/room-list.component';
+import { RoomComponent } from './room/room.component';
+
+// creates configuration for module to operate off?
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
 
 @NgModule({
   declarations: [
@@ -39,7 +45,9 @@ import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.compo
     LoginComponent,
     RegisterComponent,
     GameBoardComponent,
-    GameboardSetupComponent
+    GameboardSetupComponent,
+    RoomListComponent,
+    RoomComponent
   ],
   imports: [
       BrowserModule,
@@ -60,7 +68,8 @@ import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.compo
       MatSlideToggleModule,
       MatSelectModule,
       //MatOptionModule,
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]
