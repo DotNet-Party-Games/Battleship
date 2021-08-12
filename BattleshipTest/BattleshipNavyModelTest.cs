@@ -86,7 +86,7 @@ namespace BattleshipTest
                 foreach (Position position in ship.Positions)
                 {
                     Assert.True(TheNavy.Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate]
-                        == Guess.Ship);
+                        == Guess.Ship || TheNavy.Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate] >= Guess.PatrolBoat1H);
                 }
             }
         }
