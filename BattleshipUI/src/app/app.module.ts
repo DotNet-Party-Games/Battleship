@@ -8,6 +8,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +27,8 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { GameBoardComponent } from './game-board/game-board.component';
+import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,9 @@ import { RegisterComponent } from './register/register.component';
     GameComponent,
     LoginComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    GameBoardComponent,
+    GameboardSetupComponent
   ],
   imports: [
       BrowserModule,
@@ -42,6 +48,7 @@ import { RegisterComponent } from './register/register.component';
       FormsModule,
       ReactiveFormsModule,
       BrowserAnimationsModule,
+      HttpClientModule,
       MatToolbarModule,
       MatInputModule,
       MatCardModule,
