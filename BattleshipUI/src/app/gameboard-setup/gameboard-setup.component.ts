@@ -1,5 +1,6 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { BattleshipAPIService } from '../services/battleship-api.service';
 import { Ship } from '../services/ship';
 
 @Component({
@@ -17,8 +18,9 @@ export class GameboardSetupComponent implements OnInit {
   isVertical: boolean = true;
   ships: Ship[] = new Array(5);
   roomNum: number;
+  userId: number;
 
-  constructor() { 
+  constructor(private BApi:BattleshipAPIService) { 
     this.height = new Array(10);
     this.width = new Array(10);
 
@@ -36,7 +38,8 @@ export class GameboardSetupComponent implements OnInit {
       this.ships[i] = new Ship;
     }
 
-    this.roomNum = 0;
+    this.roomNum = 1;
+    this.userId = 2;
 
   }
 
@@ -241,6 +244,32 @@ export class GameboardSetupComponent implements OnInit {
         this.test[s.y][s.x+i] = "water";
       }
     }
+  }
+
+  Deploy(){
+    for(let i = 0; i < 5; i++){
+      if(this.ships[i].placed == false){
+        return;
+      }
+    }
+    for(let i = 0; i < 5; i++){
+      this.submitPlaceShip(i, this.ships[i]);
+    }
+    this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
+      response => {console.log(response["user1Id"])}
+    );
+  }
+
+  submitPlaceShip(shipId:number, pship:Ship){
+    this.BApi.PlaceShip(this.roomNum, this.userId, shipId, pship.x, pship.y, 0, pship.horizontal).subscribe(
+      response => {console.log(response.user1Id)}
+    );
+  }
+
+  tempSetUp(){
+    this.BApi.SetUp(1,2,3).subscribe(
+      response => {console.log(response["user1Id"])}
+    );
   }
 
 }
