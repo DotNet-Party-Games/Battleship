@@ -30,8 +30,6 @@ namespace BattleshipTest
         {
             Assert.True(TheNavy.OceanSize == OceanSize);
             Assert.True(TheNavy.Ships.Count == 5);
-            Assert.True(TheNavy.Ocean.Length == OceanSize*OceanSize * Levels);
-            Assert.True(TheNavy.EnemyOcean.Length == OceanSize*OceanSize * Levels);
             Assert.False(TheNavy.DestroyedNavy);
         }
 
@@ -87,8 +85,8 @@ namespace BattleshipTest
             {
                 foreach (Position position in ship.Positions)
                 {
-                    Assert.True(TheNavy.Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate]
-                        == Guess.Ship);
+                    Assert.True(TheNavy.Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate]
+                        == Guess.Ship || TheNavy.Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate] >= Guess.PatrolBoat1H);
                 }
             }
         }
@@ -101,20 +99,20 @@ namespace BattleshipTest
             Position p2 = new Position(1, 4, 0);
             Position p3 = new Position(5, 0, 0);
             Assert.True(TheNavy.IncomingAttack(p1) == Guess.Hit);
-            Assert.True(TheNavy.Ocean[p1.XCoordinate, p1.YCoordinate, p1.ZCoordinate] == Guess.Hit);
+            Assert.True(TheNavy.Ocean[p1.XCoordinate][p1.YCoordinate][p1.ZCoordinate] == Guess.Hit);
             Assert.True(TheNavy.IncomingAttack(p2) == Guess.DestroyedShip);
-            Assert.True(TheNavy.Ocean[p1.XCoordinate, p1.YCoordinate, p1.ZCoordinate] == Guess.DestroyedShip);
-            Assert.True(TheNavy.Ocean[p2.XCoordinate, p2.YCoordinate, p2.ZCoordinate] == Guess.DestroyedShip);
+            Assert.True(TheNavy.Ocean[p1.XCoordinate][p1.YCoordinate][p1.ZCoordinate] == Guess.DestroyedShip);
+            Assert.True(TheNavy.Ocean[p2.XCoordinate][p2.YCoordinate][p2.ZCoordinate] == Guess.DestroyedShip);
             Assert.True(TheNavy.IncomingAttack(p3) == Guess.Miss);
-            Assert.True(TheNavy.Ocean[p3.XCoordinate, p3.YCoordinate, p3.ZCoordinate] == Guess.Miss);
+            Assert.True(TheNavy.Ocean[p3.XCoordinate][p3.YCoordinate][p3.ZCoordinate] == Guess.Miss);
         }
 
         [Fact]
         public void OutgoingAttackTest()
         {
-            Assert.True(TheNavy.EnemyOcean[0, 0, 0] == Guess.Unknown);
+            Assert.True(TheNavy.EnemyOcean[0][0][0] == Guess.Unknown);
             TheNavy.OutgoingAttack(new Position(0, 0, 0), Guess.Hit);
-            Assert.True(TheNavy.EnemyOcean[0, 0, 0] == Guess.Hit);
+            Assert.True(TheNavy.EnemyOcean[0][0][0] == Guess.Hit);
         }
 
         [Fact]

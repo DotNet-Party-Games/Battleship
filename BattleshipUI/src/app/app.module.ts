@@ -8,6 +8,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +34,8 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { ProfileComponent } from './profile/profile.component';
+import { GameBoardComponent } from './game-board/game-board.component';
+import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,8 @@ import { ProfileComponent } from './profile/profile.component';
     LoginComponent,
     UserComponent,
     ProfileComponent
+    GameBoardComponent,
+    GameboardSetupComponent
   ],
   imports: [
       BrowserModule,
@@ -50,6 +56,7 @@ import { ProfileComponent } from './profile/profile.component';
       FormsModule,
       ReactiveFormsModule,
       BrowserAnimationsModule,
+      HttpClientModule,
       MatToolbarModule,
       MatInputModule,
       MatCardModule,

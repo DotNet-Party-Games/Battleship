@@ -13,7 +13,41 @@ namespace BattleshipModels
         Miss,           // A miss
         Ship,           // A ship segment that has not been hit
         DestroyedShip,  // A ship segment that is a part of a ship that has been destroyed
-        Water           // A space that is not a ship and has not been guessed
+        Water,          // A space that is not a ship and has not been guessed
+        PatrolBoat1H,   // The first position of a horizontal PatrolBoat
+        PatrolBoat2H,
+        PatrolBoat1V,   // The first position of a vertical PatrolBoat
+        PatrolBoat2V,
+        Submarine1H,
+        Submarine2H,
+        Submarine3H,
+        Submarine1V,
+        Submarine2V,
+        Submarine3V,
+        Destoyer1H,
+        Destoyer2H,
+        Destoyer3H,
+        Destoyer1V,
+        Destoyer2V,
+        Destoyer3V,
+        Battleship1H,
+        Battleship2H,
+        Battleship3H,
+        Battleship4H,
+        Battleship1V,
+        Battleship2V,
+        Battleship3V,
+        Battleship4V,
+        Carrier1H,
+        Carrier2H,
+        Carrier3H,
+        Carrier4H,
+        Carrier5H,
+        Carrier1V,
+        Carrier2V,
+        Carrier3V,
+        Carrier4V,
+        Carrier5V
     }
 
     /// <summary>
@@ -23,8 +57,8 @@ namespace BattleshipModels
     {
         public int OceanSize { get; set; }          // The size of the board
         public List<Ship> Ships { get; set; }       // The list of Ships in the navy
-        public Guess[,,] Ocean { get; set; }        // Guess array of every value in the player's ocean
-        public Guess[,,] EnemyOcean { get; set; }   // Guess array of every value in the player's enemy's ocean
+        public Guess[][][] Ocean { get; set; }        // Guess array of every value in the player's ocean
+        public Guess[][][] EnemyOcean { get; set; }   // Guess array of every value in the player's enemy's ocean
         public bool DestroyedNavy { get; set; }     // True if all ships in the navy are destroyed
         public int Levels { get; set; }             // Number of Z-levels on the board
 
@@ -44,18 +78,34 @@ namespace BattleshipModels
                 new Ship(3),
                 new Ship(2)
             };
-            Ocean = new Guess[OceanSize, OceanSize, Levels];
+            Ocean = new Guess[OceanSize][][];
+            for (int i = 0; i < OceanSize; i++)
+            {
+                Ocean[i] = new Guess[OceanSize][];
+                for (int z = 0; z < OceanSize; z++)
+                {
+                    Ocean[i][z] = new Guess[Levels];
+                }
+            }
             for (int y = 0; y < OceanSize; y++)
             {
                 for (int x = 0; x < OceanSize; x++)
                 {
                     for (int z = 0; z < Levels; z++)
                     {
-                        Ocean[x, y, z] = Guess.Water;
+                        Ocean[x][y][z] = Guess.Water;
                     }
                 }
             }
-            EnemyOcean = new Guess[OceanSize, OceanSize, Levels];
+            EnemyOcean = new Guess[OceanSize][][];
+            for (int i = 0; i < OceanSize; i++)
+            {
+                EnemyOcean[i] = new Guess[OceanSize][];
+                for (int z = 0; z < OceanSize; z++)
+                {
+                    EnemyOcean[i][z] = new Guess[Levels];
+                }
+            }
             DestroyedNavy = false;
         }
 
@@ -114,25 +164,97 @@ namespace BattleshipModels
             foreach (Ship ship in Ships)
             {
                 ship.DeployShip();
-                foreach (Position position in ship.Positions)
-                {
-                    Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = Guess.Ship;
-                }
             }
             if (CanBeDeployed())
             {
-                foreach (Ship ship in Ships)
-                {
-                    foreach (Position position in ship.Positions)
-                    {
-                        Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = Guess.Ship;
-                    }
-                }
+                PlaceShipSprites();
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        public void PlaceShipSprites()
+        {
+            // Placing the Carrier
+            Ship ship = Ships[0];
+            if (ship.Orientation == Orientation.Horizontal)
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Carrier1H;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Carrier2H;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Carrier3H;
+                Ocean[ship.Positions[3].XCoordinate][ship.Positions[3].YCoordinate][ship.Positions[3].ZCoordinate] = Guess.Carrier4H;
+                Ocean[ship.Positions[4].XCoordinate][ship.Positions[4].YCoordinate][ship.Positions[4].ZCoordinate] = Guess.Carrier5H;
+            }
+            else
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Carrier1V;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Carrier2V;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Carrier3V;
+                Ocean[ship.Positions[3].XCoordinate][ship.Positions[3].YCoordinate][ship.Positions[3].ZCoordinate] = Guess.Carrier4V;
+                Ocean[ship.Positions[4].XCoordinate][ship.Positions[4].YCoordinate][ship.Positions[4].ZCoordinate] = Guess.Carrier5V;
+            }
+
+            // Placing the Battleship
+            ship = Ships[1];
+            if (ship.Orientation == Orientation.Horizontal)
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Battleship1H;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Battleship2H;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Battleship3H;
+                Ocean[ship.Positions[3].XCoordinate][ship.Positions[3].YCoordinate][ship.Positions[3].ZCoordinate] = Guess.Battleship4H;
+            }
+            else
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Battleship1V;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Battleship2V;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Battleship3V;
+                Ocean[ship.Positions[3].XCoordinate][ship.Positions[3].YCoordinate][ship.Positions[3].ZCoordinate] = Guess.Battleship4V;
+            }
+
+            // Placing the Submarine
+            ship = Ships[2];
+            if (ship.Orientation == Orientation.Horizontal)
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Submarine1H;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Submarine2H;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Submarine3H;
+            }
+            else
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Submarine1V;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Submarine2V;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Submarine3V;
+            }
+
+            // Placing the Destroyer
+            ship = Ships[3];
+            if (ship.Orientation == Orientation.Horizontal)
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Destoyer1H;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Destoyer2H;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Destoyer3H;
+            }
+            else
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.Destoyer1V;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.Destoyer2V;
+                Ocean[ship.Positions[2].XCoordinate][ship.Positions[2].YCoordinate][ship.Positions[2].ZCoordinate] = Guess.Destoyer3V;
+            }
+
+            // Placing the PatrolBoat
+            ship = Ships[4];
+            if (ship.Orientation == Orientation.Horizontal)
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.PatrolBoat1H;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.PatrolBoat2H;
+            }
+            else
+            {
+                Ocean[ship.Positions[0].XCoordinate][ship.Positions[0].YCoordinate][ship.Positions[0].ZCoordinate] = Guess.PatrolBoat1V;
+                Ocean[ship.Positions[1].XCoordinate][ship.Positions[1].YCoordinate][ship.Positions[1].ZCoordinate] = Guess.PatrolBoat2V;
             }
         }
 
@@ -143,13 +265,13 @@ namespace BattleshipModels
         /// <returns>The Guess value of the square that was attacked</returns>
         public Guess IncomingAttack(Position position)
         {
-            Guess attacked = Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate];
+            Guess attacked = Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate];
             Guess returnValue = attacked;
             if (attacked == Guess.Water)
             {
                 returnValue = Guess.Miss;
             }
-            else if (attacked == Guess.Ship)
+            else if (attacked == Guess.Ship || attacked >= Guess.PatrolBoat1H)
             {
                 if (ShipWasHit(position))
                 {
@@ -160,7 +282,7 @@ namespace BattleshipModels
                     returnValue = Guess.Hit;
                 }
             }
-            Ocean[position.XCoordinate, position.YCoordinate, position.ZCoordinate] = returnValue;
+            Ocean[position.XCoordinate][position.YCoordinate][position.ZCoordinate] = returnValue;
             return returnValue;
         }
 
@@ -171,7 +293,7 @@ namespace BattleshipModels
         /// <param name="p_attack">The result of the attack</param>
         public void OutgoingAttack(Position p_position, Guess p_attack)
         {
-            EnemyOcean[p_position.XCoordinate, p_position.YCoordinate, p_position.ZCoordinate] = p_attack;
+            EnemyOcean[p_position.XCoordinate][p_position.YCoordinate][p_position.ZCoordinate] = p_attack;
         }
 
         /// <summary>
@@ -192,7 +314,7 @@ namespace BattleshipModels
                     {
                         foreach (Position pos in ship.Positions)
                         {
-                            Ocean[pos.XCoordinate, pos.YCoordinate, pos.ZCoordinate] = Guess.DestroyedShip;
+                            Ocean[pos.XCoordinate][pos.YCoordinate][pos.ZCoordinate] = Guess.DestroyedShip;
                         }
                         NavyDestroyed();
                     }

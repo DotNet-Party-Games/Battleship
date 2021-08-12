@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { UserComponent } from './user/user.component';
 import { ProfileComponent } from './profile/profile.component';
+import { GameBoardComponent } from './game-board/game-board.component';
+import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,14 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [ AuthGuard ]
+  },
+  {
+    path: 'gameboard',
+    component: GameBoardComponent,
+  },
+  {
+    path: 'gameboardsetup',
+    component: GameboardSetupComponent
   }
 ];
 

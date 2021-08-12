@@ -46,12 +46,11 @@ namespace BattleshipWebAPI
             services.AddScoped<IStatisticBL, StatisticBL>();
             services.AddScoped<IUserBL, UserBL>();
 
-            // Add CORS to allow browser agents to use api
+            //Configuring CORS in our web api to accept the local address in our Angular project
             services.AddCors(
                 (builder) => {
                     builder.AddDefaultPolicy((policy) =>
                     {
-                        // policy.WithOrigins("http://127.0.0.1:4200") 
                         policy.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200") //This is where you state the address that you want to trust
                             .AllowAnyHeader() //Allows any header
                             .AllowAnyMethod(); //Allows any http verb method
@@ -74,7 +73,6 @@ namespace BattleshipWebAPI
 
             app.UseRouting();
 
-            // Possible fix to persisting cors issue?
             app.UseCors(builder =>
                 // builder.WithOrigins("http://127.0.0.1:4200")
                 builder.WithOrigins("http://localhost:4200")
