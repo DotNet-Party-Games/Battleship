@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -11,52 +11,17 @@ import { AuthService } from '../auth.service';
 
 export class LoginComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl('')
-  });
-  public loginInvalid: boolean;
-  private formSubmitAttempt: boolean = false;
+  constructor(public auth:AuthService, @Inject(DOCUMENT) private document:Document) { }
 
-  private returnUrl: string = "";
+  async ngOnInit() { }
 
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService
-  ) {
-    this.loginInvalid = false;
+  login()
+  {
+    this.auth.loginWithRedirect();
   }
 
-  async ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/game';
-
-    this.form = this.fb.group({
-      email: ['', Validators.email],
-      password: ['', Validators.required]
-    });
-
-    if (await this.authService.checkAuthenticated()) {
-      await this.router.navigate([this.returnUrl]);
-    }
-  }
-
-  async onSubmit() {
-    this.loginInvalid = false;
-    this.formSubmitAttempt = false;
-    if (this.form.valid) {
-      try {
-        let email = this.form.get('email')?.value;
-        let password = this.form.get('password')?.value;
-        // const username = 'test';
-        // const password = 'password';
-        await this.authService.login(email, password);
-      } catch (err) {
-        this.loginInvalid = true;
-      }
-    } else {
-      this.formSubmitAttempt = true;
-    }
+  logout()
+  {
+    this.auth.logout({returnTo: this.document.location.origin})
   }
 }

@@ -3,22 +3,20 @@
     <button mat-button routerLink="/">{{title}}</button>
     <button mat-button routerLink="/"><mat-icon>home</mat-icon></button>
   </span>
+  <span mat-button *ngIf="auth.user$ | async as user">Hello, Admiral {{user.name}}! </span>
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-    <button mat-button routerLink="/login" *ngIf="!isAuthenticated">
-      <mat-icon>login</mat-icon>
-      Login
-    </button>
-    <button mat-button routerLink="/register" *ngIf="!isAuthenticated">
-      <mat-icon>person_add</mat-icon>
-      Register
-    </button>
-    <button mat-button *ngIf="isAuthenticated" (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      Logout
-    </button>
+    <app-login></app-login>
     <button mat-button routerLink="/game">
       <mat-icon>sports_esports</mat-icon>
       Play
+    </button>
+    <button mat-button routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
+      <mat-icon>account_circle</mat-icon>
+      Profile
+    </button>
+    <button mat-button routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
+      <mat-icon>supervisor_account</mat-icon>
+      Manage Users
     </button>
   </div>
   <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
@@ -34,17 +32,14 @@
     <mat-icon>sports_esports</mat-icon>
     Play
   </button>
-  <button mat-menu-item routerLink="/login" *ngIf="!isAuthenticated">
-    <mat-icon>login</mat-icon>
-    Login
+  <button mat-menu-item routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
+    <mat-icon>account_circle</mat-icon>
+      Profile
   </button>
-  <button mat-button routerLink="/register" *ngIf="!isAuthenticated">
-    <mat-icon>person_add</mat-icon>
-    Register
+  <button mat-menu-item routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
+    <mat-icon>supervisor_account</mat-icon>
+    Manage Users
   </button>
-  <button mat-menu-item *ngIf="isAuthenticated" (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    Logout
-  </button>
+  <app-login></app-login>
 </mat-menu>
 <router-outlet></router-outlet>
