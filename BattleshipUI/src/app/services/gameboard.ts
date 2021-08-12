@@ -5,10 +5,16 @@ export interface IGameboard{
 }
 
 export interface IGameAPI {
-    user1Id: number;
-    user2Id: number;
+    user1: IUser;
+    user2: IUser;
     user1Navy: INavy;
     user2Navy: INavy;
+    currentTurn: boolean;
+    winnerId: number;
+}
+
+export interface IUser {
+    userId: number;
 }
 
 export interface INavy {

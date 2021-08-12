@@ -1,7 +1,25 @@
 <head>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<p></p>
+<div>
+  <input type="number" [(ngModel)] ="roomNumber"/>
+  <input type="number" [(ngModel)] ="playerId"/>
+</div>
+<table align="center">
+  <tr>
+    <td align="center">
+      <ng-template [ngIf]="!isWinner">
+          <div *ngIf="turn; else elseBlock">Your Turn</div>
+          <ng-template #elseBlock>Enemy Turn</ng-template>
+      </ng-template>
+      <ng-template [ngIf]="isWinner">
+        <div>
+          Player {{winnerId}} Wins
+        </div>
+      </ng-template>
+    </td>
+  </tr>
+</table>
 <table align="center">
   <tbody>
     <tr>
