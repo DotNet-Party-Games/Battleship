@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { IUser } from './user';
 import { UserapiService } from '../userapi.service';
 import { MatSort } from '@angular/material/sort';
@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterViewInit {
 
   users: IUser[];
   displayedColumns: string[] = ['username', 'email', 'registerDate', 'edit', 'delete'];
@@ -38,8 +38,10 @@ export class UserComponent implements OnInit {
     this.UserApi.getAllUser().subscribe(
       (response) => {
         this.users = response;
+        this.dataSource = new MatTableDataSource(Array.from(this.users));
       }
     )
+    
   }
 
   applyFilter(event: Event) {

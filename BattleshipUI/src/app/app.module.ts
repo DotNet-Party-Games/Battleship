@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
@@ -65,6 +66,7 @@ import { ProfileComponent } from './profile/profile.component';
         domain: environment.domain,
         clientId: environment.clientId
       }),
+      MatSortModule
   ],
   providers: [
     {
