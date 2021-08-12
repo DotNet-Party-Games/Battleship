@@ -30,6 +30,7 @@ import { environment } from 'src/environments/environment';
 import { AuthModule } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     GameComponent,
     LoginComponent,
     LoginComponent,
-    UserComponent
+    UserComponent,
+    ProfileComponent
   ],
   imports: [
       BrowserModule,
@@ -62,7 +64,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
       AuthModule.forRoot({
         domain: environment.domain,
         clientId: environment.clientId
-      })
+      }),
   ],
   providers: [
     {

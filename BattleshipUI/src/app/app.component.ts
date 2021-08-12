@@ -7,11 +7,14 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent{
+export class AppComponent implements OnInit{
   title = 'Battleship';
   isAuthenticated: boolean = false;
 
   constructor(public auth: AuthService) { }
   
-  
+  ngOnInit(): void {
+    this.auth.user$.subscribe(
+    );
+  }
 }
