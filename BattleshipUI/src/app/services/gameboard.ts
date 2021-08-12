@@ -13,7 +13,7 @@ export interface IGameAPI {
 
 export interface INavy {
     ocean: number[][][];
-    enemyOcean: string[][][];
+    enemyOcean: number[][][];
     destroyedNavy: boolean;
 }
 
