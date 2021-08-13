@@ -34,10 +34,12 @@ const routes: Routes = [
   {
     path: 'gameboard',
     component: GameBoardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'gameboardsetup',
-    component: GameboardSetupComponent
+    component: GameboardSetupComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

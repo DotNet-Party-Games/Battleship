@@ -30,6 +30,12 @@ namespace BattleshipWebAPI.Controllers
             return Ok(_gameRooms.GetGameRoom(roomNumber).GameBoard);
         }
 
+        [HttpGet("reset")]
+        public IActionResult Reset(int roomNumber)
+        {
+            return Ok(_gameRooms.ResetGameRoom(roomNumber).GameBoard);
+        }
+
         /// <summary>
         /// Sets up a room's GameBoard to keep track of the users playing the game
         /// </summary>
