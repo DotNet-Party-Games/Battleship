@@ -1,5 +1,6 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { BattleshipAPIService } from '../services/battleship-api.service';
 import { Ship } from '../services/ship';
 
@@ -19,8 +20,10 @@ export class GameboardSetupComponent implements OnInit {
   ships: Ship[] = new Array(5);
   roomNum: number;
   userId: number;
+  opponentId: number;
+  shipsDeployed: boolean;
 
-  constructor(private BApi:BattleshipAPIService) { 
+  constructor(private BApi: BattleshipAPIService, public auth: AuthService) {
     this.height = new Array(10);
     this.width = new Array(10);
 
@@ -38,12 +41,32 @@ export class GameboardSetupComponent implements OnInit {
       this.ships[i] = new Ship;
     }
 
-    this.roomNum = 1;
+    this.roomNum = 0;
+    this.opponentId = 0;
     this.userId = 2;
+    this.shipsDeployed = false;
+    /*this.auth.idTokenClaims$.subscribe(
+      (response) => {
+        console.log(response);
+        if (response?.iat) {
+          this.userId = response.iat
+        }
+      }
+    );*/
 
   }
 
   ngOnInit(): void {
+  }
+
+  SetUpRoom() {
+    this.BApi.Reset(this.roomNum).subscribe(
+      (response) => {
+        this.BApi.SetUp(this.roomNum, this.userId, this.opponentId).subscribe(
+          response => { console.log(response["user1"]) }
+        );
+      }
+    )
   }
 
   select(i:number, j:number){
@@ -258,11 +281,12 @@ export class GameboardSetupComponent implements OnInit {
     this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
       response => {console.log(response["user1"])}
     );
+    this.shipsDeployed = true;
   }
 
   submitPlaceShip(shipId:number, pship:Ship){
     this.BApi.PlaceShip(this.roomNum, this.userId, shipId, pship.x, pship.y, 0, pship.horizontal).subscribe(
-      response => {console.log(response.user1)}
+      response => { console.log(response.user1) }
     );
   }
 
