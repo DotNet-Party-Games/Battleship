@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { IStatistic } from './statistic';
-import { StatisticapiService } from '../statisticapi.service';
+import { StatisticapiService } from '../services/statisticapi.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,9 +14,9 @@ export class ProfileComponent implements OnInit {
 
   constructor(public auth: AuthService, private statisticApi:StatisticapiService) {
     this.userStats = {
-      Wins: 0,
-      Losses: 0,
-      Ties: 0
+      wins: 0,
+      losses: 0,
+      ties: 0
     };
   }
 
