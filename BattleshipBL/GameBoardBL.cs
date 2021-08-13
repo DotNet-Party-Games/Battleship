@@ -30,6 +30,15 @@ namespace BattleshipBL
             }
             return gameRoom;
         }
+        
+        public IGameBoardBL ResetGameRoom(int roomId)
+        {
+            IGameBoardBL gameRoom;
+            GameBoards.Remove(roomId);
+            gameRoom = new GameBoardBL(new GameBoard(10));
+            GameBoards.Add(roomId, gameRoom);
+            return gameRoom;
+        }
     }
 
     public class GameBoardBL : IGameBoardBL
@@ -67,7 +76,7 @@ namespace BattleshipBL
             {
                 GameBoard.User1Navy.DeployShips();
             }
-            else
+            else if (GameBoard.User2.UserId == UserId)
             {
                 GameBoard.User2Navy.DeployShips();
             }
@@ -81,13 +90,21 @@ namespace BattleshipBL
             {
                 orientation = Orientation.Horizontal;
             }
-            if (GameBoard.User1.UserId == UserId)
+            try
             {
-                GameBoard.User1Navy.PlaceShip(GameBoard.User1Navy.Ships[shipId], position, orientation);
+                if (GameBoard.User1.UserId == UserId)
+                {
+                    GameBoard.User1Navy.PlaceShip(GameBoard.User1Navy.Ships[shipId], position, orientation);
+                }
+                else
+                {
+                    GameBoard.User2Navy.PlaceShip(GameBoard.User2Navy.Ships[shipId], position, orientation);
+                } 
             }
-            else
+            catch (Exception)
             {
-                GameBoard.User2Navy.PlaceShip(GameBoard.User2Navy.Ships[shipId], position, orientation);
+
+                throw;
             }
         }
     }

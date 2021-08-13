@@ -20,6 +20,13 @@ namespace BattleshipBL
         /// <returns>The GameBoardBL that corresponds to the roomId. If no entry matches the roomId creates a new entry with the roomId and 
         /// returns a new GameBoard</returns>
         public IGameBoardBL GetGameRoom(int roomId);
+
+        /// <summary>
+        /// Resets a GameRoom
+        /// </summary>
+        /// <param name="roomId">The id of the room to be reset</param>
+        /// <returns>A new GameBoard matching the roomId given</returns>
+        public IGameBoardBL ResetGameRoom(int roomId);
     }
 
     /// <summary>

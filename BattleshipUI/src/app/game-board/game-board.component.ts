@@ -1,4 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { IGameAPI, IGameboard, INavy } from '../services/gameboard';
 import { BattleshipAPIService } from '../services/battleship-api.service';
 
@@ -21,11 +22,18 @@ export class GameBoardComponent implements OnInit {
   isWinner: boolean;
   winnerId: number;
 
-  constructor(private GameApi: BattleshipAPIService) {
+  constructor(private GameApi: BattleshipAPIService, public auth: AuthService) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.roomNumber = 0;
-    this.playerId = -1;
+    this.playerId = 2
+    /*this.auth.idTokenClaims$.subscribe(
+      (response) => {
+        console.log(response);
+        if (response?.iat) {
+          this.playerId = response.iat
+        }
+      });*/
     this.winnerId = -1;
     this.isWinner = false;
     this.turn = false;

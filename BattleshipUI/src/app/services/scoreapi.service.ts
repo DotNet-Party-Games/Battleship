@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { IUser } from './user/user';
+import { IScore } from '../leaderboard/score';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserapiService {
+export class ScoreapiService {
 
   private url = "https://localhost:5001/api/"
-  // private auth0_url = "https://dev-j003fsv8.us.auth0.com/api/v2/"
   //private url = "https://battleship-tsw.azurewebsites.net/api/"
 
   constructor(private http: HttpClient) { }
 
-  getAllUser() : Observable<IUser[]>
-  {
-    return this.http.get<IUser[]>(this.url + "User");
-  }
-
-  // getAllUser() : Observable<IUser[]>
+  // getUserStats(userId: number) : Observable<IStatistic>
   // {
-  //   return this.http.get<IUser[]>(this.auth0_url + "users");
+  //   return this.http.get<IStatistic>(this.url + "Statistic" + "/get/" + userId.toString);
   // }
-
-  
+  getAllScores() : Observable<IScore[]>
+  {
+    return this.http.get<IScore[]>(this.url + "Score");
+  }
 }

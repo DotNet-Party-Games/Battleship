@@ -10,6 +10,7 @@ import { UserComponent } from './user/user.component';
 import { ProfileComponent } from './profile/profile.component';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 const routes: Routes = [
   {
@@ -34,10 +35,16 @@ const routes: Routes = [
   {
     path: 'gameboard',
     component: GameBoardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'gameboardsetup',
-    component: GameboardSetupComponent
+    component: GameboardSetupComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'leaderboard',
+    component: LeaderboardComponent
   }
 ];
 

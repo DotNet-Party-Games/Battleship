@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { IStatistic } from './profile/statistic';
+import { IStatistic } from '../profile/statistic';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,12 @@ export class StatisticapiService {
 
   constructor(private http: HttpClient) { }
 
+  // getUserStats(userId: number) : Observable<IStatistic>
+  // {
+  //   return this.http.get<IStatistic>(this.url + "Statistic" + "/get/" + userId.toString);
+  // }
   getUserStats() : Observable<IStatistic>
   {
-    return this.http.get<IStatistic>(this.url + "Statistic" + "/1");
+    return this.http.get<IStatistic>(this.url + "Statistic" + "/get/1");
   }
-  
 }
