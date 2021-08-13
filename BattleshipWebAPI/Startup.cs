@@ -51,7 +51,7 @@ namespace BattleshipWebAPI
                 (builder) => {
                     builder.AddDefaultPolicy((policy) =>
                     {
-                        policy.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200") //This is where you state the address that you want to trust
+                        policy.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200", "https://battleship-tsw-ui.azurewebsites.net/", "https://battleship-tsw.azurewebsites.net/") //This is where you state the address that you want to trust
                             .AllowAnyHeader() //Allows any header
                             .AllowAnyMethod(); //Allows any http verb method
                     });
@@ -74,8 +74,7 @@ namespace BattleshipWebAPI
             app.UseRouting();
 
             app.UseCors(builder =>
-                // builder.WithOrigins("http://127.0.0.1:4200")
-                builder.WithOrigins("http://localhost:4200")
+                builder.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200", "https://battleship-tsw-ui.azurewebsites.net/", "https://battleship-tsw.azurewebsites.net/")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials());
