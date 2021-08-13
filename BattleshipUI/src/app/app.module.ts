@@ -29,7 +29,6 @@ import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
 
-import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthModule } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -52,7 +51,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
     LoginComponent,
     LoginComponent,
     UserComponent,
-    ProfileComponent
+    ProfileComponent,
     GameBoardComponent,
     GameboardSetupComponent,
     RoomListComponent,
