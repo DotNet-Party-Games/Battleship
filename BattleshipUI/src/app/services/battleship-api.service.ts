@@ -8,7 +8,7 @@ import { IGameAPI } from './gameboard';
   providedIn: 'root'
 })
 export class BattleshipAPIService {
-  private url: string = "https://localhost:44317/api/";
+  private url: string = "https://battleship-tsw.azurewebsites.net/api/";
 
   constructor(private http: HttpClient) { }
 
@@ -41,6 +41,11 @@ export class BattleshipAPIService {
     });
     let param = new HttpParams().set('roomNumber', roomNumber).set('user1Id', user1Id).set('user2Id', user2Id);
     return this.http.put<IGameAPI>(this.url + "GameBoard/SetUp", setupBody, {params: param});
+  }
+
+  Reset(roomNumber: number): Observable<IGameAPI> {
+    let param = new HttpParams().set("roomNumber", roomNumber);
+    return this.http.get<IGameAPI>(this.url + "GameBoard/reset/", { params: param })
   }
 
   PlaceShip(roomNumber:number, userId:number, shipId:number, x:number, y:number, z:number, horizontal:boolean){
