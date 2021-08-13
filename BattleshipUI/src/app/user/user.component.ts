@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { IUser } from './user';
-import { UserapiService } from '../userapi.service';
+import { UserapiService } from '../services/userapi.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -15,11 +15,13 @@ export class UserComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['username', 'email', 'registerDate', 'edit', 'delete'];
   dataSource: MatTableDataSource<IUser>;
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatSort, { static: false }) set matSort(ms: MatSort) {
+    this.sort = ms;
+  }
 
   constructor(private UserApi:UserapiService) { 
     this.users = new Array<IUser>();
-    this.sort = new MatSort();
     this.dataSource = new MatTableDataSource();
   }
 
@@ -30,6 +32,8 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.sort.sortChange.subscribe(() => {
+    });
     this.dataSource.sort = this.sort;
   }
 
@@ -48,5 +52,4 @@ export class UserComponent implements OnInit, AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
 }
