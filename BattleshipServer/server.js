@@ -3,7 +3,15 @@ const app = require('express')();
 // creates a server using http?
 const http = require('http').Server(app);
 // connects socketio with express server?
-const io = require('socket.io')(http);
+// add cors
+const io = require('socket.io')(http, {
+    cors: {
+        origin:'http://localhost:4200',
+        methods: ["GET", "POST"],
+        transports: ['websocket', 'polling', 'flashsocket'],
+        credentials: true
+    }
+});
 
 // create a collection of rooms
 const rooms = {};

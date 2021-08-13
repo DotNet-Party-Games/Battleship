@@ -8,7 +8,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HttpClientModule } from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -52,7 +51,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
     LoginComponent,
     LoginComponent,
     UserComponent,
-    ProfileComponent
+    ProfileComponent,
     GameBoardComponent,
     GameboardSetupComponent,
     RoomListComponent,
