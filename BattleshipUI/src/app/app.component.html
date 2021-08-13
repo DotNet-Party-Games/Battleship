@@ -5,10 +5,14 @@
   </span>
   <span mat-button *ngIf="auth.user$ | async as user">Hello, Admiral {{user.name}}! </span>
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-    <app-login></app-login>
+    
     <button mat-button routerLink="/game">
       <mat-icon>sports_esports</mat-icon>
       Play
+    </button>
+    <button mat-button routerLink="/leaderboard">
+      <mat-icon>leaderboard</mat-icon>
+      Leaderboard
     </button>
     <button mat-button routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
       <mat-icon>account_circle</mat-icon>
@@ -18,6 +22,7 @@
       <mat-icon>supervisor_account</mat-icon>
       Manage Users
     </button>
+    <app-login></app-login>
   </div>
   <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
     <mat-icon>menu</mat-icon>
@@ -31,6 +36,10 @@
   <button mat-menu-item routerLink="/game">
     <mat-icon>sports_esports</mat-icon>
     Play
+  </button>
+  <button mat-menu-item routerLink="/leaderboard">
+    <mat-icon>leaderboard</mat-icon>
+    Leaderboard
   </button>
   <button mat-menu-item routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
     <mat-icon>account_circle</mat-icon>
