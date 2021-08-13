@@ -97,7 +97,9 @@ export class LeaderboardComponent implements OnInit, AfterViewInit {
   constructor(private ScoreApi:ScoreapiService) { 
     this.scores = new Array<IScore>();
     this.dataSource = new MatTableDataSource();
+    MOCK_DATA.sort((a, b) => (a.scoreValue > b.scoreValue) ? -1 : 1);
     this.mockDataSource = new MatTableDataSource(MOCK_DATA);
+    
   }
 
   ngOnInit(): void 
