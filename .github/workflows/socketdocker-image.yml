@@ -33,7 +33,7 @@ jobs:
           context: ./
           file: ./BattleshipServer/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/battleshipSocket:latest
+          tags: ${{ secrets.DOCKER_USER }}/battleshipsocket:latest
 
      - name: Image digest
        run: echo ${{ steps.docker_build.outputs.digest }}
