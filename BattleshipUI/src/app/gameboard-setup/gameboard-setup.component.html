@@ -39,11 +39,14 @@
     <div class="col">
       <p>{{selected[0]}},{{selected[1]}}</p>
       <button class="btn btn-primary" (click)="toggleVertical()">Rotate</button>
-      <img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
-      <img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
-      <img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
-      <img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
-      <img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')">
+      <img *ngIf="!isplaced(4)" src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
+      <img *ngIf="!isplaced(3)" src="../../assets/Submarine.png" (click)="selectShip('submarine')">
+      <img *ngIf="!isplaced(2)" src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
+
+      <img *ngIf="!isplaced(1)" src="../../assets/Battleship.png" (click)="selectShip('battleship')">
+
+      <img *ngIf="!isplaced(0)" src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')">
+
     </div>
   </div>
 </div>

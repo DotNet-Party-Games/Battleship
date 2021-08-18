@@ -238,6 +238,14 @@ export class GameboardSetupComponent implements OnInit {
     }
   }
 
+  isplaced(ship:number){
+    if(this.ships[ship].placed){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   checkForSpace(size:number){
     for(let i = 0; i < size; i++){
       if(this.isVertical == true){
