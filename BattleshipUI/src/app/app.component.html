@@ -5,22 +5,13 @@
   </span>
   <span mat-button *ngIf="auth.user$ | async as user">Hello, Admiral {{user.name}}! </span>
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-    
     <button mat-button routerLink="/game">
+      <mat-icon>chat</mat-icon>
+      Chatroom
+    </button>
+    <button mat-button routerLink="/gameboardsetup">
       <mat-icon>sports_esports</mat-icon>
       Play
-    </button>
-    <button mat-button routerLink="/leaderboard">
-      <mat-icon>leaderboard</mat-icon>
-      Leaderboard
-    </button>
-    <button mat-button routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
-      <mat-icon>account_circle</mat-icon>
-      Profile
-    </button>
-    <button mat-button routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
-      <mat-icon>supervisor_account</mat-icon>
-      Manage Users
     </button>
     <app-login></app-login>
   </div>
@@ -34,20 +25,12 @@
     Home
   </button>
   <button mat-menu-item routerLink="/game">
+    <mat-icon>chat</mat-icon>
+    Chatroom
+  </button>
+  <button mat-menu-item routerLink="/gameboardsetup">
     <mat-icon>sports_esports</mat-icon>
     Play
-  </button>
-  <button mat-menu-item routerLink="/leaderboard">
-    <mat-icon>leaderboard</mat-icon>
-    Leaderboard
-  </button>
-  <button mat-menu-item routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
-    <mat-icon>account_circle</mat-icon>
-      Profile
-  </button>
-  <button mat-menu-item routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
-    <mat-icon>supervisor_account</mat-icon>
-    Manage Users
   </button>
   <app-login></app-login>
 </mat-menu>

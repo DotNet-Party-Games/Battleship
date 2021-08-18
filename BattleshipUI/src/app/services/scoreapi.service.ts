@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { IScore } from '../leaderboard/score';
+// import { IScore } from '../leaderboard/score';
+
+export interface IScore
+{
+  userId: string,
+  scoreValue: number,
+  gameTime: Date
+}
 
 @Injectable({
   providedIn: 'root'

@@ -27,19 +27,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
-import { UserComponent } from './user/user.component';
 
 import { environment } from 'src/environments/environment';
 import { AuthModule } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
-import { ProfileComponent } from './profile/profile.component';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { RoomComponent } from './room/room.component';
 import { ChatComponent } from './chat/chat.component';
-import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 // creates configuration for module to operate off?
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
@@ -50,14 +47,11 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
     HomeComponent,
     GameComponent,
     LoginComponent,
-    UserComponent,
-    ProfileComponent,
     GameBoardComponent,
     GameboardSetupComponent,
     RoomListComponent,
     RoomComponent,
-    ChatComponent,
-    LeaderboardComponent
+    ChatComponent
   ],
   imports: [
       BrowserModule,

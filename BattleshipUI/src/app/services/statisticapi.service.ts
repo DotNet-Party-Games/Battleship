@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { IStatistic } from '../profile/statistic';
+
+export interface IStatistic 
+{
+  wins: number,
+  losses: number,
+  ties: number,
+  userId: string
+}
 
 @Injectable({
   providedIn: 'root'
