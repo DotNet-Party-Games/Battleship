@@ -1,7 +1,9 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
-import { IGameAPI, IGameboard, INavy } from '../services/gameboard';
-import { BattleshipAPIService } from '../services/battleship-api.service';
+import { Component, Input, OnInit} from '@angular/core';
+import { INavy, IShot } from '../services/gameboard';
+import { GameStateService } from '../services/gamestate.service';
+import { Subscription } from 'rxjs';
+import { IUser } from '../user/user';
+import { InteractivityChecker } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-game-board',
@@ -10,99 +12,89 @@ import { BattleshipAPIService } from '../services/battleship-api.service';
 })
 export class GameBoardComponent implements OnInit {
 
+  @Input()
+  playerName: IUser;
+  @Input()
+  playerOcean: INavy = new INavy;
+
   width: number[];
   height: number[];
-  roomNumber: number;
-  playerId: number;
-  ocean: string[][][] = new Array(10);
-  enemyOcean: string[][][] = new Array(10);
-  selected: number[] = new Array(2);
-  GameBoard: IGameAPI[];
+  enemyName: IUser;
+  enemyOcean: INavy = new INavy;
+  PlayerBoardUpdate: INavy = new INavy;
+  statusMessage: string;
   turn: boolean;
-  isWinner: boolean;
-  winnerId: number;
+  _room: Subscription;
 
-  constructor(private GameApi: BattleshipAPIService, public auth: AuthService) {
+  constructor(private socket:GameStateService) {
     this.width = new Array(10);
     this.height = new Array(10);
-    this.roomNumber = 0;
-    this.playerId = 2
-    /*this.auth.idTokenClaims$.subscribe(
-      (response) => {
-        console.log(response);
-        if (response?.iat) {
-          this.playerId = response.iat
-        }
-      });*/
-    this.winnerId = -1;
-    this.isWinner = false;
     this.turn = false;
-
-    for (let i = 0; i < 10; i++) {
-      this.ocean[i] = new Array(10);
-      this.enemyOcean[i] = new Array(10);
-      for (let j = 0; j < 10; j++) {
-        this.ocean[i][j] = new Array(2);
-        this.enemyOcean[i][j] = new Array(2);
-        this.ocean[i][j][0] = "water";
-        this.enemyOcean[i][j][0] = "water";
-      }
-    }
-    this.selected[0] = 0;
-    this.selected[1] = 0;
-    this.GameBoard = new Array(1);
-    setInterval(() => { this.GetGameBoard(this.roomNumber) }, 1 * 1000);
   }
 
   ngOnInit(): void {
-    this.GetGameBoard(this.roomNumber);
-  }
-
-  GetGameBoard(roomId: number) {
-    if (this.winnerId != -1) {
-      this.isWinner = true;
-    }
-
-    this.GameApi.GetGameBoard(roomId).subscribe(
-      (response) => {
-        this.GameBoard[0] = response;
-        this.winnerId = this.GameBoard[0].winnerId;
-
-        if (this.GameBoard[0].currentTurn) {
-          console.log([this.GameBoard[0].user1.userId == this.playerId, this.GameBoard[0].user1.userId, this.playerId]);
-          this.turn = this.GameBoard[0].user1.userId == this.playerId;
-        }
-        else {
-          this.turn = this.GameBoard[0].user2.userId == this.playerId;
-        }
-
-        if (this.GameBoard[0].user1.userId == this.playerId) {
-          this.InterpretOcean(this.GameBoard[0].user1Navy.ocean, this.ocean);
-          this.InterpretOcean(this.GameBoard[0].user1Navy.enemyOcean, this.enemyOcean);
-        }
-        else {
-          this.InterpretOcean(this.GameBoard[0].user2Navy.ocean, this.ocean);
-          this.InterpretOcean(this.GameBoard[0].user2Navy.enemyOcean, this.enemyOcean);
-        }
-      }
-    );
+    this.Seed();
+    this._room = this.socket.currentTurn.subscribe(turn=>this.turn = turn);
+    this.socket.startingNavy = this.PlayerBoardUpdate;
+    this.socket.SendPlayerBoard(this.PlayerBoardUpdate);
+    this._room = this.socket.playerBoardUpdate.subscribe(shot=>this.PlayerBoardUpdate = shot);
+    this._room = this.socket.enemyName.subscribe(enemy=>this.enemyName.userName = enemy);
+    this._room = this.socket.enemyFleet.subscribe(board=>this.enemyOcean = board);
+    this._room = this.socket.statusMessage.subscribe(mess=>this.statusMessage=mess);
+    
+    console.log(this.PlayerBoardUpdate.ocean);
+    console.log(this.enemyOcean.ocean);
+    // this.socket.UpdateNames(this.playerName.userName);
   }
 
   Attack(x: number, y: number, z: number) {
-    if (this.turn) {
-      this.GameApi.Attack(this.roomNumber, this.playerId, x, y, z).subscribe(
-        (response) => {
-          this.GameBoard[0] = response;
-          if (this.GameBoard[0].user1.userId == this.playerId) {
-            this.InterpretOcean(this.GameBoard[0].user1Navy.ocean, this.ocean);
-            this.InterpretOcean(this.GameBoard[0].user1Navy.enemyOcean, this.enemyOcean);
-          }
-          else {
-            this.InterpretOcean(this.GameBoard[0].user2Navy.ocean, this.ocean);
-            this.InterpretOcean(this.GameBoard[0].user2Navy.enemyOcean, this.enemyOcean);
-          }
-        }
-      );
+    if (this.turn){
+      let message:string;
+      console.log(x+y+z);
+      console.log(this.enemyOcean.ocean[x][y][z]);
+      if(this.enemyOcean.ocean[x][y][z]>5){
+        // message = this.playerName.userName + " Hit " + this.enemyName.userName;
+        this.enemyOcean.ocean[x][y][z] = 1;
+        this.enemyOcean.oceanLegend[x][y][z] = "hit";
+        console.log("Hit");
+        this.socket.SendShot(this.enemyOcean, message);
+      } else if(this.enemyOcean.ocean[x][y][z] == 0){
+        // message = this.playerName.userName + " Missed " + this.enemyName.userName;
+        this.enemyOcean.ocean[x][y][z] = 2;
+        this.enemyOcean.oceanLegend[x][y][z] = "miss";
+        this.socket.SendShot(this.enemyOcean, message);
+      }
+      
+    }
+  }
+
+  Seed(){
+    this.PlayerBoardUpdate.ocean = new Array(10);
+    this.PlayerBoardUpdate.oceanLegend = new Array(10);
+
+    this.enemyOcean.ocean = new Array(10);
+    this.enemyOcean.oceanLegend = new Array(10);
+    for (let i = 0; i < 10; i ++) {
+      this.PlayerBoardUpdate.ocean[i] = new Array(10);
+      this.PlayerBoardUpdate.oceanLegend[i] = new Array(10);
+
+      this.enemyOcean.ocean[i] = new Array(10);
+      this.enemyOcean.oceanLegend[i] = new Array(10);
+
+      for(let j = 0; j < 10; j ++) {
+
+        this.PlayerBoardUpdate.ocean[i][j] = new Array(2);
+        this.PlayerBoardUpdate.oceanLegend[i][j] = new Array(2);
+
+        this.enemyOcean.ocean[i][j] = new Array(2);
+        this.enemyOcean.oceanLegend[i][j] = new Array(2);
+
+        this.PlayerBoardUpdate.ocean[i][j][0] = 0;
+        this.PlayerBoardUpdate.oceanLegend[i][j][0] = "water";
+
+        this.enemyOcean.ocean[i][j][0] = 8;
+        this.enemyOcean.oceanLegend[i][j][0] = "patrolboat1";
+      }
     }
   }
 
@@ -120,7 +112,7 @@ export class GameBoardComponent implements OnInit {
             baseOcean[i][j][0] = "miss";
             break;
           case 3:
-            baseOcean[i][j][0] = "destroyer2";
+            baseOcean[i][j][0] = "destroyed";
             break;
           case 4:
             baseOcean[i][j][0] = "destroyed";

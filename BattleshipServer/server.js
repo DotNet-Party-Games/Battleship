@@ -13,7 +13,7 @@ const messages = [];
 // logic for when a socket connects to the server
 // server event listener
 io.on('connection', socket => {
-    let previousRoomId;
+    let previousRoomId = 5;
 
     // create a way to joins rooms
     const safeJoin = currentRoomId => {
@@ -48,6 +48,31 @@ io.on('connection', socket => {
         console.log(messages);
         io.emit('get message', Object.keys(messages));
         socket.emit('see message', msg);
+    });
+
+
+    socket.on('send player board to opponent', (data)=> {
+        socket.broadcast.emit('enemy fleet', data);
+        console.log(data.ocean);
+    });
+
+    socket.on('send shot', (data)=>{
+        socket.broadcast.emit('enemy shoots',data);
+        socket.broadcast.emit('turn change', true)
+        socket.emit("turn change",false);
+    });
+
+    socket.on('status message', (data)=>{
+        socket.to(previousRoomId).emit('status message', data);
+    });
+
+    socket.on('update name', (data)=>{
+        socket.to(previousRoomId).emit('enemy name', data);
+    })
+
+    socket.on('test board', data =>{
+        console.log("Board Test");
+        io.emit('enemy shoots', data);
     });
 
     // broadcast call rooms and sockets that have connected
