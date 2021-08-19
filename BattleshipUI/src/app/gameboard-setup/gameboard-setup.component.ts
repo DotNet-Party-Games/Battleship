@@ -1,8 +1,10 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { BattleshipAPIService } from '../services/battleship-api.service';
 import { BattleshipDeployService } from '../services/battleship-deploy.service';
+import { RoomService } from '../services/room.service';
 import { Ship } from '../services/ship';
 
 @Component({
@@ -23,8 +25,9 @@ export class GameboardSetupComponent implements OnInit {
   userId: number;
   opponentId: number;
   shipsDeployed: boolean;
+  roomId:string;
 
-  constructor(private BApi: BattleshipAPIService, public auth: AuthService, private deploy:BattleshipDeployService) {
+  constructor(private BApi: BattleshipAPIService, public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService) {
     this.height = new Array(10);
     this.width = new Array(10);
 
@@ -42,7 +45,7 @@ export class GameboardSetupComponent implements OnInit {
       this.ships[i] = new Ship;
     }
 
-    this.roomNum = 0;
+    this.deploy.roomnum.subscribe(response=> this.roomNum=response);
     this.opponentId = 0;
     this.userId = 2;
     this.shipsDeployed = false;
@@ -58,9 +61,9 @@ export class GameboardSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.roomservice.currentRoom.subscribe(response => {this.roomNum= parseInt(response.id), console.log("Room num: "+response.id)});
   }
-
-  SetUpRoom() {
+/*   SetUpRoom() {
     this.BApi.Reset(this.roomNum).subscribe(
       (response) => {
         this.BApi.SetUp(this.roomNum, this.userId, this.opponentId).subscribe(
@@ -68,7 +71,7 @@ export class GameboardSetupComponent implements OnInit {
         );
       }
     )
-  }
+  } */
 
   select(i:number, j:number){
     this.selected[0] = i;
@@ -238,6 +241,32 @@ export class GameboardSetupComponent implements OnInit {
       }   
     }
   }
+  resetShip(ship:string){
+    switch(ship){
+      case "patrolboat":
+        this.clearShip(this.ships[4], 2);
+        this.ships[4].placed=false;
+        break;
+      case "submarine":
+        this.clearShip(this.ships[3], 3);
+        this.ships[3].placed=false;
+        break;
+      case "destroyer":
+        this.clearShip(this.ships[2], 3);
+        this.ships[2].placed=false;
+        break;
+      case "battleship":
+        this.clearShip(this.ships[1], 4);
+        this.ships[1].placed=false;
+        break;
+      case "aircraftcarrier":
+        this.clearShip(this.ships[0], 5);
+        this.ships[0].placed=false;
+        break;
+      default:
+        break;
+    }
+  }
 
   isplaced(ship:number){
     if(this.ships[ship].placed){
@@ -308,9 +337,11 @@ export class GameboardSetupComponent implements OnInit {
   sendtoserver(){
     //do i need to send room number as well?
     this.deploy.sendboard(this.ships, this.roomNum, this.userId);
+    console.log(this.ships, this.roomNum, this.userId)
   }
   LeaveRoom(){
     this.deploy.leaveRoom();
+    this.router.navigate(["/game"]);
   }
 
 }

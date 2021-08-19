@@ -3,10 +3,10 @@
 </head>
 <div>
   <div>
-    <label>Room Number</label>
+<!--     <label>Room Number</label>
   </div>
   <input type="number" [(ngModel)]="roomNum" />
-</div>
+</div> -->
 <div>
   <div>
     <label>Your Id </label>
@@ -19,7 +19,7 @@
   </div>
   <input type="number" [(ngModel)]="opponentId" />
 </div>
-<button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button>
+<!-- <button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button> -->
 <button class="btn btn-primary" (click)="Deploy()">Deploy Ships</button>
 <button class ="btn btn-primary" (click)="LeaveRoom()">Leave Room</button>
 <ng-template [ngIf]="shipsDeployed">
@@ -40,15 +40,41 @@
     <div class="col">
       <p>{{selected[0]}},{{selected[1]}}</p>
       <button class="btn btn-primary" (click)="toggleVertical()">Rotate</button>
+      <br>
       <img *ngIf="!isplaced(4)" src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
-<!--       <button *ngIf="isplaced(4)" (click)="clearShip">Clear Patrol Boat</button> -->
+
+      <div *ngIf="isplaced(4)">
+        <button (click)="resetShip('patrolboat')">Clear Patrol Boat</button>
+        <br>
+      </div>
+
       <img *ngIf="!isplaced(3)" src="../../assets/Submarine.png" (click)="selectShip('submarine')">
+
+      <div *ngIf="isplaced(3)" >
+        <button (click)="resetShip('submarine')">Clear Submarine</button>
+        <br>
+      </div>
+
       <img *ngIf="!isplaced(2)" src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
+
+      <div *ngIf="isplaced(2)">
+        <button  (click)="resetShip('destroyer')"> Clear Destroyer</button>
+        <br>
+      </div>
 
       <img *ngIf="!isplaced(1)" src="../../assets/Battleship.png" (click)="selectShip('battleship')">
 
+      <div *ngIf="isplaced(1)">
+        <button  (click)="resetShip('battleship')"> Clear Battleship</button>
+        <br>
+      </div>
+
       <img *ngIf="!isplaced(0)" src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')">
 
+      <div *ngIf="isplaced(0)">
+        <button  (click)="resetShip('aircraftcarrier')">Clear Aircraft Carrier</button>
+        <br>
+      </div>
     </div>
   </div>
 </div>
