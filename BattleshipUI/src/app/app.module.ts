@@ -40,6 +40,7 @@ import { RoomListComponent } from './room-list/room-list.component';
 import { RoomComponent } from './room/room.component';
 import { ChatComponent } from './chat/chat.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { BattleshipDeployComponent } from './app/services/battleship-deploy/battleship-deploy.component';
 
 // creates configuration for module to operate off?
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
@@ -57,7 +58,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
     RoomListComponent,
     RoomComponent,
     ChatComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
+    BattleshipDeployComponent
   ],
   imports: [
       BrowserModule,

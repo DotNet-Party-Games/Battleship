@@ -21,6 +21,7 @@
 </div>
 <button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button>
 <button class="btn btn-primary" (click)="Deploy()">Deploy Ships</button>
+<button class ="btn btn-primary" (click)="LeaveRoom()">Leave Room</button>
 <ng-template [ngIf]="shipsDeployed">
   <button class="btn btn-danger" routerLink="/gameboard">Advance</button>
 </ng-template>
@@ -40,6 +41,7 @@
       <p>{{selected[0]}},{{selected[1]}}</p>
       <button class="btn btn-primary" (click)="toggleVertical()">Rotate</button>
       <img *ngIf="!isplaced(4)" src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
+<!--       <button *ngIf="isplaced(4)" (click)="clearShip">Clear Patrol Boat</button> -->
       <img *ngIf="!isplaced(3)" src="../../assets/Submarine.png" (click)="selectShip('submarine')">
       <img *ngIf="!isplaced(2)" src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
 

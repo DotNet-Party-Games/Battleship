@@ -2,6 +2,7 @@ import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { BattleshipAPIService } from '../services/battleship-api.service';
+import { BattleshipDeployService } from '../services/battleship-deploy.service';
 import { Ship } from '../services/ship';
 
 @Component({
@@ -23,7 +24,7 @@ export class GameboardSetupComponent implements OnInit {
   opponentId: number;
   shipsDeployed: boolean;
 
-  constructor(private BApi: BattleshipAPIService, public auth: AuthService) {
+  constructor(private BApi: BattleshipAPIService, public auth: AuthService, private deploy:BattleshipDeployService) {
     this.height = new Array(10);
     this.width = new Array(10);
 
@@ -283,25 +284,33 @@ export class GameboardSetupComponent implements OnInit {
         return;
       }
     }
-    for(let i = 0; i < 5; i++){
+/*     for(let i = 0; i < 5; i++){
       this.submitPlaceShip(i, this.ships[i]);
-    }
-    this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
+    } */
+/*     this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
       response => {console.log(response["user1"])}
-    );
+    ); */
     this.shipsDeployed = true;
+    this.sendtoserver();
   }
 
-  submitPlaceShip(shipId:number, pship:Ship){
+/*   submitPlaceShip(shipId:number, pship:Ship){
     this.BApi.PlaceShip(this.roomNum, this.userId, shipId, pship.x, pship.y, 0, pship.horizontal).subscribe(
       response => { console.log(response.user1) }
     );
-  }
+  } */
 
-  tempSetUp(){
+/*   tempSetUp(){
     this.BApi.SetUp(1,2,3).subscribe(
       response => {console.log(response["user1"])}
     );
+  } */
+  sendtoserver(){
+    //do i need to send room number as well?
+    this.deploy.sendboard(this.ships, this.roomNum, this.userId);
+  }
+  LeaveRoom(){
+    this.deploy.leaveRoom();
   }
 
 }
