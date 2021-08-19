@@ -11,6 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { RoomListComponent } from './room-list/room-list.component';
 
 const routes: Routes = [
   {
@@ -45,7 +46,7 @@ const routes: Routes = [
   {
     path: 'leaderboard',
     component: LeaderboardComponent
-  }
+  }, 
 ];
 
 @NgModule({

@@ -1,7 +1,10 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { BattleshipAPIService } from '../services/battleship-api.service';
+import { BattleshipDeployService } from '../services/battleship-deploy.service';
+import { RoomService } from '../services/room.service';
 import { Ship } from '../services/ship';
 
 @Component({
@@ -22,8 +25,9 @@ export class GameboardSetupComponent implements OnInit {
   userId: number;
   opponentId: number;
   shipsDeployed: boolean;
+  roomId:string;
 
-  constructor(private BApi: BattleshipAPIService, public auth: AuthService) {
+  constructor(private BApi: BattleshipAPIService, public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService) {
     this.height = new Array(10);
     this.width = new Array(10);
 
@@ -41,7 +45,7 @@ export class GameboardSetupComponent implements OnInit {
       this.ships[i] = new Ship;
     }
 
-    this.roomNum = 0;
+    this.deploy.roomnum.subscribe(response=> this.roomNum=response);
     this.opponentId = 0;
     this.userId = 2;
     this.shipsDeployed = false;
@@ -57,9 +61,9 @@ export class GameboardSetupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.roomservice.currentRoom.subscribe(response => {this.roomNum= parseInt(response.id), console.log("Room num: "+response.id)});
   }
-
-  SetUpRoom() {
+/*   SetUpRoom() {
     this.BApi.Reset(this.roomNum).subscribe(
       (response) => {
         this.BApi.SetUp(this.roomNum, this.userId, this.opponentId).subscribe(
@@ -67,7 +71,7 @@ export class GameboardSetupComponent implements OnInit {
         );
       }
     )
-  }
+  } */
 
   select(i:number, j:number){
     this.selected[0] = i;
@@ -237,7 +241,41 @@ export class GameboardSetupComponent implements OnInit {
       }   
     }
   }
+  resetShip(ship:string){
+    switch(ship){
+      case "patrolboat":
+        this.clearShip(this.ships[4], 2);
+        this.ships[4].placed=false;
+        break;
+      case "submarine":
+        this.clearShip(this.ships[3], 3);
+        this.ships[3].placed=false;
+        break;
+      case "destroyer":
+        this.clearShip(this.ships[2], 3);
+        this.ships[2].placed=false;
+        break;
+      case "battleship":
+        this.clearShip(this.ships[1], 4);
+        this.ships[1].placed=false;
+        break;
+      case "aircraftcarrier":
+        this.clearShip(this.ships[0], 5);
+        this.ships[0].placed=false;
+        break;
+      default:
+        break;
+    }
+  }
 
+  isplaced(ship:number){
+    if(this.ships[ship].placed){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   checkForSpace(size:number){
     for(let i = 0; i < size; i++){
       if(this.isVertical == true){
@@ -275,25 +313,35 @@ export class GameboardSetupComponent implements OnInit {
         return;
       }
     }
-    for(let i = 0; i < 5; i++){
+/*     for(let i = 0; i < 5; i++){
       this.submitPlaceShip(i, this.ships[i]);
-    }
-    this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
+    } */
+/*     this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
       response => {console.log(response["user1"])}
-    );
+    ); */
     this.shipsDeployed = true;
+    this.sendtoserver();
   }
 
-  submitPlaceShip(shipId:number, pship:Ship){
+/*   submitPlaceShip(shipId:number, pship:Ship){
     this.BApi.PlaceShip(this.roomNum, this.userId, shipId, pship.x, pship.y, 0, pship.horizontal).subscribe(
       response => { console.log(response.user1) }
     );
-  }
+  } */
 
-  tempSetUp(){
+/*   tempSetUp(){
     this.BApi.SetUp(1,2,3).subscribe(
       response => {console.log(response["user1"])}
     );
+  } */
+  sendtoserver(){
+    //do i need to send room number as well?
+    this.deploy.sendboard(this.ships, this.roomNum, this.userId);
+    console.log(this.ships, this.roomNum, this.userId)
+  }
+  LeaveRoom(){
+    this.deploy.leaveRoom();
+    this.router.navigate(["/game"]);
   }
 
 }

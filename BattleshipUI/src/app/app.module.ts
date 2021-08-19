@@ -41,6 +41,7 @@ import { RoomComponent } from './room/room.component';
 import { ChatComponent } from './chat/chat.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
+
 // creates configuration for module to operate off?
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
 
@@ -57,7 +58,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
     RoomListComponent,
     RoomComponent,
     ChatComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
   ],
   imports: [
       BrowserModule,
