@@ -4,23 +4,21 @@ export interface IGameboard{
     
 }
 
-export interface IGameAPI {
-    user1: IUser;
-    user2: IUser;
-    user1Navy: INavy;
-    user2Navy: INavy;
-    currentTurn: boolean;
-    winnerId: number;
-}
-
 export interface IUser {
-    userId: number;
+    userName: string;
 }
 
-export interface INavy {
+export class INavy {
     ocean: number[][][];
-    enemyOcean: number[][][];
-    destroyedNavy: boolean;
+    oceanLegend: string[][][];
+}
+
+export interface IShot {
+    x: number;
+    y: number;
+    z: number;
+    state: number;
+    stateLegend: string;
 }
 
 export enum Tile{

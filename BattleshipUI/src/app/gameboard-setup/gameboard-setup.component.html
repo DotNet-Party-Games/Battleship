@@ -31,8 +31,8 @@
     <div class="col-6">
       <table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
         <tbody>
-          <tr *ngFor="let row of height; let i = index">
-            <td *ngFor="let col of width; let j = index" class="{{test[i][j]}}" (click)="select(i,j)">{{i}},{{j}}</td>
+          <tr *ngFor="let row of height; let j = index">
+            <td *ngFor="let col of width; let i = index" class="{{test[i][j][0]}}" (click)="select(i,j)">{{i}},{{j}}</td>
           </tr>
         </tbody>
       </table>
