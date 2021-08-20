@@ -27,11 +27,11 @@ td {
     background-image: url("../../assets/PatrolBoat2.png");
   }
 
-  td.patrolboat1H {
+  td.patrolboatr1 {
     background-image: url("../../assets/PatrolBoatR1.png");
   }
 
-  td.patrolboat2H {
+  td.patrolboatr2 {
     background-image: url("../../assets/PatrolBoatR2.png");
   }
 
@@ -47,15 +47,15 @@ td {
     background-image: url("../../assets/Submarine3.png");
   }
 
-  td.submarine1H {
+  td.submariner1 {
     background-image: url("../../assets/SubmarineR1.png");
   }
 
-  td.submarine2H {
+  td.submariner2 {
     background-image: url("../../assets/SubmarineR2.png");
   }
 
-  td.submarine3H {
+  td.submariner3 {
     background-image: url("../../assets/SubmarineR3.png");
   }
 
@@ -71,15 +71,15 @@ td {
     background-image: url("../../assets/Destroyer3.png");
   }
 
-  td.destroyer1H {
+  td.destroyerr1 {
     background-image: url("../../assets/DestroyerR1.png");
   }
 
-  td.destroyer2H {
+  td.destroyerr2 {
     background-image: url("../../assets/DestroyerR2.png");
   }
 
-  td.destroyer3H {
+  td.destroyerr3 {
     background-image: url("../../assets/DestroyerR3.png");
   }
 
@@ -99,19 +99,19 @@ td {
     background-image: url("../../assets/Battleship4.png");
   }
 
-  td.battleship1H {
+  td.battleshipr1 {
     background-image: url("../../assets/BattleshipR1.png");
   }
 
-  td.battleship2H {
+  td.battleshipr2 {
     background-image: url("../../assets/BattleshipR2.png");
   }
 
-  td.battleship3H {
+  td.battleshipr3 {
     background-image: url("../../assets/BattleshipR3.png");
   }
 
-  td.battleship4H {
+  td.battleshipr4 {
     background-image: url("../../assets/BattleshipR4.png");
   }
 
@@ -135,22 +135,22 @@ td {
     background-image: url("../../assets/AircraftCarrier5.png");
   }
 
-  td.aircraftcarrier1H {
+  td.aircraftcarrierr1 {
     background-image: url("../../assets/AircraftCarrierR1.png");
   }
 
-  td.aircraftcarrier2H {
+  td.aircraftcarrierr2 {
     background-image: url("../../assets/AircraftCarrierR2.png");
   }
 
-  td.aircraftcarrier3H {
+  td.aircraftcarrierr3 {
     background-image: url("../../assets/AircraftCarrierR3.png");
   }
 
-  td.aircraftcarrier4H {
+  td.aircraftcarrierr4 {
     background-image: url("../../assets/AircraftCarrierR4.png");
   }
 
-  td.aircraftcarrier5H {
+  td.aircraftcarrierr5 {
     background-image: url("../../assets/AircraftCarrierR5.png");
   }

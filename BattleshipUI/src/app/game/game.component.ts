@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { GameStateService } from '../services/gamestate.service';
 
 @Component({
   selector: 'app-game',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-  constructor() { }
+  gameState:boolean = false;
+  _roomSub:Subscription;
+
+  constructor(private socket:GameStateService) { }
 
   ngOnInit(): void {
+    this._roomSub = this.socket.gameStarted.subscribe(started=>this.gameState=started);
   }
 
 }
