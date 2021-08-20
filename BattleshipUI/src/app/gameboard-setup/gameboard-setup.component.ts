@@ -41,7 +41,7 @@ export class GameboardSetupComponent implements OnInit {
     }
     this.selected[0] = 0;
     this.selected[1] = 0;
-    this.selectedShip = "No Ship currently selected";
+    this.selectedShip = "No Ship selected";
 
     for(let i =0; i < 5; i++){
       this.ships[i] = new Ship;
@@ -121,6 +121,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[4].placed = true;
             this.ships[4].horizontal = false;
           }
+          else
+          {
+            this.CannotPlaceError();
+          }
           break;
         case "submarine":
           if(this.selected[0]+2 < 10 && this.checkForSpace(3)){
@@ -135,6 +139,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[3].placed = true;
             this.ships[3].horizontal = false;
           }
+          else
+          {
+            this.CannotPlaceError();
+          }
           break;
         case "destroyer":
           if(this.selected[0]+2 < 10 && this.checkForSpace(3)){
@@ -148,6 +156,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[2].x = this.selected[1];
             this.ships[2].placed = true;
             this.ships[2].horizontal = false;
+          }
+          else
+          {
+            this.CannotPlaceError();
           }
           break;
         case "battleship":
@@ -164,6 +176,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[1].placed = true;
             this.ships[1].horizontal = false;
           }
+          else
+          {
+            this.CannotPlaceError();
+          }
           break;
         case "aircraftcarrier":
           if(this.selected[0]+4 < 10 && this.checkForSpace(5)){
@@ -179,6 +195,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[0].x = this.selected[1];
             this.ships[0].placed = true;
             this.ships[0].horizontal = false;
+          }
+          else
+          {
+            this.CannotPlaceError();
           }
           break;
         default:
@@ -199,6 +219,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[4].placed = true;
             this.ships[4].horizontal = true;
           }
+          else
+          {
+            this.CannotPlaceError();
+          }
           break;
         case "submarine":
           if(this.selected[1]+2 < 10 && this.checkForSpace(3)){
@@ -212,6 +236,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[3].x = this.selected[1];
             this.ships[3].placed = true;
             this.ships[3].horizontal = true;
+          }
+          else
+          {
+            this.CannotPlaceError();
           }
           break;
         case "destroyer":
@@ -227,6 +255,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[2].placed = true;
             this.ships[2].horizontal = true;
           }
+          else
+          {
+            this.CannotPlaceError();
+          }
           break;
         case "battleship":
           if(this.selected[1]+3 < 10 && this.checkForSpace(4)){
@@ -241,6 +273,10 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[1].x = this.selected[1];
             this.ships[1].placed = true;
             this.ships[1].horizontal = true;
+          }
+          else
+          {
+            this.CannotPlaceError();
           }
           break;
         case "aircraftcarrier":
@@ -258,12 +294,17 @@ export class GameboardSetupComponent implements OnInit {
             this.ships[0].placed = true;
             this.ships[0].horizontal = true;
           }
+          else
+          {
+            this.CannotPlaceError();
+          }
           break;
         default:
           break;
       }   
     }
   }
+
   resetShip(ship:string){
     switch(ship){
       case "patrolboat":
@@ -289,6 +330,7 @@ export class GameboardSetupComponent implements OnInit {
       default:
         break;
     }
+    this.shipsDeployed = false;
   }
 
   isplaced(ship:number){
@@ -299,6 +341,7 @@ export class GameboardSetupComponent implements OnInit {
       return false;
     }
   }
+
   checkForSpace(size:number){
     for(let i = 0; i < size; i++){
       if(this.isVertical == true){
@@ -372,9 +415,13 @@ export class GameboardSetupComponent implements OnInit {
       this.gamestate.ReadyUp();
     }
   }
+
   LeaveRoom(){
     this.deploy.leaveRoom();
     this.router.navigate(["/game"]);
   }
 
+  CannotPlaceError(){
+    alert("Can't place {"+ this.selectedShip + "} at location {" + this.selected[1] + "," + this.selected[0]+ "}!");
+  }
 }

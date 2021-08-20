@@ -1,11 +1,6 @@
 <!--Lobby set up options-->
 <div id="options" class="container">
 	<div>
-		<!--     <label>Room Number</label>
-		  </div>
-		  <input type="number" [(ngModel)]="roomNum" />
-		</div> -->
-
 		<div>
 		  <div>
 			<label>Your Id </label>
@@ -26,13 +21,16 @@
 		</ng-template>
 	</div>
 
+</div>
+
+<div>
 	<!--Game board plus select ships interface-->
 	<div class="container" style="text-align: center;">
 
 		<!--Generate game board-->
 		<div class="grid-container">
-			<div *ngFor="let row of height; let i = index">
-				<div id="grid-item" *ngFor="let col of width; let j = index" class="{{test[j][i]}}" (click)="select(j,i)" style="font: bold 10pt Fira Sans, sans-serif; color: black;">
+			<div *ngFor="let row of height; let j = index">
+				<div id="grid-item" *ngFor="let col of width; let i = index" class="{{test[j][i][0]}}" (click)="select(j,i)" style="font: bold 10pt Fira Sans, sans-serif; color: black;">
 					({{i}},{{j}})
 				</div>
 			</div>
@@ -58,39 +56,40 @@
 
 		<!--Toggle between vertical and horizontal placement-->
 		<div [ngSwitch]="isVertical">
-			<button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Vertical Placement</button>
-			<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Horizontal Placement</button>
+			<!-- This is backwards for some reason -->
+			<!-- <button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Vertical Placement</button>
+			<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Horizontal Placement</button> -->
+			<button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Horizontal Placement</button>
+			<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Vertical Placement</button>
 		</div>
 
 		<!--Ship images that can be clicked-->
-		<div style="margin-top: 60px;">
-			<img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
-			<img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
-			<img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
-			<img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
-		</div>
-	  
-		<div *ngIf="isplaced(4)">
-			<button (click)="resetShip('patrolboat')">Clear Patrol Boat</button>
-			<br>
-		</div>
-		<div *ngIf="isplaced(3)" >
-			<button (click)="resetShip('submarine')">Clear Submarine</button>
-			<br>
-		</div>
-		<div *ngIf="isplaced(2)">
-			<button  (click)="resetShip('destroyer')"> Clear Destroyer</button>
-			<br>
-		</div>
-		<div *ngIf="isplaced(1)">
-			<button  (click)="resetShip('battleship')"> Clear Battleship</button>
-			<br>
-		</div>
-		<div *ngIf="isplaced(0)">
-			<button  (click)="resetShip('aircraftcarrier')">Clear Aircraft Carrier</button>
-			<br>
-		</div>
-	  
-      <img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')" style="transform: rotate(270deg);">
-    </div>
+		<div style="width: 100%;" class="shipsSelector">
+			
+			<div class="box-row">
+				<div class="box-cell">
+					<img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
+					<button *ngIf="isplaced(4)" (click)="resetShip('patrolboat')">Clear</button>
+				</div>
+				<div class="box-cell">
+					<img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
+					<button *ngIf="isplaced(3)" (click)="resetShip('submarine')">Clear</button>					
+				</div>
+				<div class="box-cell">
+					<img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
+					<button *ngIf="isplaced(2)" (click)="resetShip('destroyer')"> Clear</button>
+				</div>
+				<div class="box-cell">
+					<img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
+					<button *ngIf="isplaced(1)" (click)="resetShip('battleship')"> Clear</button>
+				</div>
+			</div>
+			
+			<div class="box-row">
+				<img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')" style="transform: rotate(270deg);">
+				
+				<button *ngIf="isplaced(0)" (click)="resetShip('aircraftcarrier')" style="position: relative;">Clear</button>
+			</div>
+    	</div>
+	</div>
 </div>

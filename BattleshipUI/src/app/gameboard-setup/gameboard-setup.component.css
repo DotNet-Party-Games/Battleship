@@ -21,7 +21,8 @@ img {
 
 #options {
     border: 10px solid rgba(4, 6, 110, 0.8);
-    float: left;
+    float: center;
+    
 }
 
 #shipselect{
@@ -161,8 +162,34 @@ div.aircraftcarrierr5{
     display: flex;                  /* establish flex container */
     flex-direction: row;            /* default value; can be omitted */
     justify-content: space-between; /* switched from default (flex-start, see below) */
-  }
-  #container > div {
-    width: 100px;
-    height: 100px;
-  }
+}
+#container > div {
+width: 100px;
+height: 100px;
+}
+
+
+.box-cell { 
+    float: left;
+    width:24%; 
+} 
+
+.box-row::after
+{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.vertical-center {
+    margin: 0;
+    position: relative;
+    top: 10%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.testcontainer .btn {
+    position: relative;
+    
+}
