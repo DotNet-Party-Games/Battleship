@@ -2,8 +2,13 @@ import { Component, Input, OnInit} from '@angular/core';
 import { INavy, IShot } from '../services/gameboard';
 import { GameStateService } from '../services/gamestate.service';
 import { Subscription } from 'rxjs';
-import { IUser } from '../user/user';
 import { InteractivityChecker } from '@angular/cdk/a11y';
+
+export interface IUser
+{
+  userId: string,
+  userName: string
+}
 
 @Component({
   selector: 'app-game-board',
