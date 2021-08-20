@@ -11,6 +11,7 @@ export interface IUser {
 export class INavy {
     ocean: number[][][];
     oceanLegend: string[][][];
+    craft: string[][][];
 }
 
 export interface IShot {

@@ -93,6 +93,11 @@ io.on('connection', socket => {
 
     })
 
+    socket.on('win shot', ()=>{
+        socket.broadcast.emit('loser', true);
+        socket.emit('winner', true);
+    });
+
     // broadcast call rooms and sockets that have connected
     io.emit('rooms', Object.keys(rooms));
 
