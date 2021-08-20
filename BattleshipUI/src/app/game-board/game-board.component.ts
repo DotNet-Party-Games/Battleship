@@ -13,28 +13,29 @@ export class GameBoardComponent implements OnInit {
   width: number[];
   height: number[];
   roomNumber: number;
-  playerId: number;
+  playerId: string;
   ocean: string[][][] = new Array(10);
   enemyOcean: string[][][] = new Array(10);
   selected: number[] = new Array(2);
   GameBoard: IGameAPI[];
   turn: boolean;
   isWinner: boolean;
-  winnerId: number;
+  winnerId: string;
 
   constructor(private GameApi: BattleshipAPIService, public auth: AuthService) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.roomNumber = 0;
-    this.playerId = 2
-    /*this.auth.idTokenClaims$.subscribe(
-      (response) => {
-        console.log(response);
-        if (response?.iat) {
-          this.playerId = response.iat
-        }
-      });*/
-    this.winnerId = -1;
+    // this.playerId = 2
+    this.playerId = "1";
+    // this.auth.idTokenClaims$.subscribe(
+    //   (response) => {
+    //     console.log(response);
+    //     if (response?.iat) {
+    //       this.playerId = response.iat
+    //     }
+    //   });
+    this.winnerId = "";
     this.isWinner = false;
     this.turn = false;
 
@@ -59,7 +60,7 @@ export class GameBoardComponent implements OnInit {
   }
 
   GetGameBoard(roomId: number) {
-    if (this.winnerId != -1) {
+    if (this.winnerId != "") {
       this.isWinner = true;
     }
 

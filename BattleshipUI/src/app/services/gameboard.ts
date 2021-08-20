@@ -10,11 +10,11 @@ export interface IGameAPI {
     user1Navy: INavy;
     user2Navy: INavy;
     currentTurn: boolean;
-    winnerId: number;
+    winnerId: string;
 }
 
 export interface IUser {
-    userId: number;
+    userId: string;
 }
 
 export interface INavy {

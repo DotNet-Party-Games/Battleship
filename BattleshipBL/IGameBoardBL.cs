@@ -44,7 +44,7 @@ namespace BattleshipBL
         /// </summary>
         /// <param name="User1Id">The Id of the first user</param>
         /// <param name="User2Id">The Id of the second user</param>
-        public void SetUp(int User1Id, int User2Id);
+        public void SetUp(string User1Id, string User2Id);
 
         /// <summary>
         /// 
@@ -55,13 +55,13 @@ namespace BattleshipBL
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <param name="horizontal"></param>
-        public void PlaceShip(int UserId, int shipId, int x, int y, int z, bool horizontal);
+        public void PlaceShip(string UserId, int shipId, int x, int y, int z, bool horizontal);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="UserId"></param>
-        public void DeployShips(int UserId);
+        public void DeployShips(string UserId);
 
         /// <summary>
         /// 
@@ -71,7 +71,7 @@ namespace BattleshipBL
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        public bool Attack(int UserId, int x, int y, int z);
+        public bool Attack(string UserId, int x, int y, int z);
 
     }
 }

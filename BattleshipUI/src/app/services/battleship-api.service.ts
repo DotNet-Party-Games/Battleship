@@ -8,7 +8,8 @@ import { IGameAPI } from './gameboard';
   providedIn: 'root'
 })
 export class BattleshipAPIService {
-  private url: string = "https://battleship-tsw.azurewebsites.net/api/";
+  // private url: string = "https://battleship-tsw.azurewebsites.net/api/";
+  private url = "https://localhost:5001/api/"
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +18,7 @@ export class BattleshipAPIService {
     return this.http.get<IGameAPI>(this.url + "GameBoard/get/", { params: param })
   }
 
-  Attack(roomId: number, userId: number, x: number, y: number, z: number): Observable<IGameAPI> {
+  Attack(roomId: number, userId: string, x: number, y: number, z: number): Observable<IGameAPI> {
     let attackBody = new HttpParams({
       fromObject: {
         'roomNumber': roomId,
@@ -31,7 +32,7 @@ export class BattleshipAPIService {
     return this.http.put<IGameAPI>(this.url + "GameBoard/Attack/", attackBody, { params: param });
   }
 
-  SetUp(roomNumber:number, user1Id:number, user2Id:number): Observable<IGameAPI>{
+  SetUp(roomNumber:number, user1Id:string, user2Id:string): Observable<IGameAPI>{
     let setupBody = new HttpParams({
       fromObject: {
         'roomNumber': roomNumber,
@@ -48,7 +49,7 @@ export class BattleshipAPIService {
     return this.http.get<IGameAPI>(this.url + "GameBoard/reset/", { params: param })
   }
 
-  PlaceShip(roomNumber:number, userId:number, shipId:number, x:number, y:number, z:number, horizontal:boolean){
+  PlaceShip(roomNumber:number, userId:string, shipId:number, x:number, y:number, z:number, horizontal:boolean){
     let placeshipbody = new HttpParams({
       fromObject: {
         'roomNumber': roomNumber,
@@ -64,7 +65,7 @@ export class BattleshipAPIService {
     return this.http.put<IGameAPI>(this.url + "GameBoard/PlaceShip", placeshipbody, {params: param});
   }
 
-  DeployShips(roomNumber:number, userId:number): Observable<IGameAPI>{
+  DeployShips(roomNumber:number, userId:string): Observable<IGameAPI>{
     let deployshipsbody = new HttpParams({
       fromObject: {
         'roomNumber': roomNumber,

@@ -29,7 +29,7 @@ namespace BattleshipDL
             return await _context.Users.Select(user => user).ToListAsync();
         }
 
-        public async Task<User> GetUserAsync(int p_uId)
+        public async Task<User> GetUserAsync(string p_uId)
         {
             return await _context.Users.Include(use => use.Scores).Include(use => use.Stats).Where(use => use.UserId == p_uId).FirstOrDefaultAsync();
         }

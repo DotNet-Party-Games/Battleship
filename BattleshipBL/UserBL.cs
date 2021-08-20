@@ -85,7 +85,7 @@ namespace BattleshipBL
             return await _repo.GetAllUsersAsync();
         }
 
-        public async Task<User> GetUserAsync(int p_uId)
+        public async Task<User> GetUserAsync(string p_uId)
         {
             return await _repo.GetUserAsync(p_uId);
         }
