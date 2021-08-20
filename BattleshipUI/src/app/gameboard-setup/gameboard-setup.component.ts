@@ -13,14 +13,14 @@ export class GameboardSetupComponent implements OnInit {
 
   width: number[];
   height: number[];
-  selected: number[] = new Array(2);
-  test: string[][] = new Array(10);
-  selectedShip: string;
-  isVertical: boolean = true;
+  selected: number[] = new Array(2);  // holds the x,y coords for placing a ship (only tracking 1 endpoint)
+  test: string[][] = new Array(10);  // array for placeholder space to test if ship can be placed
+  selectedShip: string;  // name of the ship selected to be placed
+  isVertical: boolean = true;  // isRotated
   ships: Ship[] = new Array(5);
   roomNum: number;
-  userId: number;
-  opponentId: number;
+  userId: string;  // this can now be username
+  opponentId: string;  // this can also now be username
   shipsDeployed: boolean;
 
   constructor(private BApi: BattleshipAPIService, public auth: AuthService) {
@@ -35,15 +35,15 @@ export class GameboardSetupComponent implements OnInit {
     }
     this.selected[0] = 0;
     this.selected[1] = 0;
-    this.selectedShip = "";
+    this.selectedShip = "No Ship currently selected";
 
     for(let i =0; i < 5; i++){
       this.ships[i] = new Ship;
     }
 
     this.roomNum = 0;
-    this.opponentId = 0;
-    this.userId = 2;
+    this.opponentId = "";
+    this.userId = "1";
     this.shipsDeployed = false;
     /*this.auth.idTokenClaims$.subscribe(
       (response) => {
@@ -53,20 +53,29 @@ export class GameboardSetupComponent implements OnInit {
         }
       }
     );*/
-
   }
 
   ngOnInit(): void {
   }
 
   SetUpRoom() {
-    this.BApi.Reset(this.roomNum).subscribe(
-      (response) => {
-        this.BApi.SetUp(this.roomNum, this.userId, this.opponentId).subscribe(
-          response => { console.log(response["user1"]) }
-        );
-      }
-    )
+    if (this.roomNum && this.userId && this.opponentId) {
+      this.BApi.Reset(this.roomNum).subscribe(
+        (response) => {
+          this.BApi.SetUp(this.roomNum, this.userId, this.opponentId).subscribe(
+            response => { 
+              console.log(response["user1"]);  // probably don't need to console log this?
+              alert("Room has been created!");
+            }  
+          );
+        }
+      )
+    }
+    else
+    {
+      alert("Need to have valid room number (not 0), user ID, and opponent ID!");
+    }
+    
   }
 
   select(i:number, j:number){
@@ -272,6 +281,7 @@ export class GameboardSetupComponent implements OnInit {
   Deploy(){
     for(let i = 0; i < 5; i++){
       if(this.ships[i].placed == false){
+        alert("Not all ships have been placed!");
         return;
       }
     }
@@ -291,7 +301,7 @@ export class GameboardSetupComponent implements OnInit {
   }
 
   tempSetUp(){
-    this.BApi.SetUp(1,2,3).subscribe(
+    this.BApi.SetUp(1,"1","2").subscribe(
       response => {console.log(response["user1"])}
     );
   }
