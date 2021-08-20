@@ -29,6 +29,7 @@ const routes: Routes = [
     path: 'gameboardsetup',
     component: GameboardSetupComponent,
     canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({
