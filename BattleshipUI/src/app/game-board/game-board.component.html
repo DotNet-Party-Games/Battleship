@@ -1,17 +1,11 @@
 <head>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<div>
-  <div>
-    <label>Room Number</label>
-  </div>
+<!-- <div>
   <input type="number" [(ngModel)] ="roomNumber"/>
-  <div>
-    <label>Player ID</label>
-  </div>
-  <input type="text" [(ngModel)] ="playerId"/>
-</div>
-<table align="center">
+  <input type="number" [(ngModel)] ="playerId"/>
+</div> -->
+<!-- <table align="center">
   <tr>
     <td align="center">
       <ng-template [ngIf]="!isWinner">
@@ -25,9 +19,16 @@
       </ng-template>
     </td>
   </tr>
-</table>
+</table> -->
+<button (click)="turn=!turn">change turn</button>
 <table align="center">
   <tbody>
+    <tr>
+      <td align="center" *ngIf="turn">Your turn</td>
+      <td></td>
+      <td></td>
+      <td align="center" *ngIf="!turn">Enemy turn</td>
+    </tr>
     <tr>
       <td align="center">Your Ocean</td>
       <td></td>
@@ -38,7 +39,7 @@
         <table class="table table-bordered border-primary" style="height: fit-content; width: 575px; ">
           <tbody>
             <tr *ngFor="let row of height; let y = index">
-              <td *ngFor="let col of width; let x = index" class="{{ocean[x][y][0]}}">{{x}},{{y}}</td>
+              <td *ngFor="let col of width; let x = index" class="{{PlayerBoardUpdate.oceanLegend[x][y][0]}}">{{x}},{{y}}</td>
             </tr>
           </tbody>
         </table>
@@ -48,7 +49,10 @@
         <table class="table table-bordered border-primary" style="height: fit-content; width: 575px;">
           <tbody>
             <tr *ngFor="let row of height; let y = index">
-              <td *ngFor="let col of width; let x = index" class="{{enemyOcean[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+              <ng-container *ngFor="let col of width; let x = index">
+              <td *ngIf="enemyOcean.ocean[x][y][0] < 6;" class="{{enemyOcean.oceanLegend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+              <td *ngIf="enemyOcean.ocean[x][y][0] > 5;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+            </ng-container>
             </tr>
           </tbody>
         </table>
@@ -56,3 +60,4 @@
     </tr>
   </tbody>
 </table>
+

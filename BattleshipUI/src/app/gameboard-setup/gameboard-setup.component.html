@@ -1,70 +1,96 @@
 <!--Lobby set up options-->
 <div id="options" class="container">
-  <div>
-    <label>Room Number</label>
-  </div>
-  <input type="number" [(ngModel)]="roomNum" />
-<div>
-  <div>
-    <label>Your Id </label>
-  </div>
-  <input type="number" [(ngModel)]="userId" />
-</div>
-<div>
-  <div>
-    <label>Opponent's Id</label>
-  </div>
-  <input type="number" [(ngModel)]="opponentId" />
-</div>
-<button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button>
-<button class="btn btn-primary" (click)="Deploy()">Deploy Ships</button>
-<ng-template [ngIf]="shipsDeployed">
-  <button class="btn btn-danger" routerLink="/gameboard">Advance</button>
-</ng-template>
-</div>
+	<div>
+		<!--     <label>Room Number</label>
+		  </div>
+		  <input type="number" [(ngModel)]="roomNum" />
+		</div> -->
 
-<!--Game board plus select ships interface-->
-<div class="container" style="text-align: center;">
+		<div>
+		  <div>
+			<label>Your Id </label>
+		  </div>
+		  <input type="number" [(ngModel)]="userId" />
+		</div>
+		<div>
+		  <div>
+			<label>Opponent's Id</label>
+		  </div>
+		  <input type="number" [(ngModel)]="opponentId" />
+		</div>
+		<!-- <button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button> -->
+		<button class="btn btn-primary" (click)="Deploy()">Deploy Ships</button>
+		<button class ="btn btn-primary" (click)="LeaveRoom()">Leave Room</button>
+		<ng-template [ngIf]="shipsDeployed">
+		  <button class="btn btn-danger" routerLink="/gameboard">Proceed to match</button>
+		</ng-template>
+	</div>
 
-      <!--Generate game board-->
-      <div class="grid-container">
-        <div *ngFor="let row of height; let i = index">
-          <div id="grid-item" *ngFor="let col of width; let j = index" class="{{test[j][i]}}" (click)="select(j,i)" style="font: bold 10pt Fira Sans, sans-serif; color: black;">
-            ({{i}},{{j}})
-          </div>
-        </div>
-      </div>
+	<!--Game board plus select ships interface-->
+	<div class="container" style="text-align: center;">
 
-    <!--Previous iteration of generating gameboard-->
-      <!-- <table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
-        <tbody>
-          <tr *ngFor="let row of height; let i = index">
-            <td *ngFor="let col of width; let j = index" class="{{test[i][j]}}" (click)="select(i,j)">{{i}},{{j}}</td>
-          </tr>
-        </tbody>
-      </table> -->
+		<!--Generate game board-->
+		<div class="grid-container">
+			<div *ngFor="let row of height; let i = index">
+				<div id="grid-item" *ngFor="let col of width; let j = index" class="{{test[j][i]}}" (click)="select(j,i)" style="font: bold 10pt Fira Sans, sans-serif; color: black;">
+					({{i}},{{j}})
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Previous iteration of generating gameboard-->
+	<!-- <table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
+		<tbody>
+		  <tr *ngFor="let row of height; let j = index">
+			<td *ngFor="let col of width; let i = index" class="{{test[i][j][0]}}" (click)="select(i,j)">{{i}},{{j}}</td>
+		  </tr>
+		</tbody>
+	</table> -->
 
 
     <!--Ship select-->
     <div id="shipselect" class="container">
-      <div [ngSwitch] = "selectedShip" style="margin-top: 20px;">
-        <p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchCase="''">Please Select a Ship</p>
-        <p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchDefault>{{selectedShip.toUpperCase()}} ({{selected[1]}},{{selected[0]}})</p>
-      </div>
+		<div [ngSwitch] = "selectedShip" style="margin-top: 20px;">
+			<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchCase="''">Please Select a Ship</p>
+			<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchDefault>{{selectedShip.toUpperCase()}} ({{selected[1]}},{{selected[0]}})</p>
+		</div>
 
-      <!--Toggle between vertical and horizontal placement-->
-      <div [ngSwitch]="isVertical">
-        <button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Vertical Placement</button>
-        <button class="btn" *ngSwitchDefault (click)="toggleVertical()">Horizontal Placement</button>
-      </div>
+		<!--Toggle between vertical and horizontal placement-->
+		<div [ngSwitch]="isVertical">
+			<button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Vertical Placement</button>
+			<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Horizontal Placement</button>
+		</div>
 
-      <!--Ship images that can be clicked-->
-      <div style="margin-top: 60px;">
-        <img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
-        <img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
-        <img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
-        <img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
-      </div>
+		<!--Ship images that can be clicked-->
+		<div style="margin-top: 60px;">
+			<img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
+			<img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
+			<img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
+			<img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
+		</div>
+	  
+		<div *ngIf="isplaced(4)">
+			<button (click)="resetShip('patrolboat')">Clear Patrol Boat</button>
+			<br>
+		</div>
+		<div *ngIf="isplaced(3)" >
+			<button (click)="resetShip('submarine')">Clear Submarine</button>
+			<br>
+		</div>
+		<div *ngIf="isplaced(2)">
+			<button  (click)="resetShip('destroyer')"> Clear Destroyer</button>
+			<br>
+		</div>
+		<div *ngIf="isplaced(1)">
+			<button  (click)="resetShip('battleship')"> Clear Battleship</button>
+			<br>
+		</div>
+		<div *ngIf="isplaced(0)">
+			<button  (click)="resetShip('aircraftcarrier')">Clear Aircraft Carrier</button>
+			<br>
+		</div>
+	  
       <img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')" style="transform: rotate(270deg);">
     </div>
 </div>

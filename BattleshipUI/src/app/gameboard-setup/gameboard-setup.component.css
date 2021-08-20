@@ -156,3 +156,13 @@ div.aircraftcarrierr4{
 div.aircraftcarrierr5{
     background-image: url("../../assets/AircraftCarrierR5.png");
 }
+
+#container {
+    display: flex;                  /* establish flex container */
+    flex-direction: row;            /* default value; can be omitted */
+    justify-content: space-between; /* switched from default (flex-start, see below) */
+  }
+  #container > div {
+    width: 100px;
+    height: 100px;
+  }
