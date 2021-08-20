@@ -1,66 +1,70 @@
-<head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
+<!--Lobby set up options-->
+<div id="options" class="container">
+  <div>
+    <label>Room Number</label>
+  </div>
+  <input type="number" [(ngModel)]="roomNum" />
+<div>
+  <div>
+    <label>Your Id </label>
+  </div>
+  <input type="number" [(ngModel)]="userId" />
+</div>
+<div>
+  <div>
+    <label>Opponent's Id</label>
+  </div>
+  <input type="number" [(ngModel)]="opponentId" />
+</div>
+<button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button>
+<button class="btn btn-primary" (click)="Deploy()">Deploy Ships</button>
+<ng-template [ngIf]="shipsDeployed">
+  <button class="btn btn-danger" routerLink="/gameboard">Advance</button>
+</ng-template>
+</div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-2">
-      <div>
-        <div>
-          <label>Room Number</label>
+<!--Game board plus select ships interface-->
+<div class="container" style="text-align: center;">
+
+      <!--Generate game board-->
+      <div class="grid-container">
+        <div *ngFor="let row of height; let i = index">
+          <div id="grid-item" *ngFor="let col of width; let j = index" class="{{test[j][i]}}" (click)="select(j,i)" style="font: bold 10pt Fira Sans, sans-serif; color: black;">
+            ({{i}},{{j}})
+          </div>
         </div>
-        <input type="number" [(ngModel)]="roomNum" />
       </div>
-      <div>
-        <div>
-          <label>Your Id </label>
-        </div>
-        <input type="text" [(ngModel)]="userId" />
-      </div>
-      <div>
-        <div>
-          <label>Opponent's Id</label>
-        </div>
-        <input type="text" [(ngModel)]="opponentId" />
-      </div>
-      <br>
-      <div>
-        <button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button>
-      </div>
-      <br>
-      <div>
-        <button class="btn btn-primary" (click)="Deploy()">Deploy Ships</button>
-      </div>
-      <br>
-      <div>
-        <ng-template [ngIf]="shipsDeployed">
-          <button class="btn btn-danger" routerLink="/gameboard">Proceed to Match</button>
-        </ng-template>
-      </div>
-      <div class="ProceedNotDeployed">
-        <ng-template [ngIf]="!shipsDeployed">
-          <button class="btn btn-secondary">Proceed to Match</button>
-        </ng-template>
-      </div>
-    </div>
-    <div class="col-6">
-      <table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
+
+    <!--Previous iteration of generating gameboard-->
+      <!-- <table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
         <tbody>
           <tr *ngFor="let row of height; let i = index">
             <td *ngFor="let col of width; let j = index" class="{{test[i][j]}}" (click)="select(i,j)">{{i}},{{j}}</td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
+
+
+    <!--Ship select-->
+    <div id="shipselect" class="container">
+      <div [ngSwitch] = "selectedShip" style="margin-top: 20px;">
+        <p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchCase="''">Please Select a Ship</p>
+        <p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchDefault>{{selectedShip.toUpperCase()}} ({{selected[1]}},{{selected[0]}})</p>
+      </div>
+
+      <!--Toggle between vertical and horizontal placement-->
+      <div [ngSwitch]="isVertical">
+        <button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Vertical Placement</button>
+        <button class="btn" *ngSwitchDefault (click)="toggleVertical()">Horizontal Placement</button>
+      </div>
+
+      <!--Ship images that can be clicked-->
+      <div style="margin-top: 60px;">
+        <img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
+        <img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
+        <img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
+        <img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
+      </div>
+      <img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')" style="transform: rotate(270deg);">
     </div>
-    <div class="col">
-      <p>Ship Selected to be placed: {{selectedShip}}</p>
-      <p>Placed at: {{selected[0]}},{{selected[1]}}</p>
-      <button class="btn btn-primary" (click)="toggleVertical()">Rotate</button>
-      <img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
-      <img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
-      <img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
-      <img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
-      <img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')">
-    </div>
-  </div>
 </div>
