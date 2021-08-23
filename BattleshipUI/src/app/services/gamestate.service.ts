@@ -41,6 +41,9 @@ import { INavy } from './gameboard';
     StartGame(){
       this.socket.emit('start game');
     }
+    LeaveRoom(){
+      this.socket.emit("Leave Room");
+    }
 
 
     InterpretOcean(item: number[][][], baseOcean: string[][][]) {

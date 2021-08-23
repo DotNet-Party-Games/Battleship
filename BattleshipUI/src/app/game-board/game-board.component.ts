@@ -4,6 +4,7 @@ import { GameStateService } from '../services/gamestate.service';
 import { Subscription } from 'rxjs';
 import { IUser } from '../user/user';
 import { InteractivityChecker } from '@angular/cdk/a11y';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-board',
@@ -26,7 +27,7 @@ export class GameBoardComponent implements OnInit {
   turn: boolean;
   _room: Subscription;
 
-  constructor(private socket:GameStateService) {
+  constructor(private socket:GameStateService, private router:Router) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.turn = false;
@@ -58,16 +59,33 @@ export class GameBoardComponent implements OnInit {
         this.enemyOcean.oceanLegend[x][y][z] = "hit";
         console.log("Hit");
         this.socket.SendShot(this.enemyOcean, message);
+        this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
       } else if(this.enemyOcean.ocean[x][y][z] == 0){
         // message = this.playerName.userName + " Missed " + this.enemyName.userName;
         this.enemyOcean.ocean[x][y][z] = 2;
         this.enemyOcean.oceanLegend[x][y][z] = "miss";
         this.socket.SendShot(this.enemyOcean, message);
+        this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
       }
       
     }
   }
+  playaudio(action:string){
+    let audio = new Audio();
+    switch(action){
+      case "miss":
+        audio.src = "../../assets/splash.wav";
+        audio.load();
+        audio.play();
+        break;
+      case "hit":
+        audio.src = "../../assets/explosion.mp3";
+        audio.load();
+        audio.play();
+        break;
+    }
 
+  }
   Seed(){
     this.PlayerBoardUpdate.ocean = new Array(10);
     this.PlayerBoardUpdate.oceanLegend = new Array(10);
@@ -96,6 +114,11 @@ export class GameBoardComponent implements OnInit {
         this.enemyOcean.oceanLegend[i][j][0] = "water";
       }
     }
+  }
+  LeaveRoom(){
+    this.socket.LeaveRoom();
+    this.router.navigate(["/roomlist"]);
+
   }
 
   

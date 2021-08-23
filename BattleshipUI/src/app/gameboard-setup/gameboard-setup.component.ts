@@ -364,7 +364,8 @@ export class GameboardSetupComponent implements OnInit {
     }
   }
   LeaveRoom(){
-    this.deploy.leaveRoom();
+    this.deploy.leaveRoom(this.roomNum);
+    console.log("leaving room");
     this.router.navigate(["/game"]);
   }
 

@@ -1,5 +1,13 @@
 <div class="sidenav">
     <!-- event bind creating a new room to click -->
+    <mat-button-toggle-group name="player count" aria-label="Font Style">
+    <mat-button-toggle value="single">
+        Single Player
+    </mat-button-toggle>
+    <mat-button-toggle value="multi">
+        Multiplayer
+    </mat-button-toggle>
+    </mat-button-toggle-group>
     <span (click)='newRoom()'>New Room</span>
     <span [class.selected]='roomId === currentRoom'
             (click)='loadRoom(roomId)'
