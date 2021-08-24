@@ -100,6 +100,8 @@ export class GameBoardComponent implements OnInit {
         audio.load();
         audio.play();
         break;
+      case "sink":
+        audio.src = "../../assets/bubbling_water.mp3"
     }
 
   }
@@ -148,6 +150,7 @@ export class GameBoardComponent implements OnInit {
         this.patrol-=1;
         if(this.patrol==0){
           this.Extenguish(craft);
+
         }
       break;
       case "Submarine":
@@ -190,9 +193,7 @@ export class GameBoardComponent implements OnInit {
     }
   }
   LeaveRoom(){
-    this.socket.LeaveRoom();
     this.router.navigate(["/roomlist"]);
-
   }
 
   
