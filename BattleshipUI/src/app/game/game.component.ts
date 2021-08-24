@@ -10,12 +10,16 @@ import { GameStateService } from '../services/gamestate.service';
 export class GameComponent implements OnInit {
 
   gameState:boolean = false;
+  winner:boolean = false;
+  loser:boolean = false;
   _roomSub:Subscription;
 
   constructor(private socket:GameStateService) { }
 
   ngOnInit(): void {
     this._roomSub = this.socket.gameStarted.subscribe(started=>this.gameState=started);
+    this._roomSub = this.socket.winner.subscribe(win=>this.winner = win);
+    this._roomSub = this.socket.loser.subscribe(lose=>this.loser = lose);
   }
 
 }
