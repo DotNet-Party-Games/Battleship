@@ -72,18 +72,21 @@ export class GameBoardComponent implements OnInit {
         this.UpdateBoardStatus(this.enemyOcean.craft[x][y][z]);
         if(this.patrol==0&&this.sub==0&&this.dest==0&&this.battle==0&&this.carrier==0){
           this.socket.WinningShot();
-        }else{
-        this.socket.SendShot(this.enemyOcean, message);
-        this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
-      } else if(this.enemyOcean.ocean[x][y][z] == 0){
-        // message = this.playerName.userName + " Missed " + this.enemyName.userName;
-        this.enemyOcean.ocean[x][y][z] = 2;
-        this.enemyOcean.oceanLegend[x][y][z] = "miss";
-        this.socket.SendShot(this.enemyOcean, message);
-        this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
-      }
+        }
+        else if(this.enemyOcean.ocean[x][y][z] == 0){
+          // message = this.playerName.userName + " Missed " + this.enemyName.userName;
+          this.enemyOcean.ocean[x][y][z] = 2;
+          this.enemyOcean.oceanLegend[x][y][z] = "miss";
+          this.socket.SendShot(this.enemyOcean, message);
+          this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
+        }
+        else{
+          this.socket.SendShot(this.enemyOcean, message);
+          this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
+        } 
     }
   }
+}
   playaudio(action:string){
     let audio = new Audio();
     switch(action){
