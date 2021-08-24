@@ -11,6 +11,7 @@ const rooms = {};
 const messages = [];
 
 const gameStart = new Map();
+const teams = {};
 
 // logic for when a socket connects to the server
 // server event listener
@@ -20,7 +21,7 @@ io.on('connection', socket => {
     // create a way to joins rooms
     const safeJoin = currentRoomId => {
         // leave previous room
-        socket.leave(previousRoomId);
+        //socket.leave(previousRoomId, () => console.log("left room"));
         // join new room with debugging message to console
         socket.join(currentRoomId, () => console.log(`Socket ${socket.id} joined room ${currentRoomId}`));
         // keep track of current room
@@ -32,6 +33,10 @@ io.on('connection', socket => {
         safeJoin(roomId);
         // joining socket will know this one joined a room?
         socket.emit('room', rooms[roomId]);
+    });
+
+    socket.on("join team", otherplayer => {
+
     });
 
     // logic for when a socket wants to add a room to the room list
@@ -91,7 +96,16 @@ io.on('connection', socket => {
             socket.broadcast.emit('turn change',true);
         }
 
-    })
+
+    });
+
+    socket.on("send coordinates", (coords, room, userid)=>{
+        console.log(coords);
+    });
+    socket.on('Leave Room', roomnum =>{
+        console.log(`Socket ${socket.id} has left room ${roomnum}`);
+        socket.leave(roomnum);
+    });
 
     socket.on('win shot', ()=>{
         socket.broadcast.emit('loser', true);
