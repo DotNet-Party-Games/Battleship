@@ -23,73 +23,84 @@
 
 </div>
 
-<div>
-	<!--Game board plus select ships interface-->
-	<div class="container" style="text-align: center;">
-
-		<!--Generate game board-->
-		<div class="grid-container">
-			<div *ngFor="let row of height; let j = index">
-				<div id="grid-item" *ngFor="let col of width; let i = index" class="{{test[j][i][0]}}" (click)="select(j,i)" style="font: bold 10pt Fira Sans, sans-serif; color: black;">
-					({{i}},{{j}})
+<div class="container">
+	<div class="row">
+		<div class="col-6">
+			<table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
+				<tbody>
+				  <tr *ngFor="let row of height; let j = index">
+					<td *ngFor="let col of width; let i = index" class="{{test[i][j][0]}}" (click)="select(i,j)">{{i}},{{j}}</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- <div class="col"> -->
+			<!--Ship select-->
+			<div id="shipselect" class="col-1">
+				<div [ngSwitch] = "selectedShip" style="margin-top: 20px;">
+					<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchCase="''">Please Select a Ship</p>
+					<br>
+					<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchDefault>{{selectedShip.toUpperCase()}} ({{selected[1]}},{{selected[0]}})</p>
+				</div>
+		
+				<!--Toggle between vertical and horizontal placement-->
+				<div [ngSwitch]="isVertical">
+					<!-- This is backwards for some reason -->
+					<!-- <button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Vertical Placement</button>
+					<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Horizontal Placement</button> -->
+					<button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Horizontal Placement</button>
+					<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Vertical Placement</button>
+				</div>
+		
+				<!--Ship images that can be clicked-->
+				<div style="width: 100%;" class="shipsSelector">
+					
+					<div class="box-row">
+						<div class="box-cell">
+							<div class="overlay">
+								<button *ngIf="isplaced(4)" (click)="resetShip('patrolboat')">Clear</button>
+							</div>
+							<img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
+						</div>
+						<div class="box-cell">
+							<div class="overlay">
+								<button *ngIf="isplaced(3)" (click)="resetShip('submarine')">Clear</button>					
+							</div>
+							<img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
+						</div>
+						<div class="box-cell">
+							<div class="overlay">
+								<button *ngIf="isplaced(2)" (click)="resetShip('destroyer')"> Clear</button>
+							</div>
+							<img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
+							
+						</div>
+						<div class="box-cell">
+							<div class="overlay">
+								<button *ngIf="isplaced(1)" (click)="resetShip('battleship')"> Clear</button>
+							</div>
+							<img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
+							
+						</div>
+					</div>
+					
+					<div class="box-row">
+						<div class="box-cell">
+							<div class="overlay">
+								<button *ngIf="isplaced(0)" (click)="resetShip('aircraftcarrier')" style="position: relative;">Clear</button>
+							</div>
+							<img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')" style="transform: rotate(270deg);">
+						</div>
+						
+					</div>
 				</div>
 			</div>
-		</div>
+		<!-- </div> -->
 	</div>
+	
 
-	<!--Previous iteration of generating gameboard-->
-	<!-- <table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
-		<tbody>
-		  <tr *ngFor="let row of height; let j = index">
-			<td *ngFor="let col of width; let i = index" class="{{test[i][j][0]}}" (click)="select(i,j)">{{i}},{{j}}</td>
-		  </tr>
-		</tbody>
-	</table> -->
+	
 
 
-    <!--Ship select-->
-    <div id="shipselect" class="container">
-		<div [ngSwitch] = "selectedShip" style="margin-top: 20px;">
-			<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchCase="''">Please Select a Ship</p>
-			<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchDefault>{{selectedShip.toUpperCase()}} ({{selected[1]}},{{selected[0]}})</p>
-		</div>
-
-		<!--Toggle between vertical and horizontal placement-->
-		<div [ngSwitch]="isVertical">
-			<!-- This is backwards for some reason -->
-			<!-- <button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Vertical Placement</button>
-			<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Horizontal Placement</button> -->
-			<button class="btn" *ngSwitchCase="true" (click)="toggleVertical()">Horizontal Placement</button>
-			<button class="btn" *ngSwitchDefault (click)="toggleVertical()">Vertical Placement</button>
-		</div>
-
-		<!--Ship images that can be clicked-->
-		<div style="width: 100%;" class="shipsSelector">
-			
-			<div class="box-row">
-				<div class="box-cell">
-					<img src="../../assets/PatrolBoat.png" (click)="selectShip('patrolboat')">
-					<button *ngIf="isplaced(4)" (click)="resetShip('patrolboat')">Clear</button>
-				</div>
-				<div class="box-cell">
-					<img src="../../assets/Submarine.png" (click)="selectShip('submarine')">
-					<button *ngIf="isplaced(3)" (click)="resetShip('submarine')">Clear</button>					
-				</div>
-				<div class="box-cell">
-					<img src="../../assets/Destroyer.png" (click)="selectShip('destroyer')">
-					<button *ngIf="isplaced(2)" (click)="resetShip('destroyer')"> Clear</button>
-				</div>
-				<div class="box-cell">
-					<img src="../../assets/Battleship.png" (click)="selectShip('battleship')">
-					<button *ngIf="isplaced(1)" (click)="resetShip('battleship')"> Clear</button>
-				</div>
-			</div>
-			
-			<div class="box-row">
-				<img src="../../assets/AircraftCarrier.png" (click)="selectShip('aircraftcarrier')" style="transform: rotate(270deg);">
-				
-				<button *ngIf="isplaced(0)" (click)="resetShip('aircraftcarrier')" style="position: relative;">Clear</button>
-			</div>
-    	</div>
-	</div>
+    
 </div>

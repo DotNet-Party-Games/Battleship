@@ -154,3 +154,47 @@ td {
   td.aircraftcarrierr5 {
     background-image: url("../../assets/AircraftCarrierR5.png");
   }
+
+
+  .grid-container {
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+    background: url("../../assets/Woter.png");
+    background-size: cover;
+    border: 10px solid rgba(0, 2, 100, 0.8);
+    float: left;
+}
+
+#grid-item {
+    border: 1px solid rgba(4, 6, 110, 0.8);
+    text-align: center;
+    width: 64px;
+    height: 64px;
+}
+
+img {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#options {
+    border: 10px solid rgba(4, 6, 110, 0.8);
+    float: center;
+    
+}
+
+#shipselect{
+    width: 400px;
+    height: 660px;
+    text-align: center;
+    border: 10px solid rgba(4, 6, 110, 0.8);
+    background: url("../../assets/Woter.png");
+    background-size: cover;
+    float: left;
+    margin-left: 30px;
+}
+
+.btn {
+    color: ivory;
+    background-color: black;
+}
