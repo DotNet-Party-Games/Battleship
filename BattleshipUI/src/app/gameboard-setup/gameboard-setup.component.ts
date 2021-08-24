@@ -67,14 +67,18 @@ export class GameboardSetupComponent implements OnInit {
 
     this.gamestate.startingNavy.ocean = new Array(10);
     this.gamestate.startingNavy.oceanLegend = new Array(10);
+    this.gamestate.startingNavy.craft = new Array(10);
     for (let i = 0; i < 10; i ++) {
       this.gamestate.startingNavy.ocean[i] = new Array(10);
       this.gamestate.startingNavy.oceanLegend[i] = new Array(10);
+      this.gamestate.startingNavy.craft[i] = new Array(10);
       for(let j = 0; j < 10; j ++) {
         this.gamestate.startingNavy.ocean[i][j] = new Array(2);
         this.gamestate.startingNavy.oceanLegend[i][j] = new Array(2);
+        this.gamestate.startingNavy.craft[i][j] = new Array(2);
         this.gamestate.startingNavy.ocean[i][j][0] = 0;
         this.gamestate.startingNavy.oceanLegend[i][j][0] = "water";
+        this.gamestate.startingNavy.craft[i][j][0] = "None";
       }
     }
     this.gamestate.opponentReady.subscribe(turn=>this.opponentReady=turn);
@@ -355,7 +359,7 @@ export class GameboardSetupComponent implements OnInit {
     // this.deploy.sendboard(this.ships, this.roomNum, this.userId);
     // console.log(this.ships, this.roomNum, this.userId);
     this.gamestate.startingNavy.oceanLegend=this.test;
-    this.gamestate.InterpretOcean(this.gamestate.startingNavy.ocean,this.gamestate.startingNavy.oceanLegend);
+    this.gamestate.InterpretOcean(this.gamestate.startingNavy.ocean,this.gamestate.startingNavy.oceanLegend, this.gamestate.startingNavy.craft);
     this.gamestate.SendPlayerBoard(this.gamestate.startingNavy);
     if(this.opponentReady){
       this.gamestate.StartGame();

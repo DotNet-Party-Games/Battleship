@@ -25,6 +25,13 @@ export class GameBoardComponent implements OnInit {
   statusMessage: string;
   turn: boolean;
   _room: Subscription;
+  patrol:number;
+  sub:number;
+  dest:number;
+  battle:number;
+  carrier:number;
+  winner:boolean;
+  loser:boolean;
 
   constructor(private socket:GameStateService) {
     this.width = new Array(10);
@@ -41,7 +48,11 @@ export class GameBoardComponent implements OnInit {
     this._room = this.socket.enemyName.subscribe(enemy=>this.enemyName.userName = enemy);
     this._room = this.socket.enemyFleet.subscribe(board=>this.enemyOcean = board);
     this._room = this.socket.statusMessage.subscribe(mess=>this.statusMessage=mess);
-    
+    this.patrol = 2;
+    this.sub = 3;
+    this.dest = 3;
+    this.battle = 4;
+    this.carrier = 5;
     console.log(this.PlayerBoardUpdate.ocean);
     console.log(this.enemyOcean.ocean);
     // this.socket.UpdateNames(this.playerName.userName);
@@ -57,43 +68,104 @@ export class GameBoardComponent implements OnInit {
         this.enemyOcean.ocean[x][y][z] = 1;
         this.enemyOcean.oceanLegend[x][y][z] = "hit";
         console.log("Hit");
+        this.UpdateBoardStatus(this.enemyOcean.craft[x][y][z]);
+        if(this.patrol==0&&this.sub==0&&this.dest==0&&this.battle==0&&this.carrier==0){
+          this.socket.WinningShot();
+        }else{
         this.socket.SendShot(this.enemyOcean, message);
+        }
       } else if(this.enemyOcean.ocean[x][y][z] == 0){
         // message = this.playerName.userName + " Missed " + this.enemyName.userName;
         this.enemyOcean.ocean[x][y][z] = 2;
         this.enemyOcean.oceanLegend[x][y][z] = "miss";
         this.socket.SendShot(this.enemyOcean, message);
       }
-      
     }
   }
 
   Seed(){
     this.PlayerBoardUpdate.ocean = new Array(10);
     this.PlayerBoardUpdate.oceanLegend = new Array(10);
+    this.PlayerBoardUpdate.craft = new Array(10);
 
     this.enemyOcean.ocean = new Array(10);
     this.enemyOcean.oceanLegend = new Array(10);
+    this.enemyOcean.craft = new Array(10);
+
     for (let i = 0; i < 10; i ++) {
       this.PlayerBoardUpdate.ocean[i] = new Array(10);
       this.PlayerBoardUpdate.oceanLegend[i] = new Array(10);
+      this.PlayerBoardUpdate.craft[i] = new Array(10);
 
       this.enemyOcean.ocean[i] = new Array(10);
       this.enemyOcean.oceanLegend[i] = new Array(10);
+      this.enemyOcean.craft[i] = new Array(10);
 
       for(let j = 0; j < 10; j ++) {
 
         this.PlayerBoardUpdate.ocean[i][j] = new Array(2);
         this.PlayerBoardUpdate.oceanLegend[i][j] = new Array(2);
+        this.PlayerBoardUpdate.craft[i][j] = new Array(2);
 
         this.enemyOcean.ocean[i][j] = new Array(2);
         this.enemyOcean.oceanLegend[i][j] = new Array(2);
+        this.enemyOcean.craft[i][j] = new Array(2);
 
         this.PlayerBoardUpdate.ocean[i][j][0] = 0;
         this.PlayerBoardUpdate.oceanLegend[i][j][0] = "water";
+        this.PlayerBoardUpdate.craft[i][j][0] = "None";
 
         this.enemyOcean.ocean[i][j][0] = 0;
         this.enemyOcean.oceanLegend[i][j][0] = "water";
+        this.enemyOcean.craft[i][j][0];
+      }
+    }
+  }
+
+  UpdateBoardStatus(craft:string){
+    switch (craft) {
+      case "Patrol":
+        this.patrol-=1;
+        if(this.patrol==0){
+          this.Extenguish(craft);
+        }
+      break;
+      case "Submarine":
+        this.sub-=1;
+        if(this.sub==0){
+          this.Extenguish(craft);
+        }
+      break;
+      case "Destroyer":
+        this.dest-=1;
+        if(this.dest==0){
+          this.Extenguish(craft);
+        }
+      break;
+      case "Battleship":
+        this.battle-=1;
+        if(this.battle==0){
+          this.Extenguish(craft);
+        }
+      break;
+      case "Carrier":
+        this.carrier-=1;
+        if(this.carrier==0){
+          this.Extenguish(craft);
+        }
+      break;
+      default:
+      break;
+    }
+  }
+
+  Extenguish(craft:string){
+    for (let i = 0; i < 10; i ++) {
+      for(let j = 0; j < 10; j ++) {
+        if(this.enemyOcean.craft[i][j][0] == craft){
+          this.enemyOcean.ocean[i][j][0] = 3;
+          this.enemyOcean.oceanLegend[i][j][0] = "destroyed";
+        }
       }
     }
   }
