@@ -104,6 +104,7 @@ io.on('connection', socket => {
     console.log(`Socket ${socket.id} has connected`);
 
     socket.on('disconnect', () =>{
+        socket.broadcast.emit('winner',true);
         socket.leave(previousRoomId);
     })
 });
