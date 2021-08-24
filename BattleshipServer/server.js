@@ -96,14 +96,16 @@ io.on('connection', socket => {
             socket.broadcast.emit('turn change',true);
         }
 
-    socket.on('Leave Room', roomnum =>{
-        console.log(`Socket ${socket.id} has left room ${roomnum}`);
-        socket.leave(roomnum);
+
     });
 
     socket.on("send coordinates", (coords, room, userid)=>{
         console.log(coords);
-    })
+    });
+    socket.on('Leave Room', roomnum =>{
+        console.log(`Socket ${socket.id} has left room ${roomnum}`);
+        socket.leave(roomnum);
+    });
 
     // broadcast call rooms and sockets that have connected
     io.emit('rooms', Object.keys(rooms));
@@ -115,9 +117,7 @@ io.on('connection', socket => {
     })
 });
 
-
 // broadcast server to a port so others can listen in
 http.listen(3000, () => {
     console.log('Listening on port 3000');
 });
-})

@@ -1,17 +1,20 @@
-<div class="sidenav">
-    <!-- event bind creating a new room to click -->
-    <mat-button-toggle-group name="player count" aria-label="Font Style">
-    <mat-button-toggle value="single">
-        Single Player
-    </mat-button-toggle>
-    <mat-button-toggle value="multi">
-        Multiplayer
-    </mat-button-toggle>
-    </mat-button-toggle-group>
+<!-- <div class="sidenav">
+  
     <span (click)='newRoom()'>New Room</span>
     <span [class.selected]='roomId === currentRoom'
             (click)='loadRoom(roomId)'
             *ngFor='let roomId of rooms | async'>
         {{ roomId }}
     </span>
+</div> -->
+  <!-- event bind creating a new room to click -->
+<div class="container">
+    <br>
+    <button (click)='newRoom()'>New Room</button>
+    <div [class.selected]='roomId === currentRoom'
+            (click)='loadRoom(roomId)'
+            *ngFor='let roomId of rooms | async'  style="width:100px; height: 50px;">
+        {{ roomId }}
+    </div>
+    <br>
 </div>
