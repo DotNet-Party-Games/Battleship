@@ -4,6 +4,7 @@ import { GameStateService } from '../services/gamestate.service';
 import { Subscription } from 'rxjs';
 import { IUser } from '../user/user';
 import { InteractivityChecker } from '@angular/cdk/a11y';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-board',
@@ -33,7 +34,7 @@ export class GameBoardComponent implements OnInit {
   winner:boolean;
   loser:boolean;
 
-  constructor(private socket:GameStateService) {
+  constructor(private socket:GameStateService, private router:Router) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.turn = false;
@@ -71,18 +72,39 @@ export class GameBoardComponent implements OnInit {
         this.UpdateBoardStatus(this.enemyOcean.craft[x][y][z]);
         if(this.patrol==0&&this.sub==0&&this.dest==0&&this.battle==0&&this.carrier==0){
           this.socket.WinningShot();
-        }else{
-        this.socket.SendShot(this.enemyOcean, message);
         }
-      } else if(this.enemyOcean.ocean[x][y][z] == 0){
-        // message = this.playerName.userName + " Missed " + this.enemyName.userName;
-        this.enemyOcean.ocean[x][y][z] = 2;
-        this.enemyOcean.oceanLegend[x][y][z] = "miss";
-        this.socket.SendShot(this.enemyOcean, message);
-      }
+        else if(this.enemyOcean.ocean[x][y][z] == 0){
+          // message = this.playerName.userName + " Missed " + this.enemyName.userName;
+          this.enemyOcean.ocean[x][y][z] = 2;
+          this.enemyOcean.oceanLegend[x][y][z] = "miss";
+          this.socket.SendShot(this.enemyOcean, message);
+          this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
+        }
+        else{
+          this.socket.SendShot(this.enemyOcean, message);
+          this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
+        } 
     }
   }
+}
+  playaudio(action:string){
+    let audio = new Audio();
+    switch(action){
+      case "miss":
+        audio.src = "../../assets/splash.wav";
+        audio.load();
+        audio.play();
+        break;
+      case "hit":
+        audio.src = "../../assets/explosion.mp3";
+        audio.load();
+        audio.play();
+        break;
+      case "sink":
+        audio.src = "../../assets/bubbling_water.mp3"
+    }
 
+  }
   Seed(){
     this.PlayerBoardUpdate.ocean = new Array(10);
     this.PlayerBoardUpdate.oceanLegend = new Array(10);
@@ -128,6 +150,7 @@ export class GameBoardComponent implements OnInit {
         this.patrol-=1;
         if(this.patrol==0){
           this.Extenguish(craft);
+
         }
       break;
       case "Submarine":
@@ -168,6 +191,9 @@ export class GameBoardComponent implements OnInit {
         }
       }
     }
+  }
+  LeaveRoom(){
+    this.router.navigate(["/roomlist"]);
   }
 
   

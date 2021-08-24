@@ -35,4 +35,13 @@ export class RoomService {
     }
     return roomId;
   }
+
+  joinTeam(friendID:string){
+    //get your username so that you can add yourself to the team
+    const yourid = "";
+    //send both your name and friend's so that you can make a team with both. 
+    //score question, if you win does that count as a win for both or in a new scoreboard just for teams
+    //
+    this.socket.emit("join team", friendID, yourid);
+  }
 }

@@ -43,10 +43,14 @@ import { INavy } from './gameboard';
     StartGame(){
       this.socket.emit('start game');
     }
+    LeaveRoom(){
+      this.socket.emit("Leave Room");
+    }
 
     WinningShot(){
       this.socket.emit('win shot');
     }
+
 
 
     InterpretOcean(item: number[][][], baseOcean: string[][][], craft: string[][][]) {
