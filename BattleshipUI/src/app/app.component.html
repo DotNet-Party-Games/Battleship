@@ -14,14 +14,6 @@
       <mat-icon>leaderboard</mat-icon>
       Leaderboard
     </button>
-    <button mat-button routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
-      <mat-icon>account_circle</mat-icon>
-      Profile
-    </button>
-    <button mat-button routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
-      <mat-icon>supervisor_account</mat-icon>
-      Manage Users
-    </button>
     <app-login></app-login>
   </div>
   <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
@@ -40,14 +32,6 @@
   <button mat-menu-item routerLink="/leaderboard">
     <mat-icon>leaderboard</mat-icon>
     Leaderboard
-  </button>
-  <button mat-menu-item routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
-    <mat-icon>account_circle</mat-icon>
-      Profile
-  </button>
-  <button mat-menu-item routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
-    <mat-icon>supervisor_account</mat-icon>
-    Manage Users
   </button>
   <app-login></app-login>
 </mat-menu>
