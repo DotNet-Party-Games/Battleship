@@ -422,6 +422,6 @@ export class GameboardSetupComponent implements OnInit {
   }
 
   CannotPlaceError(){
-    alert("Can't place {"+ this.selectedShip + "} at location {" + this.selected[1] + "," + this.selected[0]+ "}!");
+    alert("Can't place {"+ this.selectedShip + "} at location {" + this.selected[0] + "," + this.selected[1]+ "}!");
   }
 }
