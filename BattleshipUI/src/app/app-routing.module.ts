@@ -9,6 +9,7 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 import { RoomListComponent } from './room-list/room-list.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
     path: 'gameboardsetup',
     component: GameboardSetupComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'leaderboard',
+    component: LeaderboardComponent
   }
 ];
 

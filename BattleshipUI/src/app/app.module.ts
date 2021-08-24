@@ -37,6 +37,7 @@ import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.compo
 import { RoomListComponent } from './room-list/room-list.component';
 import { RoomComponent } from './room/room.component';
 import { ChatComponent } from './chat/chat.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 
 // creates configuration for module to operate off?
@@ -53,6 +54,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
     RoomListComponent,
     RoomComponent,
     ChatComponent,
+    LeaderboardComponent
   ],
   imports: [
       BrowserModule,
