@@ -24,6 +24,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 
+
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { LoginComponent } from './login/login.component';
@@ -74,6 +75,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
       MatMenuModule,
       MatIconModule,
       MatButtonModule,
+      MatSlideToggleModule,
+      BrowserAnimationsModule,
       MatTableModule,
       MatDividerModule,
       MatSlideToggleModule,

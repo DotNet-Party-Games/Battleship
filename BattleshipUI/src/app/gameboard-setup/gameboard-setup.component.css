@@ -128,3 +128,20 @@ td.aircraftcarrierr5{
     width: 100px;
     height: 100px;
   }
+
+.ready{
+    font-weight: normal;
+}
+
+.ready span{
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    background: red;
+}
+span.green{
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    background: green;
+}

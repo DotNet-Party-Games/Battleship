@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgModule } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
+
 import { RoomService } from '../services/room.service';
+
 
 @Component({
   selector: 'app-room-list',
@@ -17,6 +19,8 @@ export class RoomListComponent implements OnInit, OnDestroy {
   // subscription of current room, will be unsubbed after ngondestroy
   private _roomSub: Subscription;
 
+
+  myModel=false;
   // initialize room service file in constructor
   constructor(private roomService: RoomService) { }
 
@@ -35,7 +39,15 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   newRoom() {
-    this.roomService.addRoom();
+    if (this.myModel){
+      this.roomService.addRoom();
+      console.log("making new room");
+    }
+    else{
+      this.roomService.addRoom();
+      console.log("Making new room");
+    }
+    
   }
   
 }

@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
@@ -22,7 +23,7 @@ export class RoomService {
   }
 
   addRoom() {
-    this.socket.emit('add a room', { id: this.roomId() });
+    this.socket.emit('add a room', { id: this.roomId()});
     this.router.navigate(['/gameboardsetup']);
   }
 

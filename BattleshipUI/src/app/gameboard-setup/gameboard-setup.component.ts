@@ -81,7 +81,7 @@ export class GameboardSetupComponent implements OnInit {
         this.gamestate.startingNavy.craft[i][j][0] = "None";
       }
     }
-    this.gamestate.opponentReady.subscribe(turn=>this.opponentReady=turn);
+    this.gamestate.opponentReady.subscribe(turn=>{this.opponentReady=turn, document.querySelector("player2 .ready span").classList.toggle('green')});
   }
 /*   SetUpRoom() {
     this.BApi.Reset(this.roomNum).subscribe(
@@ -333,36 +333,18 @@ export class GameboardSetupComponent implements OnInit {
         return;
       }
     }
-/*     for(let i = 0; i < 5; i++){
-      this.submitPlaceShip(i, this.ships[i]);
-    } */
-/*     this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
-      response => {console.log(response["user1"])}
-    ); */
     this.shipsDeployed = true;
+    document.querySelector(".ready span").classList.toggle('green', true);
     this.sendtoserver();
   }
 
-/*   submitPlaceShip(shipId:number, pship:Ship){
-    this.BApi.PlaceShip(this.roomNum, this.userId, shipId, pship.x, pship.y, 0, pship.horizontal).subscribe(
-      response => { console.log(response.user1) }
-    );
-  } */
-
-/*   tempSetUp(){
-    this.BApi.SetUp(1,2,3).subscribe(
-      response => {console.log(response["user1"])}
-    );
-  } */
   sendtoserver(){
-    //do i need to send room number as well?
-    // this.deploy.sendboard(this.ships, this.roomNum, this.userId);
-    // console.log(this.ships, this.roomNum, this.userId);
     this.gamestate.startingNavy.oceanLegend=this.test;
     this.gamestate.InterpretOcean(this.gamestate.startingNavy.ocean,this.gamestate.startingNavy.oceanLegend, this.gamestate.startingNavy.craft);
     this.gamestate.SendPlayerBoard(this.gamestate.startingNavy);
     if(this.opponentReady){
       this.gamestate.StartGame();
+      
     }else{
       this.gamestate.ReadyUp();
     }

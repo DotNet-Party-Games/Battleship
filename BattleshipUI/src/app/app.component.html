@@ -1,12 +1,11 @@
 <mat-toolbar color="primary" class="expanded-toolbar">
   <span>
     <button mat-button routerLink="/">{{title}}</button>
-    <button mat-button routerLink="/"><mat-icon>home</mat-icon></button>
   </span>
   <span mat-button *ngIf="auth.user$ | async as user">Hello, Admiral {{user.name}}! </span>
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
     
-    <button mat-button routerLink="/roomlist">
+    <button mat-button routerLink="/game">
       <mat-icon>sports_esports</mat-icon>
       Play
     </button>
@@ -14,41 +13,6 @@
       <mat-icon>leaderboard</mat-icon>
       Leaderboard
     </button>
-    <button mat-button routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
-      <mat-icon>account_circle</mat-icon>
-      Profile
-    </button>
-    <button mat-button routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
-      <mat-icon>supervisor_account</mat-icon>
-      Manage Users
-    </button>
-    <app-login></app-login>
   </div>
-  <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
-    <mat-icon>menu</mat-icon>
-  </button>
 </mat-toolbar>
-<mat-menu x-position="before" #menu="matMenu">
-  <button mat-menu-item routerLink="/">
-    <mat-icon>home</mat-icon>
-    Home
-  </button>
-  <button mat-menu-item routerLink="/roomlist">
-    <mat-icon>sports_esports</mat-icon>
-    Play
-  </button>
-  <button mat-menu-item routerLink="/leaderboard">
-    <mat-icon>leaderboard</mat-icon>
-    Leaderboard
-  </button>
-  <button mat-menu-item routerLink="/profile" *ngIf="auth.isAuthenticated$ | async">
-    <mat-icon>account_circle</mat-icon>
-      Profile
-  </button>
-  <button mat-menu-item routerLink="/user" *ngIf="auth.isAuthenticated$ | async">
-    <mat-icon>supervisor_account</mat-icon>
-    Manage Users
-  </button>
-  <app-login></app-login>
-</mat-menu>
 <router-outlet></router-outlet>
