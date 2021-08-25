@@ -12,19 +12,23 @@ export class RoomService {
   // events emitted by server, consumed on client as observable
   currentRoom = this.socket.fromEvent<Room>('room');
   rooms = this.socket.fromEvent<string[]>('rooms');
+  testSize = 2;
+  testName = this.roomId();
 
   // constructor initializes socket use
-  constructor(private socket: Socket, private router:Router) { }
+  constructor(private socket: Socket, private router:Router) { 
+    this.socket.emit('first connection', this.testName);
+  }
 
   // based off events in server
   joinRoom(id: string) {
     this.socket.emit('join room', id);
-    this.router.navigate(['/gameboardsetup']);
+    this.router.navigate(['/game']);
   }
 
   addRoom() {
-    this.socket.emit('add a room', { id: this.roomId()});
-    this.router.navigate(['/gameboardsetup']);
+    this.socket.emit('add a room', { id: this.roomId(), maxPlayers: this.testSize });
+    this.router.navigate(['/game']);
   }
 
   // function to make a random room id that can be parsed into a number for api calls

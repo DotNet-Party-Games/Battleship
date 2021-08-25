@@ -3,6 +3,26 @@ td {
   height: 64px;
 }
 
+  div.aircraftcarrier {
+    background-image: url("../../assets/AircraftCarrier.png");
+  }
+
+  div.battleship {
+    background-image: url("../../assets/Battleship.png");
+  }
+
+  div.destroyer {
+    background-image: url("../../assets/Destroyer.png");
+  }
+
+  div.submarine {
+    background-image: url("../../assets/Submarine.png");
+  }
+
+  div.patrolboat {
+    background-image: url("../../assets/PatrolBoat.png");
+  }
+
   td.water {
     background-image: url("../../assets/WaterTile.png");
   }
