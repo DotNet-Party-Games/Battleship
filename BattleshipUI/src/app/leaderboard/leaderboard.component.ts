@@ -5,75 +5,11 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 export interface MockScore {
-  scoreId: number,
-  userId: number,
-  scoreValue: number,
-  gameTime: string
+  username: number,
+  wins: number,
+  winratio: number,
+  position: number
 }
-
-const MOCK_DATA : MockScore[] = 
-[
-  {
-    "scoreId": 1,
-    "userId": 1,
-    "scoreValue": 0,
-    "gameTime": "2021-08-06T18:58:21.753"
-  },
-  {
-    "scoreId": 2,
-    "userId": 2,
-    "scoreValue": 4,
-    "gameTime": "2021-08-13T05:58:54.375"
-  },
-  {
-    "scoreId": 7,
-    "userId": 2,
-    "scoreValue": 6,
-    "gameTime": "2021-08-06T18:58:21"
-  },
-  {
-    "scoreId": 8,
-    "userId": 1,
-    "scoreValue": 8,
-    "gameTime": "2021-08-06T18:58:21"
-  },
-  {
-    "scoreId": 9,
-    "userId": 1,
-    "scoreValue": 11,
-    "gameTime": "2021-08-05T18:58:21"
-  },
-  {
-    "scoreId": 10,
-    "userId": 2,
-    "scoreValue": 11,
-    "gameTime": "2021-08-05T14:54:21"
-  },
-  {
-    "scoreId": 11,
-    "userId": 1,
-    "scoreValue": 31,
-    "gameTime": "2021-08-04T12:53:16"
-  },
-  {
-    "scoreId": 12,
-    "userId": 2,
-    "scoreValue": 31,
-    "gameTime": "2021-08-04T12:53:16"
-  },
-  {
-    "scoreId": 13,
-    "userId": 2,
-    "scoreValue": 15,
-    "gameTime": "2021-08-03T10:33:26"
-  },
-  {
-    "scoreId": 14,
-    "userId": 1,
-    "scoreValue": 9,
-    "gameTime": "2021-08-03T10:33:26"
-  }
-];
 
 @Component({
   selector: 'app-leaderboard',
@@ -83,7 +19,7 @@ const MOCK_DATA : MockScore[] =
 export class LeaderboardComponent implements OnInit, AfterViewInit {
 
   scores: IScore[];
-  displayedColumns: string[] = ['userId', 'scoreValue', 'gameTime'];
+  displayedColumns: string[] = ['position', 'username', 'wins', 'winratio'];
   dataSource: MatTableDataSource<IScore>;
   mockDataSource: MatTableDataSource<MockScore>;
 
@@ -97,9 +33,6 @@ export class LeaderboardComponent implements OnInit, AfterViewInit {
   constructor(private ScoreApi:ScoreapiService) { 
     this.scores = new Array<IScore>();
     this.dataSource = new MatTableDataSource();
-    MOCK_DATA.sort((a, b) => (a.scoreValue > b.scoreValue) ? -1 : 1);
-    this.mockDataSource = new MatTableDataSource(MOCK_DATA);
-    
   }
 
   ngOnInit(): void 
