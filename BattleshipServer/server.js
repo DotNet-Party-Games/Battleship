@@ -8,7 +8,6 @@ const io = require('socket.io')(http);
 // create a collection of rooms
 let rooms = [];
 // collection of messages
-const messages = [];
 const userMap = new Map();
 const teams = {};
 userMap.set("Lobby",{MaxPlayers:0,usersInRoom:[]});
@@ -42,13 +41,22 @@ io.on('connection', socket => {
     }
 
     const AddUserToList = () => {
+        console.log(userMap.get(previousRoomId));
         if(userMap.get(previousRoomId)){
             let temp = userMap.get(previousRoomId);
             if(temp.usersInRoom.length>0){ 
             temp.usersInRoom.push(username);
+            console.log(temp.usersInRoom);
+                if(temp.usersInRoom.length<3){
+                socket.emit('is water',true);
+                }
+                else{
+                socket.emit('is water', false);
+                }
             }
             else{
                 temp.usersInRoom = [username];
+                socket.emit('is water,',true);
             }
             userMap.set(previousRoomId,temp);
             if(temp.MaxPlayers == temp.usersInRoom.length && previousRoomId != "Lobby"){
@@ -60,11 +68,10 @@ io.on('connection', socket => {
     // create a way to joins rooms
     const safeJoin = currentRoomId => {
         // leave previous room
-        console.log(previousRoomId);
-        socket.leave(previousRoomId, () => console.log(`Socket ${socket.id} left room ${previousRoomId}`));
+        socket.leave(previousRoomId);
         RemoveUserFromList();
         // join new room with debugging message to console
-        socket.join(currentRoomId, () => console.log(`Socket ${socket.id} joined room ${currentRoomId}`));
+        socket.join(currentRoomId);
         // keep track of current room
         previousRoomId = currentRoomId;
         AddUserToList();
@@ -72,32 +79,28 @@ io.on('connection', socket => {
 
     // logic for when a socket tries to join a room
     socket.on('join room', roomId => {
+        console.log(roomId);
         safeJoin(roomId);
         // joining socket will know this one joined a room?
         socket.emit('room', roomId);
     });
 
-    socket.on("join team", otherplayer => {
-
-    });
-
     // logic for when a socket wants to add a room to the room list
     socket.on('add a room', room => {
         rooms.push(room.id);
+        userMap.set(room.id,{MaxPlayers:room.maxPlayers,usersInRoom:[]});
+        console.log(room.id);
         safeJoin(room.id);
-        userMap.set(previousRoomId,{MaxPlayers:room.maxPlayers,usersInRoom:[]});
         // io.emit broadcasts to all clients, not just the acting socket
         io.emit('rooms', rooms);
-        socket.emit('room', room);
+        socket.emit('room', room.id);
     });
 
     // logic for when a socket sends a message in chat
     socket.on('message', msg => {
-        messages[msg] = msg;
+        fullMessage = username+": "+msg;
         //console.log(`Message on the server is ${messages[msg.id]}`);
-        console.log(messages);
-        io.emit('get message', Object.keys(messages));
-        socket.emit('see message', msg);
+        io.to(previousRoomId).emit('get message', fullMessage);
     });
 
 

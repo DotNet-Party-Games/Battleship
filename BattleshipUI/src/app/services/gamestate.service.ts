@@ -18,6 +18,8 @@ import { INavy } from './gameboard';
     opponentReady = this.socket.fromEvent<boolean>('opponent ready');
     winner = this.socket.fromEvent<boolean>('winner');
     loser = this.socket.fromEvent<boolean>('loser');
+    isWater = this.socket.fromEvent<boolean>('is water');
+    playerNumber = this.socket.fromEvent<number>('player number');
   
     // initialize socket object
     constructor(private socket: Socket) { }

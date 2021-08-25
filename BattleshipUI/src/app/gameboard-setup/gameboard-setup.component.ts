@@ -21,17 +21,17 @@ export class GameboardSetupComponent implements OnInit {
   selectedShip: string;
   isVertical: boolean = false;
   ships: Ship[] = new Array(5);
-  roomNum: number;
+  roomNum: string;
   userId: number;
   opponentId: number;
   shipsDeployed: boolean;
   roomId:string;
   opponentReady:boolean=false;
+  isWater:boolean;
 
   constructor(public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService, private gamestate:GameStateService) {
     this.height = new Array(10);
     this.width = new Array(10);
-
     for(let i = 0; i < 10; i++){
       this.test[i] = new Array(10);
       for(let j=0; j<10; j++){
@@ -42,28 +42,18 @@ export class GameboardSetupComponent implements OnInit {
     this.selected[0] = 0;
     this.selected[1] = 0;
     this.selectedShip = "";
-
     for(let i =0; i < 5; i++){
       this.ships[i] = new Ship;
     }
-
-    this.deploy.roomnum.subscribe(response=> this.roomNum=response);
+    
     this.opponentId = 0;
     this.userId = 2;
     this.shipsDeployed = false;
-    /*this.auth.idTokenClaims$.subscribe(
-      (response) => {
-        console.log(response);
-        if (response?.iat) {
-          this.userId = response.iat
-        }
-      }
-    );*/
-
   }
-
   ngOnInit(): void {
-    this.roomservice.currentRoom.subscribe(response => {this.roomNum= parseInt(response.id), console.log("Room num: "+response.id)});
+
+    this.roomservice.currentRoom.subscribe(response => this.roomNum=response);
+    this.gamestate.isWater.subscribe(environ => this.isWater = environ);
 
     this.gamestate.startingNavy.ocean = new Array(10);
     this.gamestate.startingNavy.oceanLegend = new Array(10);
@@ -83,26 +73,14 @@ export class GameboardSetupComponent implements OnInit {
     }
     this.gamestate.opponentReady.subscribe(turn=>this.opponentReady=turn);
   }
-/*   SetUpRoom() {
-    this.BApi.Reset(this.roomNum).subscribe(
-      (response) => {
-        this.BApi.SetUp(this.roomNum, this.userId, this.opponentId).subscribe(
-          response => { console.log(response["user1"]) }
-        );
-      }
-    )
-  } */
-
   select(i:number, j:number){
     this.selected[0] = i;
     this.selected[1] = j;
     this.placeShip();
   }
-
   selectShip(s:string){
     this.selectedShip = s;
   }
-
   placeShip(){
     if(this.isVertical==true){
       switch (this.selectedShip) {
@@ -287,7 +265,6 @@ export class GameboardSetupComponent implements OnInit {
         break;
     }
   }
-
   isplaced(ship:number){
     if(this.ships[ship].placed){
       return true;
@@ -311,11 +288,9 @@ export class GameboardSetupComponent implements OnInit {
     }
     return true;
   }
-
   toggleVertical(){
     this.isVertical = !this.isVertical;
   }
-
   clearShip(s:Ship,size:number){
     for(let i=0; i<size; i++){
       if(s.horizontal == false){
@@ -326,7 +301,6 @@ export class GameboardSetupComponent implements OnInit {
       }
     }
   }
-
   Deploy(){
     for(let i = 0; i < 5; i++){
       if(this.ships[i].placed == false){
@@ -342,18 +316,6 @@ export class GameboardSetupComponent implements OnInit {
     this.shipsDeployed = true;
     this.sendtoserver();
   }
-
-/*   submitPlaceShip(shipId:number, pship:Ship){
-    this.BApi.PlaceShip(this.roomNum, this.userId, shipId, pship.x, pship.y, 0, pship.horizontal).subscribe(
-      response => { console.log(response.user1) }
-    );
-  } */
-
-/*   tempSetUp(){
-    this.BApi.SetUp(1,2,3).subscribe(
-      response => {console.log(response["user1"])}
-    );
-  } */
   sendtoserver(){
     //do i need to send room number as well?
     // this.deploy.sendboard(this.ships, this.roomNum, this.userId);
@@ -372,5 +334,4 @@ export class GameboardSetupComponent implements OnInit {
     console.log("leaving room");
     this.router.navigate(["/roomlist"]);
   }
-
 }

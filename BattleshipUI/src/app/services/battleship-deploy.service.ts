@@ -13,9 +13,9 @@ export class BattleshipDeployService {
   sendboard(positions: Ship[], roomNum:number, userId:number){
     this.socket.emit("send coordinates", positions, roomNum, userId);
   }
-  leaveRoom(roomNum:number){
+  leaveRoom(roomNum:string){
     console.log("left room");
-    this.socket.emit("Leave Room", roomNum.toString());
+    this.socket.emit("Leave Room", roomNum);
   }
   getroomnumber(userid:number){
     this.socket.emit("get room number", userid);

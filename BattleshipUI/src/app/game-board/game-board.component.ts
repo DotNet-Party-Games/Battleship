@@ -33,13 +33,14 @@ export class GameBoardComponent implements OnInit {
   carrier:number;
   winner:boolean;
   loser:boolean;
+  isWater:boolean;
+  view:boolean;
 
   constructor(private socket:GameStateService, private router:Router) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.turn = false;
   }
-
   ngOnInit(): void {
     this.Seed();
     this._room = this.socket.currentTurn.subscribe(turn=>this.turn = turn);
@@ -48,7 +49,9 @@ export class GameBoardComponent implements OnInit {
     this._room = this.socket.playerBoardUpdate.subscribe(shot=>this.PlayerBoardUpdate = shot);
     this._room = this.socket.enemyName.subscribe(enemy=>this.enemyName.userName = enemy);
     this._room = this.socket.enemyFleet.subscribe(board=>this.enemyOcean = board);
-    this._room = this.socket.statusMessage.subscribe(mess=>this.statusMessage=mess);
+    this._room = this.socket.statusMessage.subscribe(mess=>this.statusMessage = mess);
+    this._room = this.socket.isWater.subscribe(place => this.isWater = place);
+    this.view = this.isWater;
     this.patrol = 2;
     this.sub = 3;
     this.dest = 3;
@@ -58,7 +61,6 @@ export class GameBoardComponent implements OnInit {
     console.log(this.enemyOcean.ocean);
     // this.socket.UpdateNames(this.playerName.userName);
   }
-
   Attack(x: number, y: number, z: number) {
     if (this.turn){
       let message:string;
@@ -85,7 +87,7 @@ export class GameBoardComponent implements OnInit {
           this.playaudio(this.enemyOcean.oceanLegend[x][y][z]);
       }
   }
-}
+  }
   playaudio(action:string){
     let audio = new Audio();
     switch(action){
@@ -142,7 +144,6 @@ export class GameBoardComponent implements OnInit {
       }
     }
   }
-
   UpdateBoardStatus(craft:string){
     switch (craft) {
       case "Patrol":
@@ -180,7 +181,6 @@ export class GameBoardComponent implements OnInit {
       break;
     }
   }
-
   Extenguish(craft:string){
     for (let i = 0; i < 10; i ++) {
       for(let j = 0; j < 10; j ++) {
@@ -194,6 +194,4 @@ export class GameBoardComponent implements OnInit {
   LeaveRoom(){
     this.router.navigate(["/roomlist"]);
   }
-
-  
 }
