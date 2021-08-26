@@ -204,6 +204,7 @@ td.aircraftcarrierr5 {
     width: 48%; 
     position: relative;
     display: inline-block;
+    margin: auto;
 }
 
 .overlay {
@@ -225,6 +226,11 @@ td.aircraftcarrierr5 {
     content: "";
     clear: both;
     display: table;
+}
+
+.btn-table {
+    display: flex;
+    justify-content: space-around;
 }
 
 /* air layer assets */
@@ -525,7 +531,7 @@ td.plane4_6_R3 {
 }
 
 #airplaneselect{
-    width: 420px;
+    width: 350px;
     height: 650px;
     text-align: center;
     background: url("../../assets/cloud.png");
