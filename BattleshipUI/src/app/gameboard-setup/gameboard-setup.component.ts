@@ -459,7 +459,7 @@ export class GameboardSetupComponent implements OnInit {
             }
             break;
           default:
-            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            alert("No airplane has been selected! Click on an airplane and then click on the board to place that airplane.");
             break;
         }
         break;
@@ -556,7 +556,7 @@ export class GameboardSetupComponent implements OnInit {
             }
             break;
           default:
-            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            alert("No airplane has been selected! Click on an airplane and then click on the board to place that airplane.");
             break;
         }
         break;
@@ -653,7 +653,7 @@ export class GameboardSetupComponent implements OnInit {
             }
             break;
           default:
-            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            alert("No airplane has been selected! Click on an airplane and then click on the board to place that airplane.");
             break;
         }
         break;
@@ -750,7 +750,7 @@ export class GameboardSetupComponent implements OnInit {
             }
             break;
           default:
-            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            alert("No airplane has been selected! Click on an airplane and then click on the board to place that airplane.");
             break;
         }
         break;
