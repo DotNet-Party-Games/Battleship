@@ -28,7 +28,7 @@ export class GameboardSetupComponent implements OnInit {
   shipsDeployed: boolean;
   roomId:string;
   opponentReady:boolean=false;
-  viewBoard: string = "air";  // tells the browser which gameboard to actively view; default should be "sea"
+  viewBoard: string = "sea";  // tells the browser which gameboard to actively view; default should be "sea"
   airplanes: Airplane[] = new Array(4);
   airplanesDeployed: boolean;
   airplaneOrientation: Orientation;
@@ -861,13 +861,110 @@ export class GameboardSetupComponent implements OnInit {
         }
         break;
       case Orientation.Rotated90:
-
+        switch (plane) {
+          case "helicopter":
+            for (let i = 0; i < 2; i++) {
+              if(this.test[this.selected[0] + i][this.selected[1]][1] != "air" && !this.test[this.selected[0] + i][this.selected[1]].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            break;
+          case "stealth plane":
+            for (let i = 0; i < 3; i++) {
+              if(this.test[this.selected[0]+1][this.selected[1] - 1 + i][1] != "air" && !this.test[this.selected[0]+1][this.selected[1] - 1 + i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if (this.test[this.selected[0]][this.selected[1]][1] != "air" && !this.test[this.selected[0]][this.selected[1]].includes(this.selectedAirplane)){
+              return false;
+            }
+            break;
+          case "fighter #1":
+          case "fighter #2":
+            for (let i = 0; i < 4; i++) {
+              if(this.test[this.selected[0] + i][this.selected[1]][1] != "air" && !this.test[this.selected[0] + i][this.selected[1]].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if ((this.test[this.selected[0] + 2][this.selected[1] - 1][1] != "air" && !this.test[this.selected[0] + 2][this.selected[1] - 1].includes(this.selectedAirplane))
+                 || (this.test[this.selected[0] + 2][this.selected[1] + 1][1] != "air" && !this.test[this.selected[0] + 2][this.selected[1] + 1].includes(this.selectedAirplane))){
+              return false;
+            }
+            break;
+          default:
+            break;
+        }
         break;
       case Orientation.Rotated180:
-
+        switch (plane) {
+          case "helicopter":
+            for (let i = 0; i < 2; i++) {
+              if(this.test[this.selected[0]][this.selected[1] - i][1] != "air" && !this.test[this.selected[0]][this.selected[1] - i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            break;
+          case "stealth plane":
+            for (let i = 0; i < 2; i++) {
+              if(this.test[this.selected[0]][this.selected[1] - i][1] != "air" && !this.test[this.selected[0]][this.selected[1] - i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if ((this.test[this.selected[0] - 1][this.selected[1] - 1][1] != "air" && !this.test[this.selected[0] - 1][this.selected[1] - 1].includes(this.selectedAirplane))
+                 || (this.test[this.selected[0] + 1][this.selected[1] - 1][1] != "air" && !this.test[this.selected[0] + 1][this.selected[1] - 1].includes(this.selectedAirplane))){
+              return false;
+            }
+            break;
+          case "fighter #1":
+          case "fighter #2":
+            for (let i = 0; i < 4; i++) {
+              if(this.test[this.selected[0]][this.selected[1] - i][1] != "air" && !this.test[this.selected[0]][this.selected[1] - i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if ((this.test[this.selected[0] - 1][this.selected[1] - 2][1] != "air" && !this.test[this.selected[0] - 1][this.selected[1] - 2].includes(this.selectedAirplane))
+                 || (this.test[this.selected[0] + 1][this.selected[1] - 2][1] != "air" && !this.test[this.selected[0] + 1][this.selected[1] - 2].includes(this.selectedAirplane))){
+              return false;
+            }
+            break;
+          default:
+            break;
+        }
         break;
       case Orientation.Rotated270:
-
+        switch (plane) {
+          case "helicopter":
+            for (let i = 0; i < 2; i++) {
+              if(this.test[this.selected[0] - i][this.selected[1]][1] != "air" && !this.test[this.selected[0] - i][this.selected[1]].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            break;
+          case "stealth plane":
+            for (let i = 0; i < 3; i++) {
+              if(this.test[this.selected[0]-1][this.selected[1] - 1 + i][1] != "air" && !this.test[this.selected[0] - 1][this.selected[1] - 1 + i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if (this.test[this.selected[0]][this.selected[1]][1] != "air" && !this.test[this.selected[0]][this.selected[1]].includes(this.selectedAirplane)){
+              return false;
+            }
+            break;
+          case "fighter #1":
+          case "fighter #2":
+            for (let i = 0; i < 4; i++) {
+              if(this.test[this.selected[0] - i][this.selected[1]][1] != "air" && !this.test[this.selected[0] - i][this.selected[1]].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if ((this.test[this.selected[0] - 2][this.selected[1] - 1][1] != "air" && !this.test[this.selected[0] - 2][this.selected[1] - 1].includes(this.selectedAirplane))
+                 || (this.test[this.selected[0] - 2][this.selected[1] + 1][1] != "air" && !this.test[this.selected[0] - 2][this.selected[1] + 1].includes(this.selectedAirplane))){
+              return false;
+            }
+            break;
+          default:
+            break;
+        }
         break;
       default:
         break;
@@ -976,13 +1073,25 @@ export class GameboardSetupComponent implements OnInit {
             this.test[plane.y + 1][plane.x + 2][1] = "air";
             break;
           case Orientation.Rotated90:
-            
+            for(let i = 0; i < 4; i++){
+              this.test[plane.y + i][plane.x][1] = "air";
+            }
+            this.test[plane.y + 2][plane.x + 1][1] = "air";
+            this.test[plane.y + 2][plane.x - 1][1] = "air";
             break;
           case Orientation.Rotated180:
-            
+            for(let i = 0; i < 4; i++){
+              this.test[plane.y][plane.x - i][1] = "air";
+            }
+            this.test[plane.y - 1][plane.x - 2][1] = "air";
+            this.test[plane.y + 1][plane.x - 2][1] = "air";
             break;
           case Orientation.Rotated270:
-            
+            for(let i = 0; i < 4; i++){
+              this.test[plane.y - i][plane.x][1] = "air";
+            }
+            this.test[plane.y - 2][plane.x + 1][1] = "air";
+            this.test[plane.y - 2][plane.x - 1][1] = "air";
             break;
           default:
             break;
@@ -1000,6 +1109,18 @@ export class GameboardSetupComponent implements OnInit {
         return;
       }
     }
+
+    /*
+    // boardControlled is a placeholder; whatever way we decide how to have a user control a certain board
+    if (isCoOp && boardControlled == "air") {
+      for(let i = 0; i < 5; i++){
+        if(this.airplanes[i].placed == false){
+          alert("Not all airplanes have been placed!");
+          return;
+        }
+      }
+    }
+    */
 /*     for(let i = 0; i < 5; i++){
       this.submitPlaceShip(i, this.ships[i]);
     } */
