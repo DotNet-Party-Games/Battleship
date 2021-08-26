@@ -221,6 +221,13 @@ td.aircraftcarrierr5 {
     z-index: 1;
 }
 
+.overlay-plane {
+    position: absolute;
+    top: 40%;
+    left: 32%;
+    z-index: 1;
+}
+
 .box-row::after
 {
     content: "";
