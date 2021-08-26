@@ -32,6 +32,30 @@ td.patrolboat2 {
   background-image: url("../../assets/PatrolBoat2.png");
 }
 
+  div.aircraftcarrier {
+    background-image: url("../../assets/AircraftCarrier.png");
+  }
+
+  div.battleship {
+    background-image: url("../../assets/Battleship.png");
+  }
+
+  div.destroyer {
+    background-image: url("../../assets/Destroyer.png");
+  }
+
+  div.submarine {
+    background-image: url("../../assets/Submarine.png");
+  }
+
+  div.patrolboat {
+    background-image: url("../../assets/PatrolBoat.png");
+  }
+
+  td.water {
+    background-image: url("../../assets/WaterTile.png");
+  }
+
 td.patrolboatr1 {
   background-image: url("../../assets/PatrolBoatR1.png");
 }

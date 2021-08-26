@@ -21,6 +21,8 @@
   </tr>
 </table> -->
 <button (click)="turn=!turn">change turn</button>
+<br><br>
+<button click="LeaveRoom()">Leave Room</button>
 <table>
   <tbody>
     <tr>
@@ -44,7 +46,7 @@
           </tbody>
         </table>
       </td>
-      <td></td>
+            <td></td>
       <td>
         <table class="table table-bordered border-primary" style="height: fit-content; width: 575px;">
           <tbody>
@@ -60,4 +62,26 @@
     </tr>
   </tbody>
 </table>
+<div align="center">Opponent's Remaining Ships</div>
+<div align="center">
+  <img *ngIf ="carrier!=0" style="align-items: center; margin-right: 5px;" src="../../assets/AircraftCarrier.png"> 
+  <img *ngIf ="battle!=0" style="align-items: center; margin-right: 5px;" src="../../assets/Battleship.png"> 
+  <img *ngIf ="dest!=0" style="align-items: center; margin-right: 5px;" src="../../assets/Destroyer.png"> 
+  <img *ngIf ="sub!=0" style="align-items: center; margin-right: 5px;" src="../../assets/Submarine.png"> 
+  <img *ngIf ="patrol!=0" style="align-items: center; margin-right: 5px;" src="../../assets/PatrolBoat.png"> 
+</div>
 
+<p>Sounds:
+    Splash: https://freesound.org/people/petenice/sounds/9508/
+    By: petenice
+    
+    Explosion, Ship Sinking: Sound effects obtained from https://www.zapsplat.com
+
+    Victory music: https://freesound.org/s/475148/
+    By: rezyma
+
+    Loss Music: https://www.bands.army.mil/music/buglecalls/taps.asp
+    By: US Army Band
+
+    Ship Sinking Music:  
+</p>

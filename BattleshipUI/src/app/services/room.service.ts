@@ -11,19 +11,23 @@ export class RoomService {
   // events emitted by server, consumed on client as observable
   currentRoom = this.socket.fromEvent<Room>('room');
   rooms = this.socket.fromEvent<string[]>('rooms');
+  testSize = 2;
+  testName = this.roomId();
 
   // constructor initializes socket use
-  constructor(private socket: Socket, private router:Router) { }
+  constructor(private socket: Socket, private router:Router) { 
+    this.socket.emit('first connection', this.testName);
+  }
 
   // based off events in server
   joinRoom(id: string) {
     this.socket.emit('join room', id);
-    this.router.navigate(['/gameboardsetup']);
+    this.router.navigate(['/game']);
   }
 
   addRoom() {
-    this.socket.emit('add a room', { id: this.roomId() });
-    this.router.navigate(['/gameboardsetup']);
+    this.socket.emit('add a room', { id: this.roomId(), maxPlayers: this.testSize });
+    this.router.navigate(['/game']);
   }
 
   // function to make a random room id that can be parsed into a number for api calls
@@ -34,5 +38,14 @@ export class RoomService {
       roomId += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return roomId;
+  }
+
+  joinTeam(friendID:string){
+    //get your username so that you can add yourself to the team
+    const yourid = "";
+    //send both your name and friend's so that you can make a team with both. 
+    //score question, if you win does that count as a win for both or in a new scoreboard just for teams
+    //
+    this.socket.emit("join team", friendID, yourid);
   }
 }

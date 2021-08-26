@@ -10,6 +10,8 @@ import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { Room } from './models/room.model';
+import { RoomComponent } from './room/room.component';
 
 const routes: Routes = [
   {
@@ -34,6 +36,11 @@ const routes: Routes = [
   {
     path: 'leaderboard',
     component: LeaderboardComponent
+  }, 
+  {
+    path:"roomlist",
+    component:RoomComponent,
+    canActivate:[AuthGuard]
   }
 ];
 

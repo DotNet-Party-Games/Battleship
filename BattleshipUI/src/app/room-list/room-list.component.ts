@@ -37,4 +37,5 @@ export class RoomListComponent implements OnInit, OnDestroy {
   newRoom() {
     this.roomService.addRoom();
   }
+  
 }

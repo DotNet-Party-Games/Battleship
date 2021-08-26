@@ -2,6 +2,15 @@
 <div id="options" class="container">
 	<div>
 		<div>
+			<div>
+				<br>
+				<br>
+				<br>
+				<label>Room Number</label>
+			</div>
+				{{roomNum}}
+			</div>
+		<div>
 		  <div>
 			<label>Your Id </label>
 		  </div>
@@ -25,8 +34,9 @@
 		<button class ="btn btn-primary" (click)="controlAir()">Control Air</button>
 		<button class ="btn btn-primary" (click)="resetControl()">Clear Control</button>
 	</div>
-
 </div>
+
+
 
 <div class="container" *ngIf="viewBoard==='sea'">
 	<div class="row">
