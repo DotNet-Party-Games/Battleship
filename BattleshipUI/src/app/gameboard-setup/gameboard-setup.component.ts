@@ -34,8 +34,10 @@ export class GameboardSetupComponent implements OnInit {
   airplaneOrientation: Orientation;
   selectedAirplane: string;
   importedOrientation = Orientation;
+  userControl:string;
 
   constructor(public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService, private gamestate:GameStateService) {
+    this.userControl = "";
     this.height = new Array(10);
     this.width = new Array(10);
 
@@ -121,6 +123,18 @@ export class GameboardSetupComponent implements OnInit {
     } else if (this.viewBoard == "air") {
       this.viewBoard = "sea";
     }
+  }
+
+  resetControl() {
+    this.userControl = "";
+  }
+
+  controlAir() {
+    this.userControl = "air";
+  }
+
+  controlSea() {
+    this.userControl = "sea";
   }
 
   selectWaterSpace(i:number, j:number){

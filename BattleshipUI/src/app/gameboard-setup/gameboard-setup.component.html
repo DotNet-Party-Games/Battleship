@@ -21,6 +21,9 @@
 		</ng-template>
 		<!-- <button class ="btn btn-primary" (click)="cycleBoardView()" *ngIf="isCoOp">Change board</button> -->
 		<button class ="btn btn-primary" (click)="cycleBoardView()">Change board</button>
+		<button class ="btn btn-primary" (click)="controlSea()">Control Sea</button>
+		<button class ="btn btn-primary" (click)="controlAir()">Control Air</button>
+		<button class ="btn btn-primary" (click)="resetControl()">Clear Control</button>
 	</div>
 
 </div>
@@ -32,14 +35,17 @@
 			<table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
 				<tbody>
 				  <tr *ngFor="let row of height; let j = index">
-					<td *ngFor="let col of width; let i = index" class="{{test[i][j][0]}}" (click)="selectWaterSpace(i,j)">{{i}},{{j}}</td>
+					<ng-container *ngFor="let col of width; let i = index">
+						<td *ngIf="userControl=='sea';" class="{{test[i][j][0]}}" (click)="selectWaterSpace(i,j)">{{i}},{{j}}</td>
+						<td *ngIf="userControl!='sea'" class="{{test[i][j][0]}}">{{i}},{{j}}</td>
+					</ng-container>
 				  </tr>
 				</tbody>
 			</table>
 		</div>
 
 		<!--Ship selecting menu-->
-		<div id="shipselect" class="col-1">
+		<div id="shipselect" class="col-1" *ngIf="userControl=='sea'">
 			<div [ngSwitch] = "selectedShip" style="margin-top: 20px;">
 				<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchCase="''">Please Select a Ship</p>
 				<br>
@@ -108,14 +114,18 @@
 			<table class="table table-bordered border-primary" style="height: fit-content; width: fit-content;">
 				<tbody>
 				  <tr *ngFor="let row of height; let j = index">
-					<td *ngFor="let col of width; let i = index" class="{{test[i][j][1]}}" (click)="selectAirSpace(i,j)">{{i}},{{j}}</td>
-				  </tr>
+					<!-- <td *ngFor="let col of width; let i = index" class="{{test[i][j][1]}}" (click)="selectAirSpace(i,j)">{{i}},{{j}}</td> -->
+					<ng-container *ngFor="let col of width; let i = index">
+						<td *ngIf="userControl=='air';" class="{{test[i][j][1]}}" (click)="selectAirSpace(i,j)">{{i}},{{j}}</td>
+						<td *ngIf="userControl!='air'" class="{{test[i][j][1]}}">{{i}},{{j}}</td>
+					</ng-container>
+				</tr>
 				</tbody>
 			</table>
 		</div>
 
 		<!--Ship selecting menu-->
-		<div id="airplaneselect" class="col-1">
+		<div id="airplaneselect" class="col-1" *ngIf="userControl=='air'">
 			<div [ngSwitch] = "selectedAirplane" style="margin-top: 20px;">
 				<p style="font: bold 20pt Fira Sans, sans-serif; color: rgba(22, 8, 7, 0.986);" *ngSwitchCase="''">Please Select a Plane</p>
 				<br>
