@@ -31,7 +31,7 @@ namespace BattleshipDL
 
         public async Task<User> GetUserAsync(string p_uId)
         {
-            return await _context.Users.Include(use => use.Scores).Include(use => use.Stats).Where(use => use.UserId == p_uId).FirstOrDefaultAsync();
+            return await _context.Users.Include(use => use.Scores).Include(use => use.Stats).Where(use => use.UserName == p_uId).FirstOrDefaultAsync();
         }
 
         public async Task<User> UpdateUserAsync(User p_user)

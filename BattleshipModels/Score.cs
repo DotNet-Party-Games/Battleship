@@ -15,7 +15,7 @@ namespace BattleshipModels
         public int ScoreId { get; set; }
 
         // The UserId of the User this score corresponds to
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         // The value of the score
         public int ScoreValue { get; set; }
@@ -37,7 +37,7 @@ namespace BattleshipModels
         /// Creates a new Score Class and sets GameTime to UtcNow
         /// </summary>
         /// <param name="p_userId">The UserId of the user this score corresponds to</param>
-        public Score(int p_userId)
+        public Score(string p_userId)
         {
             UserId = p_userId;
             ScoreValue = 0;
