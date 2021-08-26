@@ -90,6 +90,9 @@ export class GameboardSetupComponent implements OnInit {
         this.gamestate.startingNavy.oceanLegend[i][j] = new Array(2);
         this.gamestate.startingNavy.ocean[i][j][0] = 0;
         this.gamestate.startingNavy.oceanLegend[i][j][0] = "water";
+
+        this.gamestate.startingNavy.ocean[i][j][1] = 0;
+        this.gamestate.startingNavy.oceanLegend[i][j][1] = "air";
       }
     }
     this.gamestate.opponentReady.subscribe(turn=>this.opponentReady=turn);
