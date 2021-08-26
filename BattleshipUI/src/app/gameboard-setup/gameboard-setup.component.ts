@@ -33,6 +33,7 @@ export class GameboardSetupComponent implements OnInit {
   airplanesDeployed: boolean;
   airplaneOrientation: Orientation;
   selectedAirplane: string;
+  importedOrientation = Orientation;
 
   constructor(public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService, private gamestate:GameStateService) {
     this.height = new Array(10);
@@ -65,6 +66,7 @@ export class GameboardSetupComponent implements OnInit {
     this.userId = "2";
     this.shipsDeployed = false;
     this.airplanesDeployed = false;
+    this.airplaneOrientation = Orientation.Vertical;
     /*this.auth.idTokenClaims$.subscribe(
       (response) => {
         console.log(response);
@@ -110,6 +112,14 @@ export class GameboardSetupComponent implements OnInit {
     }
   } */
 
+  cycleBoardView() {
+    if (this.viewBoard == "sea") {
+      this.viewBoard = "air";
+    } else if (this.viewBoard == "air") {
+      this.viewBoard = "sea";
+    }
+  }
+
   selectWaterSpace(i:number, j:number){
     this.selected[0] = i;
     this.selected[1] = j;
@@ -128,7 +138,6 @@ export class GameboardSetupComponent implements OnInit {
 
   selectAirplane(s:string) {
     this.selectedAirplane = s;
-    console.log(this.selectedAirplane + "has been selected!");
   }
 
   placeShip(){
@@ -227,6 +236,7 @@ export class GameboardSetupComponent implements OnInit {
           }
           break;
         default:
+          alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
           break;
       }   
     }
@@ -325,13 +335,406 @@ export class GameboardSetupComponent implements OnInit {
           }
           break;
         default:
+          alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
           break;
       }   
     }
   }
 
   placeAirplane() {
-
+    switch (this.airplaneOrientation) {
+      case Orientation.Vertical:
+        switch (this.selectedAirplane) {
+          case "helicopter":
+            if(this.selected[1]+1 < 10 && this.checkForAirplaneSpace("helicopter")){
+              if(this.airplanes[0].placed == true){
+                this.clearAirplane(this.airplanes[0], 2);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane1_1";
+              this.test[this.selected[0]][this.selected[1]+1][1] = "plane1_2";
+              this.airplanes[0].y = this.selected[0];
+              this.airplanes[0].x = this.selected[1];
+              this.airplanes[0].placed = true;
+              this.airplanes[0].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "stealth plane":
+            if (this.selected[1]+1 < 10 && 
+                this.selected[0]+1 < 10 &&
+                this.selected[0]-1 >= 0 &&
+                this.checkForAirplaneSpace("stealth plane"))
+            {
+              if (this.airplanes[1].placed == true){
+                this.clearAirplane(this.airplanes[1], 4);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane2_1";
+              this.test[this.selected[0]-1][this.selected[1]+1][1] = "plane2_2";
+              this.test[this.selected[0]][this.selected[1]+1][1] = "plane2_3";
+              this.test[this.selected[0]+1][this.selected[1]+1][1] = "plane2_4";
+              this.airplanes[1].y = this.selected[0];
+              this.airplanes[1].x = this.selected[1];
+              this.airplanes[1].placed = true;
+              this.airplanes[1].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #1":
+            if (this.selected[1]+3 < 10 && 
+              this.selected[0]+1 < 10 &&
+              this.selected[0]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #1"))
+            {
+              if (this.airplanes[2].placed == true){
+                this.clearAirplane(this.airplanes[2], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane3_1";
+              this.test[this.selected[0]][this.selected[1]+1][1] = "plane3_2";
+              this.test[this.selected[0]-1][this.selected[1]+2][1] = "plane3_3";
+              this.test[this.selected[0]][this.selected[1]+2][1] = "plane3_4";
+              this.test[this.selected[0]+1][this.selected[1]+2][1] = "plane3_5";
+              this.test[this.selected[0]][this.selected[1]+3][1] = "plane3_6";
+              this.airplanes[2].y = this.selected[0];
+              this.airplanes[2].x = this.selected[1];
+              this.airplanes[2].placed = true;
+              this.airplanes[2].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #2":
+            if (this.selected[1]+3 < 10 && 
+              this.selected[0]+1 < 10 &&
+              this.selected[0]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #2"))
+            {
+              if (this.airplanes[3].placed == true){
+                this.clearAirplane(this.airplanes[3], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane4_1";
+              this.test[this.selected[0]][this.selected[1]+1][1] = "plane4_2";
+              this.test[this.selected[0]-1][this.selected[1]+2][1] = "plane4_3";
+              this.test[this.selected[0]][this.selected[1]+2][1] = "plane4_4";
+              this.test[this.selected[0]+1][this.selected[1]+2][1] = "plane4_5";
+              this.test[this.selected[0]][this.selected[1]+3][1] = "plane4_6";
+              this.airplanes[3].y = this.selected[0];
+              this.airplanes[3].x = this.selected[1];
+              this.airplanes[3].placed = true;
+              this.airplanes[3].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          default:
+            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            break;
+        }
+        break;
+      case Orientation.Rotated90:
+        switch (this.selectedAirplane) {
+          case "helicopter":
+            if(this.selected[0]+1 < 10 && this.checkForAirplaneSpace("helicopter")){
+              if(this.airplanes[0].placed == true){
+                this.clearAirplane(this.airplanes[0], 2);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane1_1_R1";
+              this.test[this.selected[0]+1][this.selected[1]][1] = "plane1_2_R1";
+              this.airplanes[0].y = this.selected[0];
+              this.airplanes[0].x = this.selected[1];
+              this.airplanes[0].placed = true;
+              this.airplanes[0].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "stealth plane":
+            if (this.selected[0]+1 < 10 && 
+                this.selected[1]+1 < 10 &&
+                this.selected[1]-1 >= 0 &&
+                this.checkForAirplaneSpace("stealth plane"))
+            {
+              if (this.airplanes[1].placed == true){
+                this.clearAirplane(this.airplanes[1], 4);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane2_1_R1";
+              this.test[this.selected[0]+1][this.selected[1]+1][1] = "plane2_2_R1";
+              this.test[this.selected[0]+1][this.selected[1]][1] = "plane2_3_R1";
+              this.test[this.selected[0]+1][this.selected[1]-1][1] = "plane2_4_R1";
+              this.airplanes[1].y = this.selected[0];
+              this.airplanes[1].x = this.selected[1];
+              this.airplanes[1].placed = true;
+              this.airplanes[1].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #1":
+            if (this.selected[0]+3 < 10 && 
+              this.selected[1]+1 < 10 &&
+              this.selected[1]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #1"))
+            {
+              if (this.airplanes[2].placed == true){
+                this.clearAirplane(this.airplanes[2], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane3_1_R1";
+              this.test[this.selected[0]+1][this.selected[1]][1] = "plane3_2_R1";
+              this.test[this.selected[0]+2][this.selected[1]+1][1] = "plane3_3_R1";
+              this.test[this.selected[0]+2][this.selected[1]][1] = "plane3_4_R1";
+              this.test[this.selected[0]+2][this.selected[1]-1][1] = "plane3_5_R1";
+              this.test[this.selected[0]+3][this.selected[1]][1] = "plane3_6_R1";
+              this.airplanes[2].y = this.selected[0];
+              this.airplanes[2].x = this.selected[1];
+              this.airplanes[2].placed = true;
+              this.airplanes[2].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #2":
+            if (this.selected[0]+3 < 10 && 
+              this.selected[1]+1 < 10 &&
+              this.selected[1]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #2"))
+            {
+              if (this.airplanes[3].placed == true){
+                this.clearAirplane(this.airplanes[3], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane4_1_R1";
+              this.test[this.selected[0]+1][this.selected[1]][1] = "plane4_2_R1";
+              this.test[this.selected[0]+2][this.selected[1]+1][1] = "plane4_3_R1";
+              this.test[this.selected[0]+2][this.selected[1]][1] = "plane4_4_R1";
+              this.test[this.selected[0]+2][this.selected[1]-1][1] = "plane4_5_R1";
+              this.test[this.selected[0]+3][this.selected[1]][1] = "plane4_6_R1";
+              this.airplanes[3].y = this.selected[0];
+              this.airplanes[3].x = this.selected[1];
+              this.airplanes[3].placed = true;
+              this.airplanes[3].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          default:
+            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            break;
+        }
+        break;
+      case Orientation.Rotated180:
+        switch (this.selectedAirplane) {
+          case "helicopter":
+            if(this.selected[1]-1 >= 0 && this.checkForAirplaneSpace("helicopter")){
+              if(this.airplanes[0].placed == true){
+                this.clearAirplane(this.airplanes[0], 2);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane1_1_R2";
+              this.test[this.selected[0]][this.selected[1]-1][1] = "plane1_2_R2";
+              this.airplanes[0].y = this.selected[0];
+              this.airplanes[0].x = this.selected[1];
+              this.airplanes[0].placed = true;
+              this.airplanes[0].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "stealth plane":
+            if (this.selected[1]-1 >= 0 && 
+                this.selected[0]+1 < 10 &&
+                this.selected[0]-1 >= 0 &&
+                this.checkForAirplaneSpace("stealth plane"))
+            {
+              if (this.airplanes[1].placed == true){
+                this.clearAirplane(this.airplanes[1], 4);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane2_1_R2";
+              this.test[this.selected[0]+1][this.selected[1]-1][1] = "plane2_2_R2";
+              this.test[this.selected[0]][this.selected[1]-1][1] = "plane2_3_R2";
+              this.test[this.selected[0]-1][this.selected[1]-1][1] = "plane2_4_R2";
+              this.airplanes[1].y = this.selected[0];
+              this.airplanes[1].x = this.selected[1];
+              this.airplanes[1].placed = true;
+              this.airplanes[1].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #1":
+            if (this.selected[1]-3 >= 0 && 
+              this.selected[0]+1 < 10 &&
+              this.selected[0]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #1"))
+            {
+              if (this.airplanes[2].placed == true){
+                this.clearAirplane(this.airplanes[2], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane3_1_R2";
+              this.test[this.selected[0]][this.selected[1]-1][1] = "plane3_2_R2";
+              this.test[this.selected[0]+1][this.selected[1]-2][1] = "plane3_3_R2";
+              this.test[this.selected[0]][this.selected[1]-2][1] = "plane3_4_R2";
+              this.test[this.selected[0]-1][this.selected[1]-2][1] = "plane3_5_R2";
+              this.test[this.selected[0]][this.selected[1]-3][1] = "plane3_6_R2";
+              this.airplanes[2].y = this.selected[0];
+              this.airplanes[2].x = this.selected[1];
+              this.airplanes[2].placed = true;
+              this.airplanes[2].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #2":
+            if (this.selected[1]-3 >= 0 && 
+              this.selected[0]+1 < 10 &&
+              this.selected[0]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #2"))
+            {
+              if (this.airplanes[3].placed == true){
+                this.clearAirplane(this.airplanes[3], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane4_1_R2";
+              this.test[this.selected[0]][this.selected[1]-1][1] = "plane4_2_R2";
+              this.test[this.selected[0]+1][this.selected[1]-2][1] = "plane4_3_R2";
+              this.test[this.selected[0]][this.selected[1]-2][1] = "plane4_4_R2";
+              this.test[this.selected[0]-1][this.selected[1]-2][1] = "plane4_5_R2";
+              this.test[this.selected[0]][this.selected[1]-3][1] = "plane4_6_R2";
+              this.airplanes[3].y = this.selected[0];
+              this.airplanes[3].x = this.selected[1];
+              this.airplanes[3].placed = true;
+              this.airplanes[3].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          default:
+            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            break;
+        }
+        break;
+      case Orientation.Rotated270:
+        switch (this.selectedAirplane) {
+          case "helicopter":
+            if(this.selected[0]-1 >= 0 && this.checkForAirplaneSpace("helicopter")){
+              if(this.airplanes[0].placed == true){
+                this.clearAirplane(this.airplanes[0], 2);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane1_1_R3";
+              this.test[this.selected[0]-1][this.selected[1]][1] = "plane1_2_R3";
+              this.airplanes[0].y = this.selected[0];
+              this.airplanes[0].x = this.selected[1];
+              this.airplanes[0].placed = true;
+              this.airplanes[0].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "stealth plane":
+            if (this.selected[0]-1 >= 0 && 
+                this.selected[1]+1 < 10 &&
+                this.selected[1]-1 >= 0 &&
+                this.checkForAirplaneSpace("stealth plane"))
+            {
+              if (this.airplanes[1].placed == true){
+                this.clearAirplane(this.airplanes[1], 4);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane2_1_R3";
+              this.test[this.selected[0]-1][this.selected[1]-1][1] = "plane2_2_R3";
+              this.test[this.selected[0]-1][this.selected[1]][1] = "plane2_3_R3";
+              this.test[this.selected[0]-1][this.selected[1]+1][1] = "plane2_4_R3";
+              this.airplanes[1].y = this.selected[0];
+              this.airplanes[1].x = this.selected[1];
+              this.airplanes[1].placed = true;
+              this.airplanes[1].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #1":
+            if (this.selected[0]-3 >= 0 && 
+              this.selected[1]+1 < 10 &&
+              this.selected[1]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #1"))
+            {
+              if (this.airplanes[2].placed == true){
+                this.clearAirplane(this.airplanes[2], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane3_1_R3";
+              this.test[this.selected[0]-1][this.selected[1]][1] = "plane3_2_R3";
+              this.test[this.selected[0]-2][this.selected[1]-1][1] = "plane3_3_R3";
+              this.test[this.selected[0]-2][this.selected[1]][1] = "plane3_4_R3";
+              this.test[this.selected[0]-2][this.selected[1]+1][1] = "plane3_5_R3";
+              this.test[this.selected[0]-3][this.selected[1]][1] = "plane3_6_R3";
+              this.airplanes[2].y = this.selected[0];
+              this.airplanes[2].x = this.selected[1];
+              this.airplanes[2].placed = true;
+              this.airplanes[2].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          case "fighter #2":
+            if (this.selected[0]-3 >= 0 && 
+              this.selected[1]+1 < 10 &&
+              this.selected[1]-1 >= 0 &&
+              this.checkForAirplaneSpace("fighter #2"))
+            {
+              if (this.airplanes[3].placed == true){
+                this.clearAirplane(this.airplanes[3], 6);
+              }
+              this.test[this.selected[0]][this.selected[1]][1] = "plane4_1_R3";
+              this.test[this.selected[0]-1][this.selected[1]][1] = "plane4_2_R3";
+              this.test[this.selected[0]-2][this.selected[1]-1][1] = "plane4_3_R3";
+              this.test[this.selected[0]-2][this.selected[1]][1] = "plane4_4_R3";
+              this.test[this.selected[0]-2][this.selected[1]+1][1] = "plane4_5_R3";
+              this.test[this.selected[0]-3][this.selected[1]][1] = "plane4_6_R3";
+              this.airplanes[3].y = this.selected[0];
+              this.airplanes[3].x = this.selected[1];
+              this.airplanes[3].placed = true;
+              this.airplanes[3].orientation = this.airplaneOrientation;
+            }
+            else
+            {
+              this.CannotPlaceError("air");
+            }
+            break;
+          default:
+            alert("No ship has been selected! Click on a ship and then click on the board to place that ship.");
+            break;
+        }
+        break;
+      default:
+        alert("No orientation has been selected! Please select an rotation option.");
+        break;
+    }
   }
 
   resetShip(ship:string){
@@ -363,7 +766,27 @@ export class GameboardSetupComponent implements OnInit {
   }
 
   resetAirplane(airplane:string) {
-
+    switch (airplane) {
+      case "helicopter":
+        this.clearAirplane(this.airplanes[0], 2);
+        this.airplanes[0].placed = false;
+        break;
+      case "stealth plane":
+        this.clearAirplane(this.airplanes[1], 4);
+        this.airplanes[1].placed = false;
+        break;
+      case "fighter #1":
+        this.clearAirplane(this.airplanes[2], 6);
+        this.airplanes[2].placed = false;
+        break;
+      case "fighter #2":
+        this.clearAirplane(this.airplanes[3], 6);
+        this.airplanes[3].placed = false;
+        break;
+      default:
+        break;
+    }
+    this.airplanesDeployed = false;
   }
 
   isShipPlaced(ship:number){
@@ -399,8 +822,77 @@ export class GameboardSetupComponent implements OnInit {
     return true;
   }
 
+  checkForAirplaneSpace(plane:string) {
+    switch (this.airplaneOrientation) {
+      case Orientation.Vertical:
+        switch (plane) {
+          case "helicopter":
+            for (let i = 0; i < 2; i++) {
+              if(this.test[this.selected[0]][this.selected[1]+i][1] != "air" && !this.test[this.selected[0]][this.selected[1]+i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            break;
+          case "stealth plane":
+            for (let i = 0; i < 2; i++) {
+              if(this.test[this.selected[0]][this.selected[1]+i][1] != "air" && !this.test[this.selected[0]][this.selected[1]+i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if ((this.test[this.selected[0] - 1][this.selected[1] + 1][1] != "air" && !this.test[this.selected[0] - 1][this.selected[1] + 1].includes(this.selectedAirplane))
+                 || (this.test[this.selected[0] + 1][this.selected[1] + 1][1] != "air" && !this.test[this.selected[0] + 1][this.selected[1] + 1].includes(this.selectedAirplane))){
+              return false;
+            }
+            break;
+          case "fighter #1":
+          case "fighter #2":
+            for (let i = 0; i < 4; i++) {
+              if(this.test[this.selected[0]][this.selected[1]+i][1] != "air" && !this.test[this.selected[0]][this.selected[1]+i].includes(this.selectedAirplane)){
+                return false;
+              }
+            }
+            if ((this.test[this.selected[0] - 1][this.selected[1] + 2][1] != "air" && !this.test[this.selected[0] - 1][this.selected[1] + 2].includes(this.selectedAirplane))
+                 || (this.test[this.selected[0] + 1][this.selected[1] + 2][1] != "air" && !this.test[this.selected[0] + 1][this.selected[1] + 2].includes(this.selectedAirplane))){
+              return false;
+            }
+            break;
+          default:
+            break;
+        }
+        break;
+      case Orientation.Rotated90:
+
+        break;
+      case Orientation.Rotated180:
+
+        break;
+      case Orientation.Rotated270:
+
+        break;
+      default:
+        break;
+    }
+    return true;
+  }
+
   toggleVertical(){
     this.isVertical = !this.isVertical;
+  }
+
+  rotateVertical() {
+    this.airplaneOrientation = Orientation.Vertical;
+  }
+
+  rotate90() {
+    this.airplaneOrientation = Orientation.Rotated90;
+  }
+
+  rotate180() {
+    this.airplaneOrientation = Orientation.Rotated180;
+  }
+
+  rotate270() {
+    this.airplaneOrientation = Orientation.Rotated270;
   }
 
   clearShip(s:Ship,size:number){
@@ -411,6 +903,93 @@ export class GameboardSetupComponent implements OnInit {
       else{
         this.test[s.y][s.x+i][0] = "water";
       }
+    }
+  }
+
+  clearAirplane(plane:Airplane, size:number) {
+    switch (size) {
+      case 2:
+        switch (plane.orientation) {
+          case Orientation.Vertical:
+            for(let i = 0; i < size; i++){
+                this.test[plane.y][plane.x + i][1] = "air";
+            }
+            break;
+          case Orientation.Rotated90:
+            for(let i = 0; i < size; i++){
+              this.test[plane.y + i][plane.x][1] = "air";
+            }
+            break;
+          case Orientation.Rotated180:
+            for(let i = 0; i < size; i++){
+              this.test[plane.y][plane.x - i][1] = "air";
+            }
+            break;
+          case Orientation.Rotated270:
+            for(let i = 0; i < size; i++){
+              this.test[plane.y - i][plane.x][1] = "air";
+            }
+            break;
+          default:
+            break;
+        }
+        break;
+      case 4:
+        switch (plane.orientation) {
+          case Orientation.Vertical:
+            for (let i = 0; i < 2; i++) {
+                this.test[plane.y][plane.x + i][1] = "air";
+            }
+            this.test[plane.y - 1][plane.x + 1][1] = "air";
+            this.test[plane.y + 1][plane.x + 1][1] = "air";
+            break;
+          case Orientation.Rotated90:
+            for (let i = 0; i < 3; i++) {
+              this.test[plane.y + 1][plane.x - 1 + i][1] = "air";
+            }
+            this.test[plane.y][plane.x][1] = "air";
+            break;
+          case Orientation.Rotated180:
+            for (let i = 0; i < 2; i++) {
+              this.test[plane.y][plane.x - i][1] = "air";
+            }
+            this.test[plane.y - 1][plane.x - 1][1] = "air";
+            this.test[plane.y + 1][plane.x - 1][1] = "air";
+            break;
+          case Orientation.Rotated270:
+            for (let i = 0; i < 3; i++) {
+              this.test[plane.y - 1][plane.x - 1 + i][1] = "air";
+            }
+            this.test[plane.y][plane.x][1] = "air";
+            break;
+          default:
+            break;
+        }
+        break;
+      case 6:
+        switch (plane.orientation) {
+          case Orientation.Vertical:
+            for(let i = 0; i < 4; i++){
+                this.test[plane.y][plane.x + i][1] = "air";
+            }
+            this.test[plane.y - 1][plane.x + 2][1] = "air";
+            this.test[plane.y + 1][plane.x + 2][1] = "air";
+            break;
+          case Orientation.Rotated90:
+            
+            break;
+          case Orientation.Rotated180:
+            
+            break;
+          case Orientation.Rotated270:
+            
+            break;
+          default:
+            break;
+          }
+        break;
+      default:
+        break;
     }
   }
 
