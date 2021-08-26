@@ -19,6 +19,7 @@
 		<ng-template [ngIf]="shipsDeployed">
 		  <button class="btn btn-danger" routerLink="/gameboard">Proceed to match</button>
 		</ng-template>
+		<!-- <button class ="btn btn-primary" (click)="cycleBoardView()" *ngIf="isCoOp">Change board</button> -->
 		<button class ="btn btn-primary" (click)="cycleBoardView()">Change board</button>
 	</div>
 
@@ -141,13 +142,13 @@
 				<div class="box-row">
 					
 					<div class="box-cell-plane">
-						<div class="overlay">
+						<div class="overlay-plane">
 							<button *ngIf="isAirplanePlaced(2)" (click)="resetAirplane('fighter #1')">Clear</button>					
 						</div>
 						<img src="../../assets/plane3.png" (click)="selectAirplane('fighter #1')" style="width: 128px;">
 					</div>
 					<div class="box-cell-plane">
-						<div class="overlay">
+						<div class="overlay-plane">
 							<button *ngIf="isAirplanePlaced(0)" (click)="resetAirplane('helicopter')">Clear</button>
 						</div>
 						<img src="../../assets/plane1.png" (click)="selectAirplane('helicopter')">
@@ -157,14 +158,14 @@
 				
 				<div class="box-row">
 					<div class="box-cell-plane">
-						<div class="overlay">
+						<div class="overlay-plane">
 							<button *ngIf="isAirplanePlaced(1)" (click)="resetAirplane('stealth plane')"> Clear</button>
 						</div>
 						<img src="../../assets/plane2.png" (click)="selectAirplane('stealth plane')" style="width: 128px;">
 						
 					</div>
 					<div class="box-cell-plane">
-						<div class="overlay">
+						<div class="overlay-plane">
 							<button *ngIf="isAirplanePlaced(3)" (click)="resetAirplane('fighter #2')">Clear</button>
 						</div>
 						<img src="../../assets/plane4.png" (click)="selectAirplane('fighter #2')" style="width: 128px;">
