@@ -17,13 +17,16 @@
 
 <div style="height: 100px">
   <div class="player1">
-  Player 1
-    <div class="ready">Ready: <span></span></div>
+  Your Status
+  <br>
+    <div *ngIf="!shipsDeployed" class="notready">Ready: <span></span></div>
+    <div *ngIf=shipsDeployed; class="ready"> Ready: <span></span></div>
   </div>
   <br>
   <div class="player2">
-  Player 2
-    <div class="ready">Ready: <span></span></div>
+  Opponent's Status
+    <div class="notready" *ngIf="!opponentReady">Ready: <span></span></div>
+    <div class="ready" *ngIf="opponentReady">Ready: <span></span></div>
   </div>
 </div>
 

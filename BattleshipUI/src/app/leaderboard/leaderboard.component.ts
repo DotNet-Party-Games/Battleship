@@ -3,7 +3,11 @@ import { IScore } from './score';
 import { ScoreapiService } from '../services/scoreapi.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { ITeamLeaderboard } from '../services/TeamLeaderboard';
+import { ITeamScore } from '../services/TeamScore';
+import { ILeaderboard } from '../services/ILeaderBoard';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 export interface MockScore {
   username: number,
   wins: number,
@@ -16,38 +20,29 @@ export interface MockScore {
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.css']
 })
-export class LeaderboardComponent implements OnInit, AfterViewInit {
+export class LeaderboardComponent implements OnInit {
 
-  scores: IScore[];
-  displayedColumns: string[] = ['position', 'username', 'wins', 'winratio'];
-  dataSource: MatTableDataSource<IScore>;
-  mockDataSource: MatTableDataSource<MockScore>;
-
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  @ViewChild(MatSort, { static: false }) set matSort(ms: MatSort) {
-    this.sort = ms;
-  }
-
-  @ViewChild(MatSort) mockSort: MatSort;
+  TeamScores: ITeamLeaderboard;
+  Leaderboard:ILeaderboard;
+  SoloScoreboard:string;
 
   constructor(private ScoreApi:ScoreapiService) { 
-    this.scores = new Array<IScore>();
-    this.dataSource = new MatTableDataSource();
+    this.ScoreApi.GetTeamLeaderBoard().subscribe(response=> this.TeamScores = response);
+    this.ScoreApi.GetIndividualLeaderboard().subscribe(response =>this.Leaderboard= response);
   }
 
   ngOnInit(): void 
   {
-    this.getAllScore();
+
   }
 
-  ngAfterViewInit() {
+/*   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => {
     });
-    this.dataSource.sort = this.sort;
-    this.mockDataSource.sort = this.mockSort;
-  }
 
-  getAllScore()
+  } */
+
+/*   getAllScore()
   {
     this.ScoreApi.getAllScores().subscribe(
       (response) => {
@@ -58,11 +53,9 @@ export class LeaderboardComponent implements OnInit, AfterViewInit {
       }
     )
     
-  }
+  } */
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    this.mockDataSource.filter = filterValue.trim().toLowerCase();
   }
 }

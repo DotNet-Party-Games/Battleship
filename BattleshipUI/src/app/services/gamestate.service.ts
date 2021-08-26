@@ -49,6 +49,7 @@ import { INavy } from './gameboard';
 
     WinningShot(){
       this.socket.emit('win shot');
+      
     }
 
 

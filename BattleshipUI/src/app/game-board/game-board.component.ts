@@ -86,24 +86,27 @@ export class GameBoardComponent implements OnInit {
       }
   }
 }
-  playaudio(action:string){
-    let audio = new Audio();
-    switch(action){
-      case "miss":
-        audio.src = "../../assets/splash.wav";
-        audio.load();
-        audio.play();
-        break;
-      case "hit":
-        audio.src = "../../assets/explosion.mp3";
-        audio.load();
-        audio.play();
-        break;
-      case "sink":
-        audio.src = "../../assets/bubbling_water.mp3"
-    }
-
+playaudio(action:string){
+  let audio = new Audio();
+  switch(action){
+    case "miss":
+      audio.src = "../../assets/splash.wav";
+      audio.load();
+      audio.play();
+      break;
+    case "hit":
+      audio.src = "../../assets/explosion.mp3";
+      audio.load();
+      audio.play();
+      break;
+    case "sink":
+      audio.src = "../../assets/bubbling.mp3"
+      audio.load();
+      audio.play();
+      break;
   }
+}
+
   Seed(){
     this.PlayerBoardUpdate.ocean = new Array(10);
     this.PlayerBoardUpdate.oceanLegend = new Array(10);
@@ -149,7 +152,7 @@ export class GameBoardComponent implements OnInit {
         this.patrol-=1;
         if(this.patrol==0){
           this.Extenguish(craft);
-
+          
         }
       break;
       case "Submarine":
@@ -190,6 +193,7 @@ export class GameBoardComponent implements OnInit {
         }
       }
     }
+    this.playaudio("sink");
   }
   LeaveRoom(){
     this.router.navigate(["/roomlist"]);

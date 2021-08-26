@@ -133,13 +133,13 @@ td.aircraftcarrierr5{
     font-weight: normal;
 }
 
-.ready span{
+.notready span{
     display: block;
     width: 1rem;
     height: 1rem;
     background: red;
 }
-span.green{
+.ready span{
     display: block;
     width: 1rem;
     height: 1rem;

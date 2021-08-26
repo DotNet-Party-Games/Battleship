@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { IScore } from '../leaderboard/score';
-
+import { ITeamLeaderboard } from './TeamLeaderboard';
+import { ILeaderboard } from './ILeaderBoard';
+import { ITeamScore } from './TeamScore';
+import { IUserScore } from './IUserScores';
 @Injectable({
   providedIn: 'root'
 })
 export class ScoreapiService {
 
-  private url = "https://localhost:5001/api/"
+  private url = "https://localhost:5001/api/";
+  private huburl = "";
   //private url = "https://battleship-tsw.azurewebsites.net/api/"
 
   constructor(private http: HttpClient) { }
@@ -17,8 +20,20 @@ export class ScoreapiService {
   // {
   //   return this.http.get<IStatistic>(this.url + "Statistic" + "/get/" + userId.toString);
   // }
-  getAllScores() : Observable<IScore[]>
-  {
-    return this.http.get<IScore[]>(this.url + "Score");
+  
+
+  GetTeamLeaderBoard(){
+      return this.http.get<ITeamLeaderboard>(this.huburl+"/team/Battleship");
   }
+  SubmitTeamScore(score:ITeamScore){
+    this.http.post<ITeamScore>(this.huburl+"/team/Battleship", score);
+  }
+
+  GetIndividualLeaderboard():Observable<ILeaderboard>{
+      return this.http.get<ILeaderboard>(this.huburl+"/individual/Battleship");
+  }
+
+   SubmitScore(score:IUserScore){
+    this.http.post<IUserScore>(this.huburl+"/individual/Battleship", score);
+  } 
 }

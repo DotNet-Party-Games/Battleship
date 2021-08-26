@@ -40,14 +40,14 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   newRoom() {
     if (this.myModel){
+      this.roomService.roomSize = 4;
       this.roomService.addRoom();
-      console.log("making new room");
+      console.log("Making new multiplayer room");
     }
     else{
+      this.roomService.roomSize=2;
       this.roomService.addRoom();
       console.log("Making new room");
     }
-    
   }
-  
 }

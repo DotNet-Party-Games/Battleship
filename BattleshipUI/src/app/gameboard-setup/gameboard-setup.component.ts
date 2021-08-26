@@ -27,6 +27,8 @@ export class GameboardSetupComponent implements OnInit {
   shipsDeployed: boolean;
   roomId:string;
   opponentReady:boolean=false;
+  ready1:boolean=false;
+  ready2:boolean=false;
 
   constructor(public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService, private gamestate:GameStateService) {
     this.height = new Array(10);
@@ -81,7 +83,7 @@ export class GameboardSetupComponent implements OnInit {
         this.gamestate.startingNavy.craft[i][j][0] = "None";
       }
     }
-    this.gamestate.opponentReady.subscribe(turn=>{this.opponentReady=turn, document.querySelector("player2 .ready span").classList.toggle('green')});
+    this.gamestate.opponentReady.subscribe(turn=>{this.opponentReady=turn, this.ready2=true;});
   }
 /*   SetUpRoom() {
     this.BApi.Reset(this.roomNum).subscribe(
@@ -334,7 +336,7 @@ export class GameboardSetupComponent implements OnInit {
       }
     }
     this.shipsDeployed = true;
-    document.querySelector(".ready span").classList.toggle('green', true);
+    this.ready1=true;
     this.sendtoserver();
   }
 
