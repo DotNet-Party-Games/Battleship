@@ -2,9 +2,14 @@ import { Component, Input, OnInit} from '@angular/core';
 import { IAirforce, INavy, IShot } from '../services/gameboard';
 import { GameStateService } from '../services/gamestate.service';
 import { Subscription } from 'rxjs';
-import { IUser } from '../user/user';
 import { InteractivityChecker } from '@angular/cdk/a11y';
 import { Router } from '@angular/router';
+
+export interface IUser
+{
+  userId: string,
+  userName: string
+}
 
 @Component({
   selector: 'app-game-board',
@@ -84,6 +89,7 @@ export class GameBoardComponent implements OnInit {
           this.socket.SendShot(this.enemyOceanBoard, message);
           this.playaudio(this.enemyOceanBoard.oceanLegend[x][y][z]);
       }
+
   }
   }
   playaudio(action:string){

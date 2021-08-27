@@ -15,7 +15,7 @@ namespace BattleshipDL
         /// </summary>
         /// <param name="p_uId">The Id of the desired user</param>
         /// <returns>Returns the user as an object</returns>
-        Task<User> GetUserAsync(int p_uId);
+        Task<User> GetUserAsync(string p_uId);
 
         /// <summary>
         /// Adds a new user to the database

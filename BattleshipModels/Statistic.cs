@@ -17,7 +17,7 @@ namespace BattleshipModels
         public int StatId { get; set; }
 
         // The UserId of the User whose statistics are being tracked
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         // The number of wins the User has
         public int Wins { get; set; }
@@ -44,7 +44,7 @@ namespace BattleshipModels
         /// Might not need this one
         /// </summary>
         /// <param name="p_userId">The Id of the user</param>
-        public Statistic(int p_userId)
+        public Statistic(string p_userId)
         {
             UserId = p_userId;
             Wins = 0;

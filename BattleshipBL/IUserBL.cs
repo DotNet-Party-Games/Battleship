@@ -15,7 +15,7 @@ namespace BattleshipBL
         /// </summary>
         /// <param name="p_uId">the UserId of the user to be retrieved</param>
         /// <returns>Returns the user with a matching UserId</returns>
-        Task<User> GetUserAsync(int p_uId);
+        Task<User> GetUserAsync(string p_uId);
 
         /// <summary>
         /// Adds a user
