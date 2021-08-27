@@ -1,41 +1,91 @@
 import { Injectable, Input } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable, Observer } from 'rxjs';
-import { INavy } from './gameboard';
+import { IAirforce, INavy, IUser } from './gameboard';
 
 @Injectable({
     providedIn: 'root'
   })
   export class GameStateService {
+
+    //Updated on each shot
     currentTurn = this.socket.fromEvent<boolean>('turn change');
-    playerBoardUpdate = this.socket.fromEvent<INavy>('enemy shoots');
-    playerName = this.socket.fromEvent<string>('player name');
-    enemyName = this.socket.fromEvent<string>('enemy name');
-    enemyFleet = this.socket.fromEvent<INavy>('enemy fleet');
+
+    //Updated on each enemy shot
+    playerOceanBoardUpdate = this.socket.fromEvent<INavy>('enemy shoots ocean');
+
+    //Updated on each enemy shot
+    playerAirBoardUpdate = this.socket.fromEvent<IAirforce>('enemy shoots air');
+
+    //Updated on each team shot
+    enemyOceanBoard = this.socket.fromEvent<INavy>('team shoots ocean');
+
+    //Updated on each team shot
+    enemyAirBoard = this.socket.fromEvent<IAirforce>('team shoots air');
+
+    enemyFleet = this.socket.fromEvent<INavy>('enemy ocean fleet');
+    enemyAirFleet = this.socket.fromEvent<IAirforce>('enemy air fleet');
+    teammateAirFleet = this.socket.fromEvent<IAirforce>('teammate air fleet');
+    teammateFleet = this.socket.fromEvent<INavy>('teammate ocean fleet');
+
+    //Updated on each shot
     statusMessage = this.socket.fromEvent<string>('status message');
+
     startingNavy:INavy = new INavy;
+    startingAir:IAirforce = new IAirforce;
+
+    //Updated once everyone is ready
     gameStarted = this.socket.fromEvent<boolean>('game active status');
+
+    //Updated on each person readying up
+    playerOneReady = this.socket.fromEvent<boolean>('player one ready');
+    playerTwoReady = this.socket.fromEvent<boolean>('player two ready');
+    playerThreeReady = this.socket.fromEvent<boolean>('player three ready');
+    playerFourReady = this.socket.fromEvent<boolean>('player four ready');
+
     opponentReady = this.socket.fromEvent<boolean>('opponent ready');
+
+    //Gets updated on the winning shot (Inside 'win shot')
     winner = this.socket.fromEvent<boolean>('winner');
+
+    //Gets updated on the winning shot (Inside 'win shot')
     loser = this.socket.fromEvent<boolean>('loser');
+
+    //Gets updated upon joining a room (inside AddUserToList())
+    userList = this.socket.fromEvent<string[]>('user list');
+
+    //Gets updated upon joining a room (inside AddUserToList())
     isWater = this.socket.fromEvent<boolean>('is water');
+
+    //Gets updated upon joining a room (inside AddUserToList())
+    playerteam = this.socket.fromEvent<boolean>('player team');
+
+    //Gets updated upon joining a room (inside AddUserToList())
+    maxSize = this.socket.fromEvent<number>('max size');
+
     playerNumber = this.socket.fromEvent<number>('player number');
+
+    win:boolean;
+
+    size:number;
+
+    environ:boolean;
   
     // initialize socket object
-    constructor(private socket: Socket) { }
+    constructor(private socket: Socket) {
+      this.winner.subscribe(result => this.win = result);
+      this.maxSize.subscribe(result => this.size=result);
+      this.isWater.subscribe(result=>this.environ=result);
+     }
     
-    SendPlayerBoard(navy:INavy){
-        this.socket.emit('send player board to opponent', navy);
-        this.socket.once('enemy fleet', ()=>this.socket.emit('send player board to opponent', this.startingNavy));
+    SendPlayerBoard(board:INavy|IAirforce){
+        this.socket.emit('send player board to opponent', board);
+        this.socket.once('enemy fleet', ()=>this.socket.emit('send player board to opponent', board));
     }
 
-    SendShot(updatedBoard:INavy, status:string){
-        this.socket.emit('send shot',updatedBoard);
+    SendShot(updatedBoard:INavy|IAirforce, status:string){
+        this.socket.emit('send shot', updatedBoard);
         this.socket.emit('status message', status);
-    }
-
-    UpdateNames(player:string){
-      this.socket.emit('update name', player);
     }
 
     ReadyUp(){
@@ -45,8 +95,13 @@ import { INavy } from './gameboard';
     StartGame(){
       this.socket.emit('start game');
     }
+
     LeaveRoom(){
-      this.socket.emit("Leave Room");
+      if(this.win){
+        this.socket.emit('back to lobby after game')
+      } else{
+        this.socket.emit("leave Room");
+      }
     }
 
     WinningShot(){

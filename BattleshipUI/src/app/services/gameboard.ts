@@ -14,6 +14,12 @@ export class INavy {
     craft: string[][][];
 }
 
+export class IAirforce {
+    air: number[][][];
+    airlegend: string[][][];
+    craft: string[][][]
+}
+
 export interface IShot {
     x: number;
     y: number;

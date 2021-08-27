@@ -26,8 +26,13 @@ export class GameboardSetupComponent implements OnInit {
   opponentId: number;
   shipsDeployed: boolean;
   roomId:string;
-  opponentReady:boolean=false;
-  isWater:boolean;
+  playerOneReady:boolean;
+  playerTwoReady:boolean;
+  playerThreeReady:boolean;
+  playerFourReady:boolean;
+  isWater:boolean = true;
+  size:number;
+  playerNumber:number;
 
   constructor(public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService, private gamestate:GameStateService) {
     this.height = new Array(10);
@@ -71,7 +76,13 @@ export class GameboardSetupComponent implements OnInit {
         this.gamestate.startingNavy.craft[i][j][0] = "None";
       }
     }
-    this.gamestate.opponentReady.subscribe(turn=>this.opponentReady=turn);
+    this.gamestate.playerOneReady.subscribe(turn=>this.playerOneReady=turn);
+    this.gamestate.playerTwoReady.subscribe(turn=>this.playerTwoReady=turn); 
+    this.gamestate.playerThreeReady.subscribe(turn=>this.playerThreeReady=turn);
+    this.gamestate.playerFourReady.subscribe(turn=>this.playerFourReady=turn);
+    this.gamestate.maxSize.subscribe(size=>this.size=size);
+    this.gamestate.isWater.subscribe(water=>this.isWater=water);
+    this.gamestate.playerNumber.subscribe(numbers=> this.playerNumber=numbers);
   }
   select(i:number, j:number){
     this.selected[0] = i;
@@ -317,17 +328,34 @@ export class GameboardSetupComponent implements OnInit {
     this.sendtoserver();
   }
   sendtoserver(){
-    //do i need to send room number as well?
-    // this.deploy.sendboard(this.ships, this.roomNum, this.userId);
-    // console.log(this.ships, this.roomNum, this.userId);
     this.gamestate.startingNavy.oceanLegend=this.test;
     this.gamestate.InterpretOcean(this.gamestate.startingNavy.ocean,this.gamestate.startingNavy.oceanLegend, this.gamestate.startingNavy.craft);
     this.gamestate.SendPlayerBoard(this.gamestate.startingNavy);
-    if(this.opponentReady){
-      this.gamestate.StartGame();
-    }else{
-      this.gamestate.ReadyUp();
-    }
+    
+    if(this.size==4){
+      if(this.playerOneReady&&this.playerTwoReady&&this.playerThreeReady&&this.playerFourReady){
+        this.gamestate.StartGame();
+      }
+    } else if(this.size == 2){
+        switch (this.playerNumber) {
+          case 1:
+            if(this.playerTwoReady){
+              this.gamestate.StartGame()
+            } else{
+              this.gamestate.ReadyUp();
+            }
+            break;
+          case 2:
+            if(this.playerOneReady){
+              this.gamestate.StartGame()
+            } else{
+              this.gamestate.ReadyUp();
+            }
+            break;
+          default:
+            break;
+        }
+      }
   }
   LeaveRoom(){
     this.deploy.leaveRoom(this.roomNum);

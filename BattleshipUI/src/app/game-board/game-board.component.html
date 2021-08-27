@@ -22,7 +22,7 @@
         <table class="table table-bordered border-primary" style="height: fit-content; width: 575px; ">
           <tbody>
             <tr *ngFor="let row of height; let y = index">
-              <td *ngFor="let col of width; let x = index" class="{{PlayerBoardUpdate.oceanLegend[x][y][0]}}">{{x}},{{y}}</td>
+              <td *ngFor="let col of width; let x = index" class="{{PlayerOceanUpdate.oceanLegend[x][y][0]}}">{{x}},{{y}}</td>
             </tr>
           </tbody>
         </table>
@@ -33,8 +33,8 @@
           <tbody>
             <tr *ngFor="let row of height; let y = index">
               <ng-container *ngFor="let col of width; let x = index">
-              <td *ngIf="enemyOcean.ocean[x][y][0] < 6;" class="{{enemyOcean.oceanLegend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
-              <td *ngIf="enemyOcean.ocean[x][y][0] > 5;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+              <td *ngIf="enemyOceanBoard.ocean[x][y][0] < 6;" class="{{enemyOceanBoard.oceanLegend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+              <td *ngIf="enemyOceanBoard.ocean[x][y][0] > 5;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
             </ng-container>
             </tr>
           </tbody>
@@ -71,7 +71,7 @@
           <table class="table table-bordered border-primary" style="height: fit-content; width: 575px; ">
             <tbody>
               <tr *ngFor="let row of height; let y = index">
-                <td *ngFor="let col of width; let x = index" class="{{PlayerBoardUpdate.oceanLegend[x][y][0]}}">{{x}},{{y}}</td>
+                <td *ngFor="let col of width; let x = index" class="{{PlayerAirUpdate.airlegend[x][y][0]}}">{{x}},{{y}}</td>
               </tr>
             </tbody>
           </table>
@@ -82,8 +82,8 @@
             <tbody>
               <tr *ngFor="let row of height; let y = index">
                 <ng-container *ngFor="let col of width; let x = index">
-                <td *ngIf="enemyOcean.ocean[x][y][0] < 6;" class="{{enemyOcean.oceanLegend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
-                <td *ngIf="enemyOcean.ocean[x][y][0] > 5;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+                <td *ngIf="PlayerAirUpdate.air[x][y][0] < 6;" class="{{PlayerAirUpdate.airlegend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+                <td *ngIf="PlayerAirUpdate.air[x][y][0] > 5;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
               </ng-container>
               </tr>
             </tbody>
@@ -115,3 +115,4 @@
 
     Ship Sinking Music:  
 </p>
+<a>{{isWater}}</a>
