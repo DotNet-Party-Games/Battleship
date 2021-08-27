@@ -9,7 +9,7 @@ namespace BattleshipModels
     public class User
     {
         // The unique identifier for this user
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         // The Username of the user
         public string UserName { get; set; }

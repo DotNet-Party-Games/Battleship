@@ -79,7 +79,7 @@ namespace BattleshipModels
         public User User2 { get; set; }         // User 2        
         public Navy User2Navy { get; set; }     // The Navy of User 2
         public bool CurrentTurn { get; set; }   // If user 1 has the current turn
-        public int WinnerId { get; set; }       // The Id of the winner
+        public string WinnerId { get; set; }       // The Id of the winner
 
         /// <summary>
         /// Constructs the Gameboard
@@ -90,7 +90,7 @@ namespace BattleshipModels
             User1Navy = new Navy(p_boardSize);
             User2Navy = new Navy(p_boardSize);
             CurrentTurn = true;
-            WinnerId = -1;
+            WinnerId = "";
         }
 
         /// <summary>

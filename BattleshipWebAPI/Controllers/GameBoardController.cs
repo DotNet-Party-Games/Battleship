@@ -44,7 +44,7 @@ namespace BattleshipWebAPI.Controllers
         /// <param name="user2Id">The Id of the second user</param>
         /// <returns>An Ok 200 response with the GameBoard as the body</returns>
         [HttpPut("SetUp")]
-        public IActionResult SetUp(int roomNumber,int user1Id, int user2Id)
+        public IActionResult SetUp(int roomNumber, string user1Id, string user2Id)
         {
             _gameRooms.GetGameRoom(roomNumber).SetUp(user1Id, user2Id);
             return Ok(_gameRooms.GetGameRoom(roomNumber).GameBoard);
@@ -62,7 +62,7 @@ namespace BattleshipWebAPI.Controllers
         /// <param name="horizontal">True if the ship is horizontal</param>
         /// <returns>An Ok 200 response with the GameBoard as the body</returns>
         [HttpPut("PlaceShip")]
-        public IActionResult PlaceShip(int roomNumber, int userId, int shipId, int x, int y, int z, bool horizontal)
+        public IActionResult PlaceShip(int roomNumber, string userId, int shipId, int x, int y, int z, bool horizontal)
         {
             _gameRooms.GetGameRoom(roomNumber).PlaceShip(userId, shipId, x, y, z, horizontal);
             return Ok(_gameRooms.GetGameRoom(roomNumber).GameBoard);
@@ -75,7 +75,7 @@ namespace BattleshipWebAPI.Controllers
         /// <param name="userId">The Id of the user</param>
         /// <returns>An Ok 200 response with the GameBoard as the body</returns>
         [HttpPut("DeployShips")]
-        public IActionResult DeployShips(int roomNumber, int userId)
+        public IActionResult DeployShips(int roomNumber, string userId)
         {
             _gameRooms.GetGameRoom(roomNumber).DeployShips(userId);
             return Ok(_gameRooms.GetGameRoom(roomNumber).GameBoard);
@@ -91,7 +91,7 @@ namespace BattleshipWebAPI.Controllers
         /// <param name="z">The Z coordinate being attacked</param>
         /// <returns></returns>
         [HttpPut("Attack")]
-        public IActionResult Attack(int roomNumber, int userId, int x, int y, int z)
+        public IActionResult Attack(int roomNumber, string userId, int x, int y, int z)
         {
             _gameRooms.GetGameRoom(roomNumber).Attack(userId, x, y, z);
             return Ok(_gameRooms.GetGameRoom(roomNumber).GameBoard);
