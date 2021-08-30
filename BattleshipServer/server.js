@@ -5,7 +5,7 @@ const http = require('http').Server(app);
 // connects socketio with express server?
 const io = require('socket.io')(server, {
     cors: {
-      origin: 'https://revabox.eastus.cloudapp.azure.com/',
+      origin: 'http://localhost:4200/',
       methods: ["GET", "POST"],
       transports: ['websocket', 'polling'],
       credentials: true
