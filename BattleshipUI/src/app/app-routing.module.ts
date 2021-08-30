@@ -6,12 +6,10 @@ import { GameComponent } from './game/game.component';
 
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from '@auth0/auth0-angular';
-import { UserComponent } from './user/user.component';
-import { ProfileComponent } from './profile/profile.component';
 import { GameBoardComponent } from './game-board/game-board.component';
 import { GameboardSetupComponent } from './gameboard-setup/gameboard-setup.component';
-import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { RoomListComponent } from './room-list/room-list.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { Room } from './models/room.model';
 import { RoomComponent } from './room/room.component';
 
@@ -23,16 +21,6 @@ const routes: Routes = [
   {
     path: 'game',
     component: GameComponent,
-    canActivate: [ AuthGuard ]
-  },
-  {
-    path: 'user',
-    component: UserComponent,
-    canActivate: [ AuthGuard ]
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
     canActivate: [ AuthGuard ]
   },
   {

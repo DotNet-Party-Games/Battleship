@@ -21,12 +21,18 @@ namespace BattleshipBL
             IGameBoardBL gameRoom;
             try
             {
-                gameRoom = GameBoards[roomId];
+                lock (GameBoards)
+                {
+                    gameRoom = GameBoards[roomId];
+                }
             }
             catch (KeyNotFoundException)
             {
                 gameRoom = new GameBoardBL(new GameBoard(10));
-                GameBoards.Add(roomId, gameRoom);
+                lock (GameBoards)
+                {
+                    GameBoards.Add(roomId, gameRoom);
+                }
             }
             return gameRoom;
         }
@@ -34,9 +40,16 @@ namespace BattleshipBL
         public IGameBoardBL ResetGameRoom(int roomId)
         {
             IGameBoardBL gameRoom;
-            GameBoards.Remove(roomId);
+            lock (GameBoards)
+            {
+                GameBoards.Remove(roomId);
+            }
             gameRoom = new GameBoardBL(new GameBoard(10));
-            GameBoards.Add(roomId, gameRoom);
+            lock (GameBoards)
+            {
+                GameBoards.Add(roomId, gameRoom);
+            }
+            
             return gameRoom;
         }
     }
@@ -49,14 +62,14 @@ namespace BattleshipBL
         {
             GameBoard = gameBoard;
         }
-        public void SetUp(int User1Id, int User2Id)
+        public void SetUp(string User1Id, string User2Id)
         {
             // ToDo: Implement the users being the actual users
             // Or just change the Users to be userIds
             GameBoard.User1 = new User() { UserId = User1Id };
             GameBoard.User2 = new User() { UserId = User2Id };
         }
-        public bool Attack(int UserId, int x, int y, int z)
+        public bool Attack(string UserId, int x, int y, int z)
         {
             Position position = new Position(x, y, z);
             if (GameBoard.User1.UserId == UserId)
@@ -70,7 +83,7 @@ namespace BattleshipBL
             return GameBoard.IsWinner() != null;
         }
 
-        public void DeployShips(int UserId)
+        public void DeployShips(string UserId)
         {
             if (GameBoard.User1.UserId == UserId)
             {
@@ -82,7 +95,7 @@ namespace BattleshipBL
             }
         }
 
-        public void PlaceShip(int UserId, int shipId, int x, int y, int z, bool horizontal)
+        public void PlaceShip(string UserId, int shipId, int x, int y, int z, bool horizontal)
         {
             Position position = new Position(x, y, z);
             Orientation orientation = Orientation.Vertical;

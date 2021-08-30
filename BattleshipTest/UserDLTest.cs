@@ -31,7 +31,7 @@ namespace BattleshipTest
 
                 //Act
                 await repo.AddUserAsync(use);
-                User check = await repo.GetUserAsync(3);
+                User check = await repo.GetUserAsync("Adam");
 
                 //Assert
                 Assert.NotNull(check);
@@ -49,7 +49,7 @@ namespace BattleshipTest
                 User use = new User();
 
                 //Act
-                use = await repo.GetUserAsync(1);
+                use = await repo.GetUserAsync("Jacob");
 
                 //Assert
                 Assert.NotEmpty(use.Scores);
@@ -67,7 +67,7 @@ namespace BattleshipTest
                 User use = new User();
 
                 //Act
-                use = await repo.GetUserAsync(1);
+                use = await repo.GetUserAsync("Jacob");
 
                 //Assert
                 Assert.Equal(1, use.Stats.Wins);
@@ -86,8 +86,8 @@ namespace BattleshipTest
                 List<User> useList = new List<User>();
 
                 //Act
-                use1 = await repo.GetUserAsync(1);
-                use2 = await repo.GetUserAsync(2);
+                use1 = await repo.GetUserAsync("Jacob");
+                use2 = await repo.GetUserAsync("Seth");
                 useList = await repo.GetAllUsersAsync();
 
                 //Assert
@@ -108,12 +108,12 @@ namespace BattleshipTest
                 User sameUse = new User();
 
                 //Act
-                use = await repo.GetUserAsync(1);
+                use = await repo.GetUserAsync("Jacob");
                 use.Email = "newJacob@jacob.jacob";
                 use.Stats.Ties++;
                 sameUse = use;
                 await repo.UpdateUserAsync(use);
-                use = await repo.GetUserAsync(1);
+                use = await repo.GetUserAsync("Jacob");
 
                 //Assert
                 Assert.Equal(sameUse, use);
@@ -130,15 +130,15 @@ namespace BattleshipTest
                 context.Users.AddRange(
                     new User("Jacob", "JacobPassword", "jacob@jacob.jacob", false)
                     {
-                        UserId = 1,
+                        UserId = "Jacob",
                         Scores = new List<Score>
                         {
-                            new Score(1)
+                            new Score("Jacob")
                             {
                                 ScoreId = 1,
                                 ScoreValue = 100
                             },
-                            new Score(1)
+                            new Score("Jacob")
                             {
                                 ScoreId = 2,
                                 ScoreValue = 200
@@ -147,7 +147,7 @@ namespace BattleshipTest
                         Stats = new Statistic
                         {
                             StatId = 1,
-                            UserId = 1,
+                            UserId = "Jacob",
                             Wins = 1,
                             Losses = 527,
                             Ties = 0
@@ -155,10 +155,10 @@ namespace BattleshipTest
                     },
                     new User("Seth", "SethPassword", "seth@seth.seth", true)
                     {
-                        UserId = 2,
+                        UserId = "Seth",
                         Scores = new List<Score>
                         {
-                            new Score(2)
+                            new Score("Seth")
                             {
                                 ScoreId = 3,
                                 ScoreValue = 300
@@ -167,7 +167,7 @@ namespace BattleshipTest
                         Stats = new Statistic
                         {
                             StatId = 2,
-                            UserId = 2,
+                            UserId = "Seth",
                             Wins = 527,
                             Losses = 1,
                             Ties = 0
