@@ -1,4 +1,5 @@
-<!-- <!-- <div class="table-container" *ngIf="users.length">
+ <!--
+ <!-- <div class="table-container" *ngIf="users.length"> 
 <div class="table-container">
     <h3>Battleship Leaderboard:</h3>
     <mat-form-field appearance="standard">
@@ -15,21 +16,15 @@
             <td mat-cell *matCellDef="let row"> {{row.position}} </td>
             </ng-container>
         
-            <!-- Score Column
+            <!-- Score Column 
             <ng-container matColumnDef="username">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
             <td mat-cell *matCellDef="let row"> {{row.username}} </td>
             </ng-container>
-        
-            <!-- Game Time Date Column
-            <ng-container matColumnDef="wins">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Wins </th>
-            <td mat-cell *matCellDef="let row"> {{row.wins}} </td>
-            </ng-container>
 
-            <!-- Game Time Date Column
+            <!-- Game Time Date Column 
             <ng-container matColumnDef="winratio">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Win / Loss Ratio </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Score </th>
                 <td mat-cell *matCellDef="let row"> {{row.winratio}} </td>
                 </ng-container>
         
@@ -44,26 +39,39 @@
         </div>
 </div> -->
 
-<div class="container">
+<!-- <div class="container">
     <mat-button-toggle-group [(ngModel)]="SoloScoreboard">
         <mat-button-toggle value="solo">Solo Scores</mat-button-toggle>
         <mat-button-toggle value="team">Team Scores</mat-button-toggle>
-    </mat-button-toggle-group>
-
-    <div class="table" *ngIf="SoloScoreboard=='solo'">
+    </mat-button-toggle-group>-->
+<div class="container"> 
+    <div class="table">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex: BobTheGreat" #input>
+        </mat-form-field>
         <table>
             <thead>
                 <th>
                     Username
                 </th>
-                <th>Wins</th>
+                <th>
+                    Wins
+                </th>
             </thead>
             <tbody>
-                <div></div>
+                <tr *ngIf="NoData">
+                    <td  colspan="2">No data matching the filter</td>
+                </tr>
+                <tr *ngIf="!NoData">
+                    <td>
+                        <div *ngFor='let score of scores' >
+                            {{score.UserId}}
+                        </div>
+                    </td>
+                </tr>
+
             </tbody>
         </table>
     </div>
-    <div class="table" *ngIf="SoloScoreboard=='team'">
-        Bye
-    </div>
-</div>
+</div> 

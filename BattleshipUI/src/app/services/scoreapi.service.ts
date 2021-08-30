@@ -11,7 +11,7 @@ import { IUserScore } from './IUserScores';
 export class ScoreapiService {
 
   private url = "https://localhost:5001/api/";
-  private huburl = "";
+  private huburl = "https://revabox.eastus.cloudapp.azure.com/battleshipapi";
   //private url = "https://battleship-tsw.azurewebsites.net/api/"
 
   constructor(private http: HttpClient) { }
@@ -22,12 +22,12 @@ export class ScoreapiService {
   // }
   
 
-  GetTeamLeaderBoard(){
+/*   GetTeamLeaderBoard(){
       return this.http.get<ITeamLeaderboard>(this.huburl+"/team/Battleship");
   }
   SubmitTeamScore(score:ITeamScore){
     this.http.post<ITeamScore>(this.huburl+"/team/Battleship", score);
-  }
+  } */
 
   GetIndividualLeaderboard():Observable<ILeaderboard>{
       return this.http.get<ILeaderboard>(this.huburl+"/individual/Battleship");

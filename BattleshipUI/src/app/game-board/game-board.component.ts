@@ -5,6 +5,9 @@ import { Subscription } from 'rxjs';
 import { IUser } from '../user/user';
 import { InteractivityChecker } from '@angular/cdk/a11y';
 import { Router } from '@angular/router';
+import { IUserScore } from '../services/IUserScores';
+import { stringify } from '@angular/compiler/src/util';
+import { ScoreapiService } from '../services/scoreapi.service';
 
 @Component({
   selector: 'app-game-board',
@@ -34,7 +37,7 @@ export class GameBoardComponent implements OnInit {
   winner:boolean;
   loser:boolean;
 
-  constructor(private socket:GameStateService, private router:Router) {
+  constructor(private socket:GameStateService, private router:Router, private score:ScoreapiService) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.turn = false;
@@ -71,6 +74,7 @@ export class GameBoardComponent implements OnInit {
         console.log("Hit");
         this.UpdateBoardStatus(this.enemyOcean.craft[x][y][z]);
         if(this.patrol==0&&this.sub==0&&this.dest==0&&this.battle==0&&this.carrier==0){
+          this.sendResult();
           this.socket.WinningShot();
         }else{
           this.socket.SendShot(this.enemyOcean, message);
@@ -197,6 +201,20 @@ playaudio(action:string){
   }
   LeaveRoom(){
     this.router.navigate(["/roomlist"]);
+  }
+
+  sendResult(){
+    let Winner:IUserScore ={
+
+      UserId:this.playerName.userName,
+      Score:1
+    }
+    let Loser:IUserScore={
+      UserId:this.enemyName.userName,
+      Score:0
+    }
+    this.score.SubmitScore(Winner);
+    this.score.SubmitScore(Loser);
   }
 
   
