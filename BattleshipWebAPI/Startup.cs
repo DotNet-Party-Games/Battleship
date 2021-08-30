@@ -39,12 +39,8 @@ namespace BattleshipWebAPI
             services.AddDbContext<BattleshipDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Reference2DB")));
 
             // adding scopes
-            services.AddScoped<IScoreDL, ScoreDL>();
-            services.AddScoped<IStatisticDL, StatisticDL>();
-            services.AddScoped<IUserDL, UserDL>();
-            services.AddScoped<IScoreBL, ScoreBL>();
             services.AddScoped<IStatisticBL, StatisticBL>();
-            services.AddScoped<IUserBL, UserBL>();
+            services.AddScoped<IStatisticDL, StatisticDL>();
 
             //Configuring CORS in our web api to accept the local address in our Angular project
             services.AddCors(

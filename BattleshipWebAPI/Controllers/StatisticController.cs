@@ -21,17 +21,10 @@ namespace BattleshipWebAPI.Controllers
         }
 
         //GET api/<StatisticController>/5
-        [HttpGet("get/{p_sId}")]
-        public async Task<IActionResult> GetStatistic(int p_sId)
+        [HttpGet("get/{p_user}")]
+        public async Task<IActionResult> GetStatistic(string p_user)
         {
-            return Ok(await _statBL.GetStatisticAsync(p_sId));
-        }
-
-        //POST api/<StatisticController>
-        [HttpPost("add")]
-        public async Task<IActionResult> AddStatistic([FromBody] Statistic p_stat)
-        {
-            return Created("api/[controller]/add", await _statBL.AddStatisticAsync(p_stat));
+            return Ok(await _statBL.GetStatisticAsync(p_user));
         }
 
         //GET api/<StatisticController>
@@ -41,11 +34,11 @@ namespace BattleshipWebAPI.Controllers
             return Ok(await _statBL.GetAllStatisticsAsync());
         }
 
-        //PUT api/<StatisticController>
-        [HttpPut("update")]
-        public async Task<IActionResult> UpdateStatistic([FromBody] Statistic p_stat)
+        //POST api/<StatisticController>
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateStatistic(string p_name, bool p_win)
         {
-            return Ok(await _statBL.UpdateStatisticAsync(p_stat));
+            return Ok(await _statBL.UpdateStatisticAsync(p_name, p_win));
         }
     }
 }
