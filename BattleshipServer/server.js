@@ -159,26 +159,18 @@ io.on('connection', socket => {
             case 0:
                 socket.to(temp[1]).emit('teammate start', data);
                 socket.to(temp[2]).to(temp[3]).emit('enemy sea start',data);
-                console.log("player one ready");
-                console.log(data.legend);
                 break;
             case 1:
                 socket.to(temp[0]).emit('teammate start', data);
                 socket.to(temp[2]).to(temp[3]).emit('enemy air start',data);
-                console.log("player two ready");
-                console.log(data.legend);
                 break;
             case 2:
                 socket.to(temp[3]).emit('teammate start', data);
                 socket.to(temp[0]).to(temp[1]).emit('enemy sea start',data);
-                console.log("player three ready");
-                console.log(data.legend);
                 break;
             case 3:
                 socket.to(temp[2]).emit('teammate start', data);
                 socket.to(temp[0]).to(temp[1]).emit('enemy air start',data);
-                console.log("player four ready");
-                console.log(data.legend);
                 break;
             default:
                 break;
@@ -195,30 +187,39 @@ io.on('connection', socket => {
         if(temp.maxPlayers==4){
             switch (playerNumber) {
                 case 0:
-                    socket.to(tempSocket[1]).emit('team shoots ocean',data)
+                    socket.to(tempSocket[1]).emit('team shoots',data)
                     socket.to(tempSocket[1]).emit('turn change',true);
-                    socket.to(tempSocket[2]).to(tempSocket[3]).emit('enemy shoots ocean',data)
+                    io.to(previousRoomId).emit('current player turn',1)
+                    socket.to(tempSocket[2]).to(tempSocket[3]).emit('enemy shoots',data)
                     break;
                 case 1:
-                    socket.to(tempSocket[0]).emit('team shoots air',data)
+                    socket.to(tempSocket[0]).emit('team shoots',data)
                     socket.to(tempSocket[2]).emit('turn change',true);
-                    socket.to(tempSocket[2]).to(tempSocket[3]).emit('enemy shoots air',data)
+                    io.to(previousRoomId).emit('current player turn',2)
+                    socket.to(tempSocket[2]).to(tempSocket[3]).emit('enemy shoots',data)
                     break;
                 case 2:
-                    socket.to(tempSocket[3]).emit('team shoots ocean',data)
+                    socket.to(tempSocket[3]).emit('team shoots',data)
                     socket.to(tempSocket[3]).emit('turn change',true);
-                    socket.to(tempSocket[0]).to(tempSocket[1]).emit('enemy shoots ocean',data)
+                    io.to(previousRoomId).emit('current player turn',3)
+                    socket.to(tempSocket[0]).to(tempSocket[1]).emit('enemy shoots',data)
                     break;
                 case 3:
-                    socket.to(tempSocket[2]).emit('team shoots air',data)
+                    socket.to(tempSocket[2]).emit('team shoots',data)
                     socket.to(tempSocket[0]).emit('turn change',true);
-                    socket.to(tempSocket[0]).to(tempSocket[1]).emit('enemy shoots air',data)
+                    io.to(previousRoomId).emit('current player turn',0)
+                    socket.to(tempSocket[0]).to(tempSocket[1]).emit('enemy shoots',data)
                     break;
                 default:
                     break;
             }
         } else if(temp.maxPlayers==2){
             socket.to(previousRoomId).emit('turn change',true);
+            if(playerNumber==0){
+                io.to(previousRoomId).emit('current player turn',1)
+            } else{
+                io.to(previousRoomId).emit('current player turn',0)
+            }
             socket.to(previousRoomId).emit('enemy shoots',data)
         }
         socket.emit('turn change', false);
@@ -253,8 +254,8 @@ io.on('connection', socket => {
         player = socketMap.get(previousRoomId);
         io.to(previousRoomId).emit('game active status', true);
         test = Math.floor(Math.random()*(player.length-1));
-        console.log(player[test]);
         io.to(player[test]).emit('turn change', true);
+        io.to(player[test]).emit('current player turn',test);
     });
 
     socket.on('starting boards',({board1,board2})=>{
@@ -287,22 +288,43 @@ io.on('connection', socket => {
     }
     if(size == 2){
         socket.to(previousRoomId).emit('team shoots', board2);
-        socket.emit('enemy shoots',board1);
     }
-    console.log(board1.legend);
     })
 
-    socket.on("send coordinates", (coords, room, userid)=>{
-    });
-
-    socket.on('leave Room', () =>{
+    socket.on('leave room', () =>{
         LeaverPenalty();
         safeJoin("Lobby");
     });
 
     socket.on('win shot', ()=>{
+        let temp = socketMap.get(previousRoomId);
+        if(size==2){
         socket.to(previousRoomId).emit('loser', true);
         socket.emit('winner', true);
+        } else if(size==4){
+            switch (playerNumber) {
+                case 0:
+                    socket.to(temp[1]).emit('winner',true);
+                    socket.to(temp[2]).to(temp[3]).emit('loser', true);
+                    break;
+                case 1:
+                    socket.to(temp[0]).emit('winner',true);
+                    socket.to(temp[2]).to(temp[3]).emit('loser', true);
+                    break;
+                case 2:
+                    socket.to(temp[3]).emit('winner',true);
+                    socket.to(temp[0]).to(temp[1]).emit('loser', true);
+                    break;
+                case 3:
+                    socket.to(temp[2]).emit('winner',true);
+                    socket.to(temp[0]).to(temp[1]).emit('loser', true);
+                    break;
+            
+                default:
+                    break;
+            }
+            socket.emit('winner', true);
+        }
     });
 
     socket.on('back to lobby after game', () => {
@@ -310,35 +332,35 @@ io.on('connection', socket => {
     })
 
     const LeaverPenalty = () => {
-        if(userMap.get(previousRoomId)){
-            let players = socketMap.get(previousRoomId);
-            let roomnumber = userMap.get(previousRoomId);
-            if(roomnumber.maxPlayers == 4){
-                switch (playerNumber) {
-                    case 0:
-                        socket.to(players[1]).emit('loser', true)
-                        socket.to(players[2]).to(players[3]).emit('winner', true)
-                        break;
-                    case 1:
-                        socket.to(players[0]).emit('loser', true)
-                        socket.to(players[2]).to(players[3]).emit('winner', true)
-                        break;
-                    case 2:
-                        socket.to(players[3]).emit('loser', true)
-                        socket.to(players[0]).to(players[1]).emit('winner', true)
-                        break;
-                    case 3:
-                        socket.to(players[2]).emit('loser', true)
-                        socket.to(players[0]).to(players[1]).emit('winner', true)
-                        break;
-                    default:
-                        break;
+            if(userMap.get(previousRoomId)){
+                let players = socketMap.get(previousRoomId);
+                let roomnumber = userMap.get(previousRoomId);
+                if(roomnumber.maxPlayers == 4){
+                    switch (playerNumber) {
+                        case 0:
+                            socket.to(players[1]).emit('loser', true)
+                            socket.to(players[2]).to(players[3]).emit('winner', true)
+                            break;
+                        case 1:
+                            socket.to(players[0]).emit('loser', true)
+                            socket.to(players[2]).to(players[3]).emit('winner', true)
+                            break;
+                        case 2:
+                            socket.to(players[3]).emit('loser', true)
+                            socket.to(players[0]).to(players[1]).emit('winner', true)
+                            break;
+                        case 3:
+                            socket.to(players[2]).emit('loser', true)
+                            socket.to(players[0]).to(players[1]).emit('winner', true)
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if(roomnumber.maxPlayers==2){
+                    socket.to(previousRoomId).emit('winner', true);
                 }
             }
-            if(roomnumber.maxPlayers==2){
-                socket.to(previousRoomId).emit('winner', true);
-            }
-        }
     }
 
     // broadcast call rooms and sockets that have connected

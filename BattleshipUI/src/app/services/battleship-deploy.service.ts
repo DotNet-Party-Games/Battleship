@@ -15,7 +15,7 @@ export class BattleshipDeployService {
   }
   leaveRoom(roomNum:string){
     console.log("left room");
-    this.socket.emit("Leave Room", roomNum);
+    this.socket.emit("leave room");
   }
   getroomnumber(userid:number){
     this.socket.emit("get room number", userid);

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { IBoard, IShot } from '../services/gameboard';
 import { GameStateService } from '../services/gamestate.service';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ export interface IUser
   templateUrl: './game-board.component.html',
   styleUrls: ['./game-board.component.css']
 })
-export class GameBoardComponent implements OnInit {
+export class GameBoardComponent implements OnInit, OnDestroy {
 
   width: number[];
   height: number[];
@@ -66,9 +66,11 @@ export class GameBoardComponent implements OnInit {
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         if(this.isWater){
+          if(this.size==4){
         this.socket.startingBoard.legend[i][j][1]=this.socket.teamBoard.legend[i][j][1];
         this.socket.startingBoard.refNumber[i][j][1]=this.socket.teamBoard.refNumber[i][j][1];
         this.socket.startingBoard.craft[i][j][1]=this.socket.teamBoard.craft[i][j][1];
+        }
         } else {
           this.socket.startingBoard.legend[i][j][0]=this.socket.teamBoard.legend[i][j][0];
           this.socket.startingBoard.refNumber[i][j][0]=this.socket.teamBoard.refNumber[i][j][0];
@@ -103,10 +105,12 @@ export class GameBoardComponent implements OnInit {
         this.UpdateBoardStatus(this.EnemyBoard.craft[x][y][z]);
         if(this.patrol==0&&this.sub==0&&this.dest==0&&this.battle==0&&this.carrier==0){
           this.socket.WinningShot();
-        }else{
+        }else if(this.heli==0&&this.stealth==0&&this.fight1==0&&this.fight2==0){
+          this.socket.WinningShot();
+        } else{
           this.socket.SendShot(this.EnemyBoard, message);
           this.playaudio(this.EnemyBoard.legend[x][y][z]);
-        } 
+        }
       }
       else if(this.EnemyBoard.refNumber[x][y][z] == 0){
           // message = this.playerName.userName + " Missed " + this.enemyName.userName;
@@ -271,5 +275,8 @@ playaudio(action:string){
   
   cycleBoardView() {
     this.view=!this.view;
+  }
+  ngOnDestroy(){
+    this.socket.LeaveRoom();
   }
 }
