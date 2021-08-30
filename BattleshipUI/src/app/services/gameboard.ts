@@ -1,23 +1,16 @@
 export interface IGameboard{
     height: number;
     width: number;
-    
 }
 
 export interface IUser {
     userName: string;
 }
 
-export class INavy {
-    ocean: number[][][];
-    oceanLegend: string[][][];
+export class IBoard {
+    refNumber: number[][][];
+    legend: string[][][];
     craft: string[][][];
-}
-
-export class IAirforce {
-    air: number[][][];
-    airlegend: string[][][];
-    craft: string[][][]
 }
 
 export interface IShot {

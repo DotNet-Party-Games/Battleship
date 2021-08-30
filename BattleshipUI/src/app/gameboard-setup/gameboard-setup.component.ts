@@ -22,10 +22,10 @@ export class GameboardSetupComponent implements OnInit {
   selectedShip: string;  // name of the ship selected to be placed
   isVertical: boolean = false;  // isRotated
   ships: Ship[] = new Array(5);
-  playerOneReady:boolean;
-  playerTwoReady:boolean;
-  playerThreeReady:boolean;
-  playerFourReady:boolean;
+  playerOneReady:boolean = false;
+  playerTwoReady:boolean = false;
+  playerThreeReady:boolean = false;
+  playerFourReady:boolean = false;
   isWater:boolean = true;
   size:number;
   playerNumber:number;
@@ -35,13 +35,15 @@ export class GameboardSetupComponent implements OnInit {
   shipsDeployed: boolean;
   roomId:string;
   opponentReady:boolean=false;
-  viewBoard: string = "sea";  // tells the browser which gameboard to actively view; default should be "sea"
+  viewBoard: boolean = true;  // tells the browser which gameboard to actively view; default should be "sea"
   airplanes: Airplane[] = new Array(4);
   airplanesDeployed: boolean;
   airplaneOrientation: Orientation;
   selectedAirplane: string;
   importedOrientation = Orientation;
   userControl:string;
+  users:string[] = [];
+  roomFull:boolean = false;
 
   constructor(public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService, private gamestate:GameStateService) {
     this.userControl = "";
@@ -86,28 +88,47 @@ export class GameboardSetupComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.roomservice.currentRoom.subscribe(response => this.roomNum=response);
+    this.roomservice.currentRoom.subscribe(response => this.roomNum = response);
     this.gamestate.isWater.subscribe(environ => this.isWater = environ);
+    this.gamestate.roomFull.subscribe(full=>this.roomFull=full);
+    
 
-    this.gamestate.startingNavy.ocean = new Array(10);
-    this.gamestate.startingNavy.oceanLegend = new Array(10);
-    this.gamestate.startingNavy.craft = new Array(10);
+    this.gamestate.startingBoard.refNumber = new Array(10);
+    this.gamestate.startingBoard.legend = new Array(10);
+    this.gamestate.startingBoard.craft = new Array(10);
+
+    this.gamestate.EnemyStartingBoard.refNumber = new Array(10);
+    this.gamestate.EnemyStartingBoard.legend = new Array(10);
+    this.gamestate.EnemyStartingBoard.craft = new Array(10);
+
     for (let i = 0; i < 10; i ++) {
-      this.gamestate.startingNavy.ocean[i] = new Array(10);
-      this.gamestate.startingNavy.oceanLegend[i] = new Array(10);
-      this.gamestate.startingNavy.craft[i] = new Array(10);
+      this.gamestate.startingBoard.refNumber[i] = new Array(10);
+      this.gamestate.startingBoard.legend[i] = new Array(10);
+      this.gamestate.startingBoard.craft[i] = new Array(10);
+      this.gamestate.EnemyStartingBoard.refNumber[i] = new Array(10);
+      this.gamestate.EnemyStartingBoard.legend[i] = new Array(10);
+      this.gamestate.EnemyStartingBoard.craft[i] = new Array(10);
       for(let j = 0; j < 10; j ++) {
-        this.gamestate.startingNavy.ocean[i][j] = new Array(2);
-        this.gamestate.startingNavy.oceanLegend[i][j] = new Array(2);
-        this.gamestate.startingNavy.craft[i][j] = new Array(2);
-        this.gamestate.startingNavy.ocean[i][j][0] = 0;
-        this.gamestate.startingNavy.oceanLegend[i][j][0] = "water";
+        this.gamestate.startingBoard.refNumber[i][j] = new Array(2);
+        this.gamestate.startingBoard.legend[i][j] = new Array(2);
+        this.gamestate.startingBoard.craft[i][j] = new Array(2);
+        this.gamestate.EnemyStartingBoard.refNumber[i][j] = new Array(2);
+        this.gamestate.EnemyStartingBoard.legend[i][j] = new Array(2);
+        this.gamestate.EnemyStartingBoard.craft[i][j] = new Array(2);
+        
+        this.gamestate.startingBoard.refNumber[i][j][0] = 0;
+        this.gamestate.startingBoard.legend[i][j][0] = "water";
+        this.gamestate.startingBoard.craft[i][j][0] = "None";
+        this.gamestate.EnemyStartingBoard.refNumber[i][j][0] = 0;
+        this.gamestate.EnemyStartingBoard.legend[i][j][0] = "water";
+        this.gamestate.EnemyStartingBoard.craft[i][j][0] = "None";
 
-        this.gamestate.startingNavy.craft[i][j][0] = "None";
-		
-		// not sure if this is needed for transferring air layer
-        this.gamestate.startingNavy.ocean[i][j][1] = 0;
-        this.gamestate.startingNavy.oceanLegend[i][j][1] = "air";
+        this.gamestate.startingBoard.refNumber[i][j][1] = 0;
+        this.gamestate.startingBoard.legend[i][j][1] = "air";
+        this.gamestate.startingBoard.craft[i][j][1] = "None";
+        this.gamestate.EnemyStartingBoard.refNumber[i][j][1] = 0;
+        this.gamestate.EnemyStartingBoard.legend[i][j][1] = "air";
+        this.gamestate.EnemyStartingBoard.craft[i][j][1] = "None";
      }
     }
     this.gamestate.playerOneReady.subscribe(turn=>this.playerOneReady=turn);
@@ -115,16 +136,13 @@ export class GameboardSetupComponent implements OnInit {
     this.gamestate.playerThreeReady.subscribe(turn=>this.playerThreeReady=turn);
     this.gamestate.playerFourReady.subscribe(turn=>this.playerFourReady=turn);
     this.gamestate.maxSize.subscribe(size=>this.size=size);
-    this.gamestate.isWater.subscribe(water=>this.isWater=water);
+    // this.gamestate.isWater.subscribe(water=>this.isWater=water);
     this.gamestate.playerNumber.subscribe(numbers=> this.playerNumber=numbers);
+    this.gamestate.isWater.subscribe(envir => this.viewBoard = envir); 
   }
 
   cycleBoardView() {
-    if (this.viewBoard == "sea") {
-      this.viewBoard = "air";
-    } else if (this.viewBoard == "air") {
-      this.viewBoard = "sea";
-    }
+    this.viewBoard=!this.viewBoard;
   }
 
   resetControl() {
@@ -1122,42 +1140,67 @@ export class GameboardSetupComponent implements OnInit {
   }
 
   Deploy(){
+    if(this.isWater){
     for(let i = 0; i < 5; i++){
       if(this.ships[i].placed == false){
         alert("Not all ships have been placed!");
         return;
       }
     }
-
-    /*
-    // boardControlled is a placeholder; whatever way we decide how to have a user control a certain board
-    if (isCoOp && boardControlled == "air") {
-      for(let i = 0; i < 5; i++){
-        if(this.airplanes[i].placed == false){
-          alert("Not all airplanes have been placed!");
-          return;
-        }
-      }
-    }
-    */
-/*     for(let i = 0; i < 5; i++){
-      this.submitPlaceShip(i, this.ships[i]);
-    } */
-/*     this.BApi.DeployShips(this.roomNum, this.userId).subscribe(
-      response => {console.log(response["user1"])}
-    ); */
     this.shipsDeployed = true;
     this.sendtoserver();
   }
+  if(!this.isWater){
+    for(let i = 0; i < 4; i++){
+      if(this.airplanes[i].placed == false){
+        alert("Not all airplanes have been placed!");
+        return;
+      }
+    }
+    this.airplanesDeployed = true;
+    this.sendtoserver();
+  }
+
+  }
 
   sendtoserver(){
-    this.gamestate.startingNavy.oceanLegend=this.test;
-    this.gamestate.InterpretOcean(this.gamestate.startingNavy.ocean,this.gamestate.startingNavy.oceanLegend, this.gamestate.startingNavy.craft);
-    this.gamestate.SendPlayerBoard(this.gamestate.startingNavy);
+    this.gamestate.startingBoard.legend=this.test;
+    this.gamestate.InterpretBoard(this.gamestate.startingBoard.refNumber,this.gamestate.startingBoard.legend, this.gamestate.startingBoard.craft);
+    this.gamestate.SendPlayerBoard(this.gamestate.startingBoard);
     
     if(this.size==4){
-      if(this.playerOneReady&&this.playerTwoReady&&this.playerThreeReady&&this.playerFourReady){
-        this.gamestate.StartGame();
+      console.log(this.playerNumber);
+      switch (this.playerNumber) {
+        case 1:
+          if(this.playerTwoReady&&this.playerThreeReady&&this.playerFourReady){
+            this.gamestate.StartGame()
+          } else{
+            this.gamestate.ReadyUp();
+          }
+          break;
+        case 2:
+          if(this.playerOneReady&&this.playerThreeReady&&this.playerFourReady){
+            this.gamestate.StartGame()
+          } else{
+            this.gamestate.ReadyUp();
+          }
+          break;
+        case 3:
+          if(this.playerOneReady&&this.playerTwoReady&&this.playerFourReady){
+            this.gamestate.StartGame()
+          } else{
+            this.gamestate.ReadyUp();
+          }
+          break;
+        case 4:
+          if(this.playerOneReady&&this.playerTwoReady&&this.playerThreeReady){
+            this.gamestate.StartGame()
+          } else{
+            this.gamestate.ReadyUp();
+          }
+          break;
+        default:
+          break;
       }
     } else if(this.size == 2){
         switch (this.playerNumber) {

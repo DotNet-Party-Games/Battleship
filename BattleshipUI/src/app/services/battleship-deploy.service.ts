@@ -6,7 +6,7 @@ import { Ship } from './ship';
   providedIn: 'root'
 })
 export class BattleshipDeployService {
-  roomnum = this.socket.fromEvent<number>("send room number")
+  roomnum = this.socket.fromEvent<string>("send room number")
 
   constructor(private socket:Socket) { }
 

@@ -18,6 +18,7 @@ io.on('connection', socket => {
     let previousRoomId;
     let username;
     let playerNumber;
+    let size;
 
     socket.on('first connection', user => {
         username = user;
@@ -56,7 +57,9 @@ io.on('connection', socket => {
             userMap.set(previousRoomId,temp);
             socketMap.set(previousRoomId,tempSocket);
             if(temp.maxPlayers == temp.usersInRoom.length && previousRoomId != "Lobby"){
+                io.to(previousRoomId).emit('room full',true);
                 RemoveRoomFromList();
+                
             }
             if(temp.maxPlayers == 4){
                 switch (temp.usersInRoom.length) {
@@ -106,7 +109,8 @@ io.on('connection', socket => {
                 }
             }
             socket.emit('max size', temp.maxPlayers);
-            socket.emit('player number', temp.length);
+            size = temp.maxPlayers;
+            socket.emit('player number', temp.usersInRoom.length);
             playerNumber = temp.usersInRoom.length-1;
             io.to(previousRoomId).emit('user list', temp.usersInRoom);
         }
@@ -148,8 +152,41 @@ io.on('connection', socket => {
     });
 
 
-    socket.on('send player board to opponent', (data)=> {
-        socket.to(previousRoomId).emit('enemy ocean fleet', data);
+    socket.on('send board', (data)=> {
+        let temp = socketMap.get(previousRoomId);
+        if(size == 4){
+        switch (playerNumber) {
+            case 0:
+                socket.to(temp[1]).emit('teammate start', data);
+                socket.to(temp[2]).to(temp[3]).emit('enemy sea start',data);
+                console.log("player one ready");
+                console.log(data.legend);
+                break;
+            case 1:
+                socket.to(temp[0]).emit('teammate start', data);
+                socket.to(temp[2]).to(temp[3]).emit('enemy air start',data);
+                console.log("player two ready");
+                console.log(data.legend);
+                break;
+            case 2:
+                socket.to(temp[3]).emit('teammate start', data);
+                socket.to(temp[0]).to(temp[1]).emit('enemy sea start',data);
+                console.log("player three ready");
+                console.log(data.legend);
+                break;
+            case 3:
+                socket.to(temp[2]).emit('teammate start', data);
+                socket.to(temp[0]).to(temp[1]).emit('enemy air start',data);
+                console.log("player four ready");
+                console.log(data.legend);
+                break;
+            default:
+                break;
+        }
+    }
+    if(size == 2){
+        socket.to(previousRoomId).emit('enemy sea start',data);
+    }
     });
 
     socket.on('send shot', (data)=>{
@@ -182,7 +219,7 @@ io.on('connection', socket => {
             }
         } else if(temp.maxPlayers==2){
             socket.to(previousRoomId).emit('turn change',true);
-            socket.to(previousRoomId).emit('enemy shoots ocean',data)
+            socket.to(previousRoomId).emit('enemy shoots',data)
         }
         socket.emit('turn change', false);
     });
@@ -221,6 +258,41 @@ io.on('connection', socket => {
         console.log(player[test]);
         io.to(player[test]).emit('turn change', true);
     });
+
+    socket.on('starting boards',({board1,board2})=>{
+        temp = socketMap.get(previousRoomId);
+        if(size == 4){
+        switch (playerNumber) {
+            case 1:
+                socket.emit('enemy shoots',board1);
+                socket.to(temp[1]).emit('enemy shoots',board1);
+                socket.to(temp[2]).to(temp[3]).emit('team shoots', board2);
+                break;
+            case 2:
+                socket.emit('enemy shoots',board1);
+                socket.to(temp[0]).emit('enemy shoots',board1);
+                socket.to(temp[2]).to(temp[3]).emit('team shoots', board2);
+                break;
+            case 3:
+                socket.emit('enemy shoots',board1);
+                socket.to(temp[3]).emit('enemy shoots',board1);
+                socket.to(temp[0]).to(temp[1]).emit('team shoots', board2);
+                break;
+            case 4:
+                socket.emit('enemy shoots',board1);
+                socket.to(temp[2]).emit('enemy shoots',board1);
+                socket.to(temp[0]).to(temp[1]).emit('team shoots', board2);
+                break;
+            default:
+                break;
+        }
+    }
+    if(size == 2){
+        socket.to(previousRoomId).emit('team shoots', board2);
+        socket.emit('enemy shoots',board1);
+    }
+    console.log(board1.legend);
+    })
 
     socket.on("send coordinates", (coords, room, userid)=>{
     });

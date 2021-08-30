@@ -1,5 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { IAirforce, INavy, IShot } from '../services/gameboard';
+import { IBoard, IShot } from '../services/gameboard';
 import { GameStateService } from '../services/gamestate.service';
 import { Subscription } from 'rxjs';
 import { InteractivityChecker } from '@angular/cdk/a11y';
@@ -20,24 +20,29 @@ export class GameBoardComponent implements OnInit {
 
   width: number[];
   height: number[];
-  enemyOceanBoard: INavy = new INavy;
-  enemyAirBoard:IAirforce = new IAirforce;
-  PlayerOceanUpdate: INavy = new INavy;
-  PlayerAirUpdate: IAirforce = new IAirforce;
+  TeamBoard:IBoard = new IBoard;
+  EnemyBoard: IBoard = new IBoard;
   userList:string[] = [];
   statusMessage: string;
   turn: boolean;
   _room: Subscription;
+
   patrol:number;
   sub:number;
   dest:number;
   battle:number;
   carrier:number;
+  heli:number;
+  stealth:number;
+  fight1:number;
+  fight2:number;
+
   winner:boolean;
   loser:boolean;
   isWater:boolean = this.socket.environ;
   view:boolean;
   playernumber:number;
+  size:number = this.socket.size;
 
   constructor(private socket:GameStateService, private router:Router) {
     this.width = new Array(10);
@@ -47,47 +52,56 @@ export class GameBoardComponent implements OnInit {
   ngOnInit(): void {
     this.Seed();
     this._room = this.socket.currentTurn.subscribe(turn=>this.turn = turn);
-    this.PlayerOceanUpdate = this.socket.startingNavy;
-    this.PlayerAirUpdate = this.socket.startingAir;
+    // this.TeamBoard = this.socket.startingBoard;
     // this.socket.SendPlayerBoard(this.PlayerBoardUpdate);
-    this._room = this.socket.playerAirBoardUpdate.subscribe(shot=>this.PlayerAirUpdate = shot);
-    this._room = this.socket.playerOceanBoardUpdate.subscribe(shot=>this.PlayerOceanUpdate = shot);
-    this._room = this.socket.enemyFleet.subscribe(board=>this.enemyOceanBoard = board);
-    this._room = this.socket.enemyAirFleet.subscribe(board=>this.enemyAirBoard = board);
+    this.TeamBoard = this.socket.startingBoard;
+    this.EnemyBoard = this.socket.EnemyStartingBoard;
+    this._room = this.socket.TeamBoard.subscribe(shot=>this.TeamBoard = shot);
+    this._room = this.socket.EnemyBoard.subscribe(board=>this.EnemyBoard = board);
     this._room = this.socket.statusMessage.subscribe(mess=>this.statusMessage = mess);
     this._room = this.socket.isWater.subscribe(place => this.isWater = place);
+    console.log(this.EnemyBoard);
     this.view = this.isWater;
     this.patrol = 2;
     this.sub = 3;
     this.dest = 3;
     this.battle = 4;
     this.carrier = 5;
+    this.heli = 2;
+    this.stealth = 4;
+    this.fight1 = 6;
+    this.fight2 = 6;
     // this.socket.UpdateNames(this.playerName.userName);
   }
   Attack(x: number, y: number, z: number) {
     if (this.turn){
       let message:string;
-      console.log(x+y+z);
-      console.log(this.enemyOceanBoard.ocean[x][y][z]);
-      if(this.enemyOceanBoard.ocean[x][y][z]>5){
+      if(this.EnemyBoard.refNumber[x][y][z]>3){
         // message = this.playerName.userName + " Hit " + this.enemyName.userName;
-        this.enemyOceanBoard.ocean[x][y][z] = 1;
-        this.enemyOceanBoard.oceanLegend[x][y][z] = "hit";
-        console.log("Hit");
-        this.UpdateBoardStatus(this.enemyOceanBoard.craft[x][y][z]);
+        this.EnemyBoard.refNumber[x][y][z] = 1;
+        if(z==0){
+        this.EnemyBoard.legend[x][y][z] = "hit";
+        }else{
+          this.EnemyBoard.legend[x][y][z] = "airhit";
+        }
+        this.UpdateBoardStatus(this.EnemyBoard.craft[x][y][z]);
         if(this.patrol==0&&this.sub==0&&this.dest==0&&this.battle==0&&this.carrier==0){
           this.socket.WinningShot();
         }else{
-          this.socket.SendShot(this.enemyOceanBoard, message);
-          this.playaudio(this.enemyOceanBoard.oceanLegend[x][y][z]);
+          this.socket.SendShot(this.EnemyBoard, message);
+          this.playaudio(this.EnemyBoard.legend[x][y][z]);
         } 
       }
-      else if(this.enemyOceanBoard.ocean[x][y][z] == 0){
+      else if(this.EnemyBoard.refNumber[x][y][z] == 0){
           // message = this.playerName.userName + " Missed " + this.enemyName.userName;
-          this.enemyOceanBoard.ocean[x][y][z] = 2;
-          this.enemyOceanBoard.oceanLegend[x][y][z] = "miss";
-          this.socket.SendShot(this.enemyOceanBoard, message);
-          this.playaudio(this.enemyOceanBoard.oceanLegend[x][y][z]);
+          this.EnemyBoard.refNumber[x][y][z] = 2;
+          if(z==0){
+            this.EnemyBoard.legend[x][y][z] = "miss";
+            }else{
+              this.EnemyBoard.legend[x][y][z] = "airmiss";
+            }
+          this.socket.SendShot(this.EnemyBoard, message);
+          this.playaudio(this.EnemyBoard.legend[x][y][z]);
       }
 
   }
@@ -111,40 +125,48 @@ export class GameBoardComponent implements OnInit {
 
   }
   Seed(){
-    this.PlayerOceanUpdate.ocean = new Array(10);
-    this.PlayerOceanUpdate.oceanLegend = new Array(10);
-    this.PlayerOceanUpdate.craft = new Array(10);
+    this.TeamBoard.refNumber = new Array(10);
+    this.TeamBoard.legend = new Array(10);
+    this.TeamBoard.craft = new Array(10);
 
-    this.enemyOceanBoard.ocean = new Array(10);
-    this.enemyOceanBoard.oceanLegend = new Array(10);
-    this.enemyOceanBoard.craft = new Array(10);
+    this.EnemyBoard.refNumber = new Array(10);
+    this.EnemyBoard.legend = new Array(10);
+    this.EnemyBoard.craft = new Array(10);
 
     for (let i = 0; i < 10; i ++) {
-      this.PlayerOceanUpdate.ocean[i] = new Array(10);
-      this.PlayerOceanUpdate.oceanLegend[i] = new Array(10);
-      this.PlayerOceanUpdate.craft[i] = new Array(10);
+      this.TeamBoard.refNumber[i] = new Array(10);
+      this.TeamBoard.legend[i] = new Array(10);
+      this.TeamBoard.craft[i] = new Array(10);
 
-      this.enemyOceanBoard.ocean[i] = new Array(10);
-      this.enemyOceanBoard.oceanLegend[i] = new Array(10);
-      this.enemyOceanBoard.craft[i] = new Array(10);
+      this.EnemyBoard.refNumber[i] = new Array(10);
+      this.EnemyBoard.legend[i] = new Array(10);
+      this.EnemyBoard.craft[i] = new Array(10);
 
       for(let j = 0; j < 10; j ++) {
 
-        this.PlayerOceanUpdate.ocean[i][j] = new Array(2);
-        this.PlayerOceanUpdate.oceanLegend[i][j] = new Array(2);
-        this.PlayerOceanUpdate.craft[i][j] = new Array(2);
+        this.TeamBoard.refNumber[i][j] = new Array(2);
+        this.TeamBoard.legend[i][j] = new Array(2);
+        this.TeamBoard.craft[i][j] = new Array(2);
 
-        this.enemyOceanBoard.ocean[i][j] = new Array(2);
-        this.enemyOceanBoard.oceanLegend[i][j] = new Array(2);
-        this.enemyOceanBoard.craft[i][j] = new Array(2);
+        this.EnemyBoard.refNumber[i][j] = new Array(2);
+        this.EnemyBoard.legend[i][j] = new Array(2);
+        this.EnemyBoard.craft[i][j] = new Array(2);
 
-        this.PlayerOceanUpdate.ocean[i][j][0] = 0;
-        this.PlayerOceanUpdate.oceanLegend[i][j][0] = "water";
-        this.PlayerOceanUpdate.craft[i][j][0] = "None";
+        this.TeamBoard.refNumber[i][j][0] = 0;
+        this.TeamBoard.legend[i][j][0] = "water";
+        this.TeamBoard.craft[i][j][0] = "None";
 
-        this.enemyOceanBoard.ocean[i][j][0] = 0;
-        this.enemyOceanBoard.oceanLegend[i][j][0] = "water";
-        this.enemyOceanBoard.craft[i][j][0];
+        this.TeamBoard.refNumber[i][j][1] = 0;
+        this.TeamBoard.legend[i][j][1] = "air";
+        this.TeamBoard.craft[i][j][1] = "None";
+
+        this.EnemyBoard.refNumber[i][j][0] = 0;
+        this.EnemyBoard.legend[i][j][0] = "water";
+        this.EnemyBoard.craft[i][j][0] = "None";
+
+        this.EnemyBoard.refNumber[i][j][1] = 0;
+        this.EnemyBoard.legend[i][j][1] = "air";
+        this.EnemyBoard.craft[i][j][1] = "None";
       }
     }
   }
@@ -180,6 +202,30 @@ export class GameBoardComponent implements OnInit {
           this.Extenguish(craft);
         }
       break;
+      case "Helicopter":
+        this.heli-=1;
+        if(this.heli==0){
+          this.Extenguish(craft);
+        }
+      break;
+      case "Stealth":
+        this.stealth-=1;
+        if(this.stealth==0){
+          this.Extenguish(craft);
+        }
+      break;
+      case "Fighter1":
+        this.fight1-=1;
+        if(this.fight1==0){
+          this.Extenguish(craft);
+        }
+      break;
+      case "Fighter2":
+        this.fight2-=1;
+        if(this.fight2==0){
+          this.Extenguish(craft);
+        }
+      break;
       default:
       break;
     }
@@ -187,14 +233,21 @@ export class GameBoardComponent implements OnInit {
   Extenguish(craft:string){
     for (let i = 0; i < 10; i ++) {
       for(let j = 0; j < 10; j ++) {
-        if(this.enemyOceanBoard.craft[i][j][0] == craft){
-          this.enemyOceanBoard.ocean[i][j][0] = 3;
-          this.enemyOceanBoard.oceanLegend[i][j][0] = "destroyed";
+        if(this.EnemyBoard.craft[i][j][0] == craft){
+          this.EnemyBoard.refNumber[i][j][0] = 3;
+          this.EnemyBoard.legend[i][j][0] = "destroyed";
+        }
+        if(this.EnemyBoard.craft[i][j][1] == craft){
+          this.EnemyBoard.refNumber[i][j][1] = 3;
+          this.EnemyBoard.legend[i][j][1] = "plane_destroyed";
         }
       }
     }
   }
   LeaveRoom(){
     this.router.navigate(["/roomlist"]);
+  }
+  cycleBoardView() {
+    this.view=!this.view;
   }
 }

@@ -3,7 +3,8 @@
 </head>
 <br><br>
 <button click="LeaveRoom()">Leave Room</button>
-<ng-container *ngIf="isWater">
+<button class ="btn btn-primary" *ngIf="size==4" (click)="cycleBoardView()">Change board</button>
+<ng-container *ngIf="view">
 <table align="center">
   <tbody>
     <tr>
@@ -22,7 +23,7 @@
         <table class="table table-bordered border-primary" style="height: fit-content; width: 575px; ">
           <tbody>
             <tr *ngFor="let row of height; let y = index">
-              <td *ngFor="let col of width; let x = index" class="{{PlayerOceanUpdate.oceanLegend[x][y][0]}}">{{x}},{{y}}</td>
+              <td *ngFor="let col of width; let x = index" class="{{TeamBoard.legend[x][y][0]}}">{{x}},{{y}}</td>
             </tr>
           </tbody>
         </table>
@@ -33,8 +34,14 @@
           <tbody>
             <tr *ngFor="let row of height; let y = index">
               <ng-container *ngFor="let col of width; let x = index">
-              <td *ngIf="enemyOceanBoard.ocean[x][y][0] < 6;" class="{{enemyOceanBoard.oceanLegend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
-              <td *ngIf="enemyOceanBoard.ocean[x][y][0] > 5;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+                <ng-container *ngIf="isWater">
+              <td *ngIf="EnemyBoard.refNumber[x][y][0] < 4;" class="{{EnemyBoard.legend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+              <td *ngIf="EnemyBoard.refNumber[x][y][0] > 3;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+                </ng-container>
+                <ng-container *ngIf="!isWater">
+                  <td *ngIf="EnemyBoard.refNumber[x][y][0] < 4;" class="{{EnemyBoard.legend[x][y][0]}}">{{x}},{{y}}   </td>
+                  <td *ngIf="EnemyBoard.refNumber[x][y][0] > 3;" class="water">{{x}},{{y}}   </td>
+                </ng-container>
             </ng-container>
             </tr>
           </tbody>
@@ -43,6 +50,7 @@
     </tr>
   </tbody>
 </table>
+<ng-container *ngIf="isWater">
 <div align="center">Opponent's Remaining Ships</div>
 <div align="center">
   <img *ngIf ="carrier!=0" style="align-items: center; margin-right: 5px;" src="../../assets/AircraftCarrier.png"> 
@@ -52,7 +60,8 @@
   <img *ngIf ="patrol!=0" style="align-items: center; margin-right: 5px;" src="../../assets/PatrolBoat.png"> 
 </div>
 </ng-container>
-<ng-container *ngIf="!isWater">
+</ng-container>
+<ng-container *ngIf="!view">
   <table align="center">
     <tbody>
       <tr>
@@ -71,7 +80,7 @@
           <table class="table table-bordered border-primary" style="height: fit-content; width: 575px; ">
             <tbody>
               <tr *ngFor="let row of height; let y = index">
-                <td *ngFor="let col of width; let x = index" class="{{PlayerAirUpdate.airlegend[x][y][0]}}">{{x}},{{y}}</td>
+                <td *ngFor="let col of width; let x = index" class="{{TeamBoard.legend[x][y][1]}}">{{x}},{{y}}</td>
               </tr>
             </tbody>
           </table>
@@ -82,8 +91,14 @@
             <tbody>
               <tr *ngFor="let row of height; let y = index">
                 <ng-container *ngFor="let col of width; let x = index">
-                <td *ngIf="PlayerAirUpdate.air[x][y][0] < 6;" class="{{PlayerAirUpdate.airlegend[x][y][0]}}" (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
-                <td *ngIf="PlayerAirUpdate.air[x][y][0] > 5;" class="water"  (click)="Attack(x,y,0)">{{x}},{{y}}   </td>
+                  <ng-container *ngIf="!isWater">
+                <td *ngIf="EnemyBoard.refNumber[x][y][1] < 4;" class="{{EnemyBoard.legend[x][y][1]}}" (click)="Attack(x,y,1)">{{x}},{{y}}   </td>
+                <td *ngIf="EnemyBoard.refNumber[x][y][1] > 3;" class="air"  (click)="Attack(x,y,1)">{{x}},{{y}}   </td>
+                  </ng-container>
+                  <ng-container *ngIf="isWater">
+                    <td *ngIf="EnemyBoard.refNumber[x][y][1] < 4;" class="{{EnemyBoard.legend[x][y][1]}}">{{x}},{{y}}   </td>
+                    <td *ngIf="EnemyBoard.refNumber[x][y][1] > 3;" class="air">{{x}},{{y}}   </td>
+                  </ng-container>
               </ng-container>
               </tr>
             </tbody>
@@ -92,14 +107,15 @@
       </tr>
     </tbody>
   </table>
-  <div align="center">Opponent's Remaining Ships</div>
+  <ng-container *ngIf="!isWater">
+  <div align="center">Opponent's Remaining Planes</div>
   <div align="center">
-    <img *ngIf ="carrier!=0" style="align-items: center; margin-right: 5px;" src="../../assets/AircraftCarrier.png"> 
-    <img *ngIf ="battle!=0" style="align-items: center; margin-right: 5px;" src="../../assets/Battleship.png"> 
-    <img *ngIf ="dest!=0" style="align-items: center; margin-right: 5px;" src="../../assets/Destroyer.png"> 
-    <img *ngIf ="sub!=0" style="align-items: center; margin-right: 5px;" src="../../assets/Submarine.png"> 
-    <img *ngIf ="patrol!=0" style="align-items: center; margin-right: 5px;" src="../../assets/PatrolBoat.png"> 
+    <img *ngIf ="heli!=0" style="align-items: center; margin-right: 5px;" src="../../assets/plane1.png"> 
+    <img *ngIf ="stealth!=0" style="align-items: center; margin-right: 5px;" src="../../assets/plane2.png"> 
+    <img *ngIf ="fight1!=0" style="align-items: center; margin-right: 5px;" src="../../assets/plane3.png"> 
+    <img *ngIf ="fight2!=0" style="align-items: center; margin-right: 5px;" src="../../assets/plane4.png"> 
   </div>
+  </ng-container>
   </ng-container>
 <p>Sounds:
     Splash: https://freesound.org/people/petenice/sounds/9508/
