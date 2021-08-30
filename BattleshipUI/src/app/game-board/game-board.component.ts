@@ -6,7 +6,7 @@ import { InteractivityChecker } from '@angular/cdk/a11y';
 import { Router } from '@angular/router';
 import { IUserScore } from '../services/IUserScores';
 import { stringify } from '@angular/compiler/src/util';
-import { ScoreapiService } from '../services/scoreapi.service';
+import { StatisticapiService } from '../services/statisticapi.service';
 
 export interface IUser
 {
@@ -47,7 +47,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   playernumber:number;
   size:number = this.socket.size;
 
-  constructor(private socket:GameStateService, private router:Router, private score:ScoreapiService) {
+  constructor(private socket:GameStateService, private router:Router, private score:StatisticapiService) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.turn = false;
