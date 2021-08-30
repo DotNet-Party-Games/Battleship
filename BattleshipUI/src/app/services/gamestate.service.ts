@@ -61,11 +61,17 @@ import { IBoard, IUser } from './gameboard';
 
     roomFull = this.socket.fromEvent<boolean>('room full');
 
+    currentPlayer = this.socket.fromEvent<number>('current player turn');
+
     win:boolean;
 
     size:number;
 
     environ:boolean;
+
+    usersInRoom:string[];
+
+    currentPlayerstatic:number;
 
   
     // initialize socket object
@@ -73,7 +79,9 @@ import { IBoard, IUser } from './gameboard';
       this.winner.subscribe(result => this.win = result);
       this.maxSize.subscribe(result => this.size=result);
       this.isWater.subscribe(result=>this.environ=result);
+      this.userList.subscribe(result=>this.usersInRoom = result);
       this.teammateBoard.subscribe(result=>this.teamBoard=result);
+      this.currentPlayer.subscribe(result=>this.currentPlayerstatic=result)
       this.enemyAirStartBoard.subscribe(result=>{
           for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
@@ -83,7 +91,6 @@ import { IBoard, IUser } from './gameboard';
             }
           }
       });
-
       this.enemySeaStartBoard.subscribe(result=>{
         for (let i = 0; i < 10; i++) {
           for (let j = 0; j < 10; j++) {
@@ -92,11 +99,8 @@ import { IBoard, IUser } from './gameboard';
             this.EnemyStartingBoard.craft[i][j][0]=result.craft[i][j][0];
           }
         }
-    });
-      
-      
-     }
-    
+      });
+    }
     SendPlayerBoard(board:IBoard){
         this.socket.emit('send board', board);
     }
@@ -112,7 +116,7 @@ import { IBoard, IUser } from './gameboard';
       this.InterpretBoard(this.startingBoard.refNumber,this.startingBoard.legend,this.startingBoard.craft);
       this.TeamBoard.subscribe(result=>this.startingBoard = result);
       this.EnemyBoard.subscribe(result=>this.EnemyStartingBoard = result);
-      this.socket.emit('starting boards',({board1:this.startingBoard, board2:this.EnemyStartingBoard}))
+      this.socket.emit('starting boards',({board1:this.startingBoard, board2:this.EnemyStartingBoard}));
       this.socket.emit('start game');
       
 
@@ -121,7 +125,7 @@ import { IBoard, IUser } from './gameboard';
       if(this.win){
         this.socket.emit('back to lobby after game')
       } else{
-        this.socket.emit("leave Room");
+        this.socket.emit("leave room");
       }
     }
     WinningShot(){

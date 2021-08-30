@@ -44,6 +44,7 @@ export class GameboardSetupComponent implements OnInit {
   userControl:string;
   users:string[] = [];
   roomFull:boolean = false;
+  gameStarted:boolean = false;
 
   constructor(public auth: AuthService, private deploy:BattleshipDeployService, private router:Router, private roomservice:RoomService, private gamestate:GameStateService) {
     this.userControl = "";
@@ -139,6 +140,7 @@ export class GameboardSetupComponent implements OnInit {
     // this.gamestate.isWater.subscribe(water=>this.isWater=water);
     this.gamestate.playerNumber.subscribe(numbers=> this.playerNumber=numbers);
     this.gamestate.isWater.subscribe(envir => this.viewBoard = envir); 
+    this.gamestate.gameStarted.subscribe(started=>this.gameStarted=started);
   }
 
   cycleBoardView() {
@@ -1237,5 +1239,11 @@ export class GameboardSetupComponent implements OnInit {
       alert("Can't place {"+ this.selectedAirplane + "} at location {" + this.selected[0] + "," + this.selected[1]+ "}!");
     }
     
+  }
+
+  ngOnDestroy(){
+      if(!this.gameStarted){
+        this.gamestate.LeaveRoom();
+      }
   }
 }

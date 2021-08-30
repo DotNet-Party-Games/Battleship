@@ -11,7 +11,7 @@ export class RoomService {
   // events emitted by server, consumed on client as observable
   currentRoom = this.socket.fromEvent<string>('room');
   rooms = this.socket.fromEvent<string[]>('rooms');
-  testSize = 4;
+  testSize = 2;
   testName = this.roomId();
 
   // constructor initializes socket use
