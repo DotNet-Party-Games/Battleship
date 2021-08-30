@@ -1,9 +1,9 @@
-// creates an express object
-const app = require('express')();
-// creates a server using http?
-const http = require('http').Server(app);
-// connects socketio with express server?
-const io = require('socket.io')(http, {
+const express = require('express');
+const app = express();
+const http = require('http');
+const internal = require('stream');
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
     cors: {
       origin: 'http://localhost:4200/',
       methods: ["GET", "POST"],
@@ -382,6 +382,6 @@ io.on('connection', socket => {
 });
 
 // broadcast server to a port so others can listen in
-http.listen(process.env.PORT||3000, () => {
+server.listen(process.env.PORT||3000, () => {
     console.log('Listening on port 3000');
 });
