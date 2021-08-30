@@ -3,8 +3,15 @@ const app = require('express')();
 // creates a server using http?
 const http = require('http').Server(app);
 // connects socketio with express server?
-const io = require('socket.io')(http);
-
+const io = require('socket.io')(server, {
+    cors: {
+      origin: 'http://localhost:4200/',
+      methods: ["GET", "POST"],
+      transports: ['websocket', 'polling'],
+      credentials: true
+    },
+    allowEIO3: true
+  });
 // create a collection of rooms
 let rooms = [];
 // collection of messages
@@ -375,6 +382,6 @@ io.on('connection', socket => {
 });
 
 // broadcast server to a port so others can listen in
-http.listen(3000, () => {
+http.listen(process.env.PORT||3000, () => {
     console.log('Listening on port 3000');
 });
