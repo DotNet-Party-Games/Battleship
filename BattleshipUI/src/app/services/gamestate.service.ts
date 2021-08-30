@@ -130,6 +130,7 @@ import { IBoard, IUser } from './gameboard';
     }
     WinningShot(){
       this.socket.emit('win shot');
+      
     }
     InterpretBoard(item: number[][][], itemLegend: string[][][], craft: string[][][]) {
       for (let i = 0; i < 10; i++) {

@@ -35,6 +35,8 @@ export class GameboardSetupComponent implements OnInit {
   shipsDeployed: boolean;
   roomId:string;
   opponentReady:boolean=false;
+  ready1:boolean=false;
+  ready2:boolean=false;
   viewBoard: boolean = true;  // tells the browser which gameboard to actively view; default should be "sea"
   airplanes: Airplane[] = new Array(4);
   airplanesDeployed: boolean;
@@ -78,14 +80,6 @@ export class GameboardSetupComponent implements OnInit {
     this.shipsDeployed = false;
     this.airplanesDeployed = false;
     this.airplaneOrientation = Orientation.Vertical;
-    /*this.auth.idTokenClaims$.subscribe(
-      (response) => {
-        console.log(response);
-        if (response?.iat) {
-          this.userId = response.iat
-        }
-      }
-    );*/
   }
   ngOnInit(): void {
 

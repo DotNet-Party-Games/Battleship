@@ -11,3 +11,7 @@ table {
   td, th {
     width: 15%;
   }
+.container{
+  margin:1%;
+  left: 10%;
+}

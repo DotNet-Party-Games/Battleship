@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
@@ -11,7 +12,7 @@ export class RoomService {
   // events emitted by server, consumed on client as observable
   currentRoom = this.socket.fromEvent<string>('room');
   rooms = this.socket.fromEvent<string[]>('rooms');
-  testSize = 2;
+  roomSize = 2;
   testName = this.roomId();
 
   // constructor initializes socket use
@@ -26,7 +27,8 @@ export class RoomService {
   }
 
   addRoom() {
-    this.socket.emit('add a room', { id: this.roomId(), maxPlayers: this.testSize });
+    console.log(this.roomSize);
+    this.socket.emit('add a room', { id: this.roomId(), maxPlayers: this.roomSize });
     this.router.navigate(['/game']);
   }
 

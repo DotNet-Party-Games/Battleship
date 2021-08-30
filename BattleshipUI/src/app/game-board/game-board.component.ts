@@ -4,6 +4,9 @@ import { GameStateService } from '../services/gamestate.service';
 import { Subscription } from 'rxjs';
 import { InteractivityChecker } from '@angular/cdk/a11y';
 import { Router } from '@angular/router';
+import { IUserScore } from '../services/IUserScores';
+import { stringify } from '@angular/compiler/src/util';
+import { StatisticapiService } from '../services/statisticapi.service';
 
 export interface IUser
 {
@@ -44,7 +47,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   playernumber:number;
   size:number = this.socket.size;
 
-  constructor(private socket:GameStateService, private router:Router) {
+  constructor(private socket:GameStateService, private router:Router, private score:StatisticapiService) {
     this.width = new Array(10);
     this.height = new Array(10);
     this.turn = false;
@@ -122,25 +125,28 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       }
 
   }
+}
+playaudio(action:string){
+  let audio = new Audio();
+  switch(action){
+    case "miss":
+      audio.src = "../../assets/splash.wav";
+      audio.load();
+      audio.play();
+      break;
+    case "hit":
+      audio.src = "../../assets/explosion.mp3";
+      audio.load();
+      audio.play();
+      break;
+    case "sink":
+      audio.src = "../../assets/bubbling.mp3"
+      audio.load();
+      audio.play();
+      break;
   }
-  playaudio(action:string){
-    let audio = new Audio();
-    switch(action){
-      case "miss":
-        audio.src = "../../assets/splash.wav";
-        audio.load();
-        audio.play();
-        break;
-      case "hit":
-        audio.src = "../../assets/explosion.mp3";
-        audio.load();
-        audio.play();
-        break;
-      case "sink":
-        audio.src = "../../assets/bubbling_water.mp3"
-    }
+}
 
-  }
   Seed(){
     this.TeamBoard.refNumber = new Array(10);
     this.TeamBoard.legend = new Array(10);
@@ -192,7 +198,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       case "Patrol":
         this.patrol-=1;
         if(this.patrol==0){
-          this.Extenguish(craft);
+          this.Extenguish(craft);  
         }
       break;
       case "Submarine":
@@ -260,10 +266,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         }
       }
     }
+    this.playaudio("sink");
   }
   LeaveRoom(){
     this.router.navigate(["/roomlist"]);
   }
+
+  
   cycleBoardView() {
     this.view=!this.view;
   }

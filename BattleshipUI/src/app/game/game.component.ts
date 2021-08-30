@@ -26,7 +26,7 @@ export class GameComponent implements OnInit {
     let audio = new Audio();
     switch(status){
       case "win":
-        audio.src = "../../assets/victory.mps";
+        audio.src = "../../assets/victory.mp3";
         audio.load();
         audio.play();
         break;
