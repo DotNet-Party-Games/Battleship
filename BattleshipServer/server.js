@@ -245,8 +245,6 @@ io.on('connection', socket => {
             default:
                 break;
         }
-        console.log("test");
-        console.log(playerNumber);
     });
 
     socket.on('start game', () => {

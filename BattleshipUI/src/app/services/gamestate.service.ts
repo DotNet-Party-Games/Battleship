@@ -28,6 +28,7 @@ import { IBoard, IUser } from './gameboard';
     statusMessage = this.socket.fromEvent<string>('status message');
 
     startingBoard:IBoard = new IBoard;
+    teamBoard:IBoard = new IBoard;
 
     //Updated once everyone is ready
     gameStarted = this.socket.fromEvent<boolean>('game active status');
@@ -72,22 +73,13 @@ import { IBoard, IUser } from './gameboard';
       this.winner.subscribe(result => this.win = result);
       this.maxSize.subscribe(result => this.size=result);
       this.isWater.subscribe(result=>this.environ=result);
-      this.teammateBoard.subscribe(result=>{
-        
-          for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-              if(this.environ){
-              this.startingBoard.legend[i][j][1]=result.legend[i][j][1]
-              } else {
-                this.startingBoard.legend[i][j][0]=result.legend[i][j][0]
-              }
-            }
-          }
-      });
+      this.teammateBoard.subscribe(result=>this.teamBoard=result);
       this.enemyAirStartBoard.subscribe(result=>{
           for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
               this.EnemyStartingBoard.legend[i][j][1]=result.legend[i][j][1]
+              this.EnemyStartingBoard.refNumber[i][j][1]=result.refNumber[i][j][1];
+              this.EnemyStartingBoard.craft[i][j][1]=result.craft[i][j][1];
             }
           }
       });
@@ -95,7 +87,9 @@ import { IBoard, IUser } from './gameboard';
       this.enemySeaStartBoard.subscribe(result=>{
         for (let i = 0; i < 10; i++) {
           for (let j = 0; j < 10; j++) {
-            this.EnemyStartingBoard.legend[i][j][0]=result.legend[i][j][1]
+            this.EnemyStartingBoard.legend[i][j][0]=result.legend[i][j][0];
+            this.EnemyStartingBoard.refNumber[i][j][0]=result.refNumber[i][j][0];
+            this.EnemyStartingBoard.craft[i][j][0]=result.craft[i][j][0];
           }
         }
     });

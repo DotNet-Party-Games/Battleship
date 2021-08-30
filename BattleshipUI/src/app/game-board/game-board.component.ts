@@ -60,6 +60,19 @@ export class GameBoardComponent implements OnInit {
     this._room = this.socket.EnemyBoard.subscribe(board=>this.EnemyBoard = board);
     this._room = this.socket.statusMessage.subscribe(mess=>this.statusMessage = mess);
     this._room = this.socket.isWater.subscribe(place => this.isWater = place);
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if(this.isWater){
+        this.socket.startingBoard.legend[i][j][1]=this.socket.teamBoard.legend[i][j][1];
+        this.socket.startingBoard.refNumber[i][j][1]=this.socket.teamBoard.refNumber[i][j][1];
+        this.socket.startingBoard.craft[i][j][1]=this.socket.teamBoard.craft[i][j][1];
+        } else {
+          this.socket.startingBoard.legend[i][j][0]=this.socket.teamBoard.legend[i][j][0];
+          this.socket.startingBoard.refNumber[i][j][0]=this.socket.teamBoard.refNumber[i][j][0];
+          this.socket.startingBoard.craft[i][j][0]=this.socket.teamBoard.craft[i][j][0];
+        }
+      }
+    }
     console.log(this.EnemyBoard);
     this.view = this.isWater;
     this.patrol = 2;
@@ -239,7 +252,7 @@ export class GameBoardComponent implements OnInit {
         }
         if(this.EnemyBoard.craft[i][j][1] == craft){
           this.EnemyBoard.refNumber[i][j][1] = 3;
-          this.EnemyBoard.legend[i][j][1] = "plane_destroyed";
+          this.EnemyBoard.legend[i][j][1] = "airplaneDestroyed";
         }
       }
     }
