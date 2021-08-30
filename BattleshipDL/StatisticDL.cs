@@ -19,7 +19,7 @@ namespace BattleshipDL
 
         public async Task<List<Statistic>> GetAllStatisticsAsync()
         {
-            return await _context.Statistics.Select(stat => stat).ToListAsync();
+            return await _context.Statistics.Select(stat => stat).OrderByDescending(stat => stat.Wins).ToListAsync();
         }
 
         public async Task<Statistic> GetStatisticAsync(string p_name)
