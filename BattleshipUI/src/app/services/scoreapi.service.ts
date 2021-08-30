@@ -12,7 +12,7 @@ export class ScoreapiService {
 
   private url = "https://localhost:5001/api/";
   private huburl = "https://revabox.eastus.cloudapp.azure.com/battleshipapi";
-  //private url = "https://battleship-tsw.azurewebsites.net/api/"
+  //private huburl = "https://battleship-tsw.azurewebsites.net/api/"
 
   constructor(private http: HttpClient) { }
 
@@ -30,10 +30,10 @@ export class ScoreapiService {
   } */
 
   GetIndividualLeaderboard():Observable<ILeaderboard>{
-      return this.http.get<ILeaderboard>(this.huburl+"/individual/Battleship");
+      return this.http.get<ILeaderboard>(this.huburl+"");
   }
 
    SubmitScore(score:IUserScore){
-    this.http.post<IUserScore>(this.huburl+"/individual/Battleship", score);
+    this.http.post<IUserScore>(this.huburl+"", score);
   } 
 }
