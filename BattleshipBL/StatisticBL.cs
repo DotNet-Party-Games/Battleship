@@ -16,24 +16,20 @@ namespace BattleshipBL
         {
             _repo = p_repo;
         }
-        public async Task<Statistic> AddStatisticAsync(Statistic p_stat)
-        {
-            return await _repo.AddStatisticAsync(p_stat);
-        }
 
         public async Task<List<Statistic>> GetAllStatisticsAsync()
         {
             return await _repo.GetAllStatisticsAsync();
         }
 
-        public async Task<Statistic> GetStatisticAsync(int p_sId)
+        public async Task<Statistic> GetStatisticAsync(string p_name)
         {
-            return await _repo.GetStatisticAsync(p_sId);
+            return await _repo.GetStatisticAsync(p_name);
         }
 
-        public async Task<Statistic> UpdateStatisticAsync(Statistic p_stat)
+        public async Task<Statistic> UpdateStatisticAsync(string p_name, bool p_win)
         {
-            return await _repo.UpdateStatisticAsync(p_stat);
+            return await _repo.UpdateStatisticAsync(p_name, p_win);
         }
     }
 }

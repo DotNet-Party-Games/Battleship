@@ -5,39 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using BattleshipModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BattleshipDL
 {
     public class BattleshipDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Score> Scores { get; set; }
-        public DbSet<Statistic> Statistics { get; set; }
-
         public BattleshipDbContext() : base() { }
         public BattleshipDbContext(DbContextOptions options) : base(options) { }
 
-        //Enter connection string and uncomment before making a database migration. Be sure to never commit this file with the connection string still here.
+        public DbSet<Statistic> Statistics { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder p_options)
-        //{
-        //    p_options.UseSqlServer(@"ConnectionStringHere");
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder p_options)
+        {
+            p_options.UseSqlServer(@"Server=tcp:revbox.database.windows.net,1433;Initial Catalog=BattleShipDB;Persist Security Info=False;User ID=revbox;Password=R3vb0xP@55;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        }
 
-        /// Generates Ids for the tables upon creating a new row, starting at 1
         protected override void OnModelCreating(ModelBuilder p_modelBuilder)
         {
-            p_modelBuilder.Entity<User>()
-                .Property(user => user.UserId)
-                .ValueGeneratedOnAdd();
-
-            p_modelBuilder.Entity<Score>()
-                .Property(score => score.ScoreId)
-                .ValueGeneratedOnAdd();
-
-            p_modelBuilder.Entity<Statistic>()
-                .Property(stat => stat.StatId)
-                .ValueGeneratedOnAdd();
+            p_modelBuilder.Entity<Statistic>().HasKey(stat => stat.UserId);
         }
     }
 }

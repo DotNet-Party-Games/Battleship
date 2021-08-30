@@ -13,10 +13,8 @@ namespace BattleshipModels
     public class Statistic
     {
         // The Unique value for this stat
-        [Key]
-        public int StatId { get; set; }
-
         // The UserId of the User whose statistics are being tracked
+        [Key]
         public string UserId { get; set; }
 
         // The number of wins the User has
@@ -25,10 +23,6 @@ namespace BattleshipModels
         // The number of losses the user has
         public int Losses { get; set; }
 
-        // The number of ties the user has
-        public int Ties { get; set; }
-
-
         /// <summary>
         /// Creates a new Statistic class for a new User
         /// </summary>
@@ -36,7 +30,6 @@ namespace BattleshipModels
         {
             Wins = 0;
             Losses = 0;
-            Ties = 0;
         }
 
         /// <summary>
@@ -49,7 +42,6 @@ namespace BattleshipModels
             UserId = p_userId;
             Wins = 0;
             Losses = 0;
-            Ties = 0;
         }
     }
 }
