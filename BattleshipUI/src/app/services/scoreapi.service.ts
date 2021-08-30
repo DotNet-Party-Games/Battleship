@@ -29,9 +29,7 @@ export class ScoreapiService {
     this.http.post<ITeamScore>(this.huburl+"/team/Battleship", score);
   } */
 
-  GetIndividualLeaderboard():Observable<ILeaderboard>{
-      return this.http.get<ILeaderboard>(this.huburl+"");
-  }
+
 
    SubmitScore(score:IUserScore){
     this.http.post<IUserScore>(this.huburl+"", score);

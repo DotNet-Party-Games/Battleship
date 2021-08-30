@@ -27,35 +27,43 @@
 				<label>Room Number</label>
 			</div>
 				{{roomNum}}
-			</div>
+		</div>
 		<!-- <button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button> -->
 		<button class="btn btn-primary" *ngIf="roomFull" (click)="Deploy()">Deploy Ships</button>
 		<button class ="btn btn-primary" (click)="LeaveRoom()">Leave Room</button>
 		<div style="height: 100px">
 			<div class="player1">
-			Player 1
+			Player 1 Status
 			<br>
-			  <div *ngIf="playerOneReady" class="notready">Ready: <span></span></div>
-			  <div *ngIf="!playerOneReady; class="ready"> Ready: <span></span></div>
+			  <div *ngIf="playerOneReady" class="notready">Ready: <span></span> </div>
+			  <div *ngIf="!playerOneReady" class="ready"> Ready: <span></span> </div>
 			</div>
 			<br>
+
 			<div class="player2">
-			Opponent 1 Status
-			  <div class="notready" *ngIf="!opponentReady">Ready: <span></span></div>
-			  <div class="ready" *ngIf="opponentReady">Ready: <span></span></div>
+			Player 2 Status
+				<br>
+			  <div class="notready" *ngIf="!playerTwoReady">Ready: <span></span></div>
+			  <div class="ready" *ngIf="playerTwoReady">Ready: <span></span></div>
 			</div>
-			<div class="player3" *ngIf=!>
 
+			<div class="player3">
+				Player 3 Status
+				<br>
+				<div class="notready" *ngIf="!playerThreeReady">Ready: <span></span></div>
+				<div class="ready" *ngIf="playerThreeReady">Ready: <span></span></div>
 			</div>
-		  </div>
-		<!-- <button class ="btn btn-primary" (click)="cycleBoardView()" *ngIf="isCoOp">Change board</button> -->
-		<button class ="btn btn-primary" *ngIf="size==4" (click)="cycleBoardView()">Change board</button>
-		<!-- <button class ="btn btn-primary" (click)="controlSea()">Control Sea</button>
-		<button class ="btn btn-primary" (click)="controlAir()">Control Air</button>
-		<button class ="btn btn-primary" (click)="resetControl()">Clear Control</button> -->
+
+			<div class="player4">
+				Player 4 Status
+				<br>
+				<div class="notready" *ngIf="!playerFourReady">Ready: <span></span></div>
+				<div class="notready" *ngIf="!playerFourReady">Ready: <span></span></div>
+			</div>
+		</div>
 	</div>
+		<button class ="btn btn-primary" *ngIf="size==4" (click)="cycleBoardView()">Change board</button>
 </div>
-
 
 
 <div class="container" *ngIf="viewBoard">
@@ -217,9 +225,5 @@
 		
 	</div>
 </div>
-<a>{{playerOneReady}}</a>
-<a>{{playerTwoReady}}</a>
-<a>{{playerThreeReady}}</a>
-<a>{{playerFourReady}}</a>
 <a>{{playerNumber}}</a>
 <a>{{roomFull}}</a>
