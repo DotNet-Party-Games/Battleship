@@ -15,16 +15,9 @@ namespace BattleshipBL
         /// <summary>
         /// Gets a statistic based on its id
         /// </summary>
-        /// <param name="p_sId">The StatId of the statistic to get</param>
+        /// <param name="p_name">The Username tied to the statistic to get</param>
         /// <returns>Returns the statistic with a matching StatId</returns>
-        Task<Statistic> GetStatisticAsync(int p_sId);
-
-        /// <summary>
-        /// Adds a new statistic
-        /// </summary>
-        /// <param name="p_stat">The statistic object to be added</param>
-        /// <returns>Returns the statistic object passed in as a parameter</returns>
-        Task<Statistic> AddStatisticAsync(Statistic p_stat);
+        Task<Statistic> GetStatisticAsync(string p_name);
 
         /// <summary>
         /// Returns all statistics
@@ -35,8 +28,9 @@ namespace BattleshipBL
         /// <summary>
         /// Updates a statistic
         /// </summary>
-        /// <param name="p_stat">The statistic to be updated, including changes</param>
+        /// <param name="p_name">Username whose statistic will be altered</param>
+        /// <param name="p_win">Win Condition, True if Won, False otherwise</param>
         /// <returns>Returns the statistic object passed in as a parameter</returns>
-        Task<Statistic> UpdateStatisticAsync(Statistic p_stat);
+        Task<Statistic> UpdateStatisticAsync(string p_name, bool p_win);
     }
 }
