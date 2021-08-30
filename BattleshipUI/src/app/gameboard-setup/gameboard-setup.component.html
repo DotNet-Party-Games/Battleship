@@ -10,35 +10,23 @@
 			</div>
 				{{roomNum}}
 			</div>
-		<div>
-		  <div>
-			<label>Your Id </label>
-		  </div>
-		  <input type="number" [(ngModel)]="userId" />
-		</div>
-		<div>
-		  <div>
-			<label>Opponent's Id</label>
-		  </div>
-		  <input type="number" [(ngModel)]="opponentId" />
-		</div>
 		<!-- <button class="btn btn-primary" (click)="SetUpRoom()">Create Room</button> -->
-		<button class="btn btn-primary" (click)="Deploy()">Deploy Ships</button>
+		<button class="btn btn-primary" *ngIf="roomFull" (click)="Deploy()">Deploy Ships</button>
 		<button class ="btn btn-primary" (click)="LeaveRoom()">Leave Room</button>
-		<ng-template [ngIf]="shipsDeployed">
+		<!-- <ng-template [ngIf]="shipsDeployed">
 		  <button class="btn btn-danger" routerLink="/gameboard">Proceed to match</button>
-		</ng-template>
+		</ng-template> -->
 		<!-- <button class ="btn btn-primary" (click)="cycleBoardView()" *ngIf="isCoOp">Change board</button> -->
-		<button class ="btn btn-primary" (click)="cycleBoardView()">Change board</button>
-		<button class ="btn btn-primary" (click)="controlSea()">Control Sea</button>
+		<button class ="btn btn-primary" *ngIf="size==4" (click)="cycleBoardView()">Change board</button>
+		<!-- <button class ="btn btn-primary" (click)="controlSea()">Control Sea</button>
 		<button class ="btn btn-primary" (click)="controlAir()">Control Air</button>
-		<button class ="btn btn-primary" (click)="resetControl()">Clear Control</button>
+		<button class ="btn btn-primary" (click)="resetControl()">Clear Control</button> -->
 	</div>
 </div>
 
 
 
-<div class="container" *ngIf="viewBoard==='sea'">
+<div class="container" *ngIf="viewBoard">
 	<div class="row">
 		<!-- Game board -->
 		<div class="col-6">
@@ -46,8 +34,8 @@
 				<tbody>
 				  <tr *ngFor="let row of height; let j = index">
 					<ng-container *ngFor="let col of width; let i = index">
-						<td *ngIf="userControl=='sea';" class="{{test[i][j][0]}}" (click)="selectWaterSpace(i,j)">{{i}},{{j}}</td>
-						<td *ngIf="userControl!='sea'" class="{{test[i][j][0]}}">{{i}},{{j}}</td>
+						<td *ngIf="isWater" class="{{test[i][j][0]}}" (click)="selectWaterSpace(i,j)">{{i}},{{j}}</td>
+						<td *ngIf="!isWater" class="{{test[i][j][0]}}">{{i}},{{j}}</td>
 					</ng-container>
 				  </tr>
 				</tbody>
@@ -55,7 +43,7 @@
 		</div>
 
 		<!--Ship selecting menu-->
-		<div id="shipselect" class="col-1" *ngIf="userControl=='sea'">
+		<div id="shipselect" class="col-1" *ngIf="isWater">
 			<div [ngSwitch] = "selectedShip" style="margin-top: 20px;">
 				<p style="font: bold 20pt Fira Sans, sans-serif; color: blanchedalmond;" *ngSwitchCase="''">Please Select a Ship</p>
 				<br>
@@ -117,7 +105,7 @@
 	</div>
 </div>
 
-<div class="container" *ngIf="viewBoard==='air'">
+<div class="container" *ngIf="!viewBoard">
 	<div class="row">
 		<!-- Game board -->
 		<div class="col-6">
@@ -126,8 +114,8 @@
 				  <tr *ngFor="let row of height; let j = index">
 					<!-- <td *ngFor="let col of width; let i = index" class="{{test[i][j][1]}}" (click)="selectAirSpace(i,j)">{{i}},{{j}}</td> -->
 					<ng-container *ngFor="let col of width; let i = index">
-						<td *ngIf="userControl=='air';" class="{{test[i][j][1]}}" (click)="selectAirSpace(i,j)">{{i}},{{j}}</td>
-						<td *ngIf="userControl!='air'" class="{{test[i][j][1]}}">{{i}},{{j}}</td>
+						<td *ngIf="!isWater" class="{{test[i][j][1]}}" (click)="selectAirSpace(i,j)">{{i}},{{j}}</td>
+						<td *ngIf="isWater" class="{{test[i][j][1]}}">{{i}},{{j}}</td>
 					</ng-container>
 				</tr>
 				</tbody>
@@ -135,7 +123,7 @@
 		</div>
 
 		<!--Ship selecting menu-->
-		<div id="airplaneselect" class="col-1" *ngIf="userControl=='air'">
+		<div id="airplaneselect" class="col-1" *ngIf="!isWater">
 			<div [ngSwitch] = "selectedAirplane" style="margin-top: 20px;">
 				<p style="font: bold 20pt Fira Sans, sans-serif; color: rgba(22, 8, 7, 0.986);" *ngSwitchCase="''">Please Select a Plane</p>
 				<br>
@@ -197,3 +185,9 @@
 		
 	</div>
 </div>
+<a>{{playerOneReady}}</a>
+<a>{{playerTwoReady}}</a>
+<a>{{playerThreeReady}}</a>
+<a>{{playerFourReady}}</a>
+<a>{{playerNumber}}</a>
+<a>{{roomFull}}</a>

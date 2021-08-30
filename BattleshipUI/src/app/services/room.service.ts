@@ -9,9 +9,9 @@ import { Room } from '../models/room.model';
 export class RoomService {
   // variable declarations
   // events emitted by server, consumed on client as observable
-  currentRoom = this.socket.fromEvent<Room>('room');
+  currentRoom = this.socket.fromEvent<string>('room');
   rooms = this.socket.fromEvent<string[]>('rooms');
-  testSize = 2;
+  testSize = 4;
   testName = this.roomId();
 
   // constructor initializes socket use
