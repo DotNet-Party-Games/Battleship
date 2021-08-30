@@ -3,7 +3,7 @@ const app = require('express')();
 // creates a server using http?
 const http = require('http').Server(app);
 // connects socketio with express server?
-const io = require('socket.io')(server, {
+const io = require('socket.io')(http, {
     cors: {
       origin: 'http://localhost:4200/',
       methods: ["GET", "POST"],
