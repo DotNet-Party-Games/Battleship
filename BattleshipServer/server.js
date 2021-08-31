@@ -11,7 +11,7 @@ const io = require("socket.io")(server, {
       credentials: true
     },
     allowEIO3: true
-  });
+  }).listen(server);
 // create a collection of rooms
 let rooms = [];
 // collection of messages
@@ -374,6 +374,10 @@ io.on('connection', socket => {
     io.emit('rooms', rooms);
 
     console.log(`Socket ${socket.id} has connected`);
+    
+    socket.on("disconnecting",()=>{
+        socket.emit('loser',true);
+    });
 
     socket.on('disconnect', () =>{
         LeaverPenalty();
