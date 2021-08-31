@@ -61,6 +61,9 @@ ERD:
 
 ## Getting Started
 Requires .NET 5.0 to run API.
+Clone this repository with the following command - 
+
+``git clone https://github.com/DotNet-Party-Games/Battleship``
 
 To setup your database:
 * Change to BattleshipDL directory
