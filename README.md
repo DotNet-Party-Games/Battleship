@@ -1,9 +1,4 @@
-# ** Battleship **
-
-# Deployed Sites
-Website: https://battleship-tsw-ui.azurewebsites.net
-
-API: https://battleship-tsw.azurewebsites.net
+# Battleship
 
 # Overview
 
