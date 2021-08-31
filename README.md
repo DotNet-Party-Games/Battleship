@@ -58,3 +58,8 @@ ERD:
 - Sqlite, Xunit
 - Socket.io
 - Autodesk Sketchbook
+
+## Getting Started
+Requires .NET 5.0.
+To Run the API:
+* cd to 
