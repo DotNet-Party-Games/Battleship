@@ -1,10 +1,10 @@
 # Battleship
 
-# Overview
+## Overview
 
 The Battleship website will be a web application in which users can play the game Battleship on their selected web browsers. They will be given the option to register an account with the website to keep track of game scores and even compete with other players on a shared leaderboard. The main gaming mode will be Player vs Player in Battleship, where two players take turns trying to sink their opponent&#39;s ships based on a grid system. The first player who destroys their opponent&#39;s army wins.
 
-# Tables
+## Tables
 
 User table:
   - Username 
@@ -24,7 +24,7 @@ User Statistics table:
   - Losses
   - Ties
 
-# User Stories (MVPs)
+## User Stories (MVPs)
 1. As a user, I should be able to register for an account.
 2. As a user, I should be able to successfully sign in.
 3. As a user, I should be able to play Battleship.
@@ -37,7 +37,7 @@ ERD:
 
  ![ER Diagram](https://cdn.discordapp.com/attachments/667131265773731903/870729388939968512/unknown.png)
  
- # Future Content 
+## Future Content 
 1. Players can create and compete in lobbies.
 2. As a user, I should be able to receive emails when I lose the leaderboard top score.
 3. Allows users to play a single-player mode against a simple bot.
@@ -47,7 +47,7 @@ ERD:
 7. As an admin, I should be able to view all users.
 8. As an admin, I should be able to modify user accounts when deemed &quot;necessary&quot;.
 
-# Tech Stack
+## Tech Stack
 - Angular 12
 - .NET 5.0
 - SQLServer
