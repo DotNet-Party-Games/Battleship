@@ -69,7 +69,7 @@ Clone this repository with the following command -
 To setup your database:
 * Edit the the following file to reflect your database string: 
 
-``BattleshipWebAPI/appsettings.json```
+``BattleshipWebAPI/appsettings.json``
 
 * Change to BattleshipDL directory
 * Use the following commands to migrate your database -
