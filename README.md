@@ -60,6 +60,14 @@ ERD:
 - Autodesk Sketchbook
 
 ## Getting Started
-Requires .NET 5.0.
-To Run the API:
-* cd to 
+Requires .NET 5.0 to run API.
+
+To setup your database:
+* Change to BattleshipDL directory
+* Use the following commands - 
+``dotnet ef --startup-project ../HubAPI migrations add {Your description here}``
+``dotnet ef --startup-project ../HubAPI database update``
+
+To run the API:
+* Change to BattleshipWebAPI directory
+* Use command - ``dotnet run``
