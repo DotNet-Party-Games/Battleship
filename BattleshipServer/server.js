@@ -11,7 +11,7 @@ const io = require("socket.io")(server, {
       credentials: true
     },
     allowEIO3: true
-  }).listen(server);
+  });
 // create a collection of rooms
 let rooms = [];
 // collection of messages
