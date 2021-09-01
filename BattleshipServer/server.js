@@ -5,13 +5,13 @@ const internal = require('stream');
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
     cors: {
-      origin: '*',
+      origin: 'https://revabox.eastus.cloudapp.azure.com/',
       methods: ["GET", "POST"],
       transports: ['websocket', 'polling'],
       credentials: true
     },
     allowEIO3: true
-  }).listen(server);
+  });
 // create a collection of rooms
 let rooms = [];
 // collection of messages
