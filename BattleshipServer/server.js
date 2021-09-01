@@ -5,7 +5,7 @@ const internal = require('stream');
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
     cors: {
-      origin: '*',
+      origin: 'https://revabox.eastus.cloudapp.azure.com/',
       methods: ["GET", "POST"],
       transports: ['websocket', 'polling'],
       credentials: true
