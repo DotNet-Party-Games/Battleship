@@ -3,15 +3,17 @@ const app = express();
 const http = require('http');
 const internal = require('stream');
 const server = http.createServer(app);
-const io = require("socket.io")(server, {
+const io = require("socket.io")(server
+    , {
     cors: {
-      origin: 'https://revabox.eastus.cloudapp.azure.com/',
+      origin: "*",
       methods: ["GET", "POST"],
-      transports: ['websocket', 'polling'],
+      transports: ['websocket','polling'],
       credentials: true
     },
-    allowEIO3: true
-  });
+    allowEIO3: true,
+  }
+  );
 // create a collection of rooms
 let rooms = [];
 // collection of messages
@@ -382,6 +384,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () =>{
         LeaverPenalty();
         safeJoin("");
+        console.log("Disconnected");
     })
 });
 
